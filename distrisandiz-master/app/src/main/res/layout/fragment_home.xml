@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondlog2"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
+        <LinearLayout
+            android:id="@+id/fragmentMovimientos"
+            android:layout_width="145dp"
+            android:layout_height="175dp"
+            android:layout_marginEnd="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnMovimientos"
+                android:layout_width="115dp"
+                android:layout_height="160dp"
+                android:background="@drawable/layout_boton_ventas"
+                android:clickable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/back_vent"></ImageButton>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="145dp"
+            android:layout_height="175dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnRegistros"
+                android:layout_width="115dp"
+                android:layout_height="160dp"
+                android:background="@drawable/layout_boton_ventas"
+                android:clickable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/back_regis"></ImageButton>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

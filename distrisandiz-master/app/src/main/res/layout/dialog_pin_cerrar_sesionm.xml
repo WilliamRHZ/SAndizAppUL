@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#00000000">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:background="#2196F3"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PIN"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold">
+        </TextView>
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/EditPIN"
+        android:layout_width="300dp"
+        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:layout_gravity="center"
+        android:hint="Escribe el PIN"
+        android:textSize="25sp"
+        android:inputType="textPassword">
+    </EditText>
+    <LinearLayout
+        android:id="@+id/btnCerrar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/layout_boton_redondeado"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:text="OK"
+            android:textColor="@color/cardview_light_background"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="5dp">
+        </TextView>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".decive_list"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+
+
+    <TextView
+        android:id="@+id/title_paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#81c784"
+        android:paddingLeft="5dip"
+        android:text="Impresoras Bluetooth"
+        android:textColor="#fff"
+        android:visibility="gone"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textColor="@color/cardview_light_background"
+        android:layout_height="wrap_content"
+        android:text="Selecciona un Dispositivo para conectar"
+        android:gravity="center"/>
+
+    <ListView
+        android:id="@+id/paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:stackFromBottom="true"/>
+
+</LinearLayout>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".venta_productos"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+        <TextView
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:text="CLIENTE:"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="bold"></TextView>
+
+        <TextView
+        android:id="@+id/textViewCliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Fecha:"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/txtFecha"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"></TextView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:inputType="date"
+                    android:src="@drawable/ic_calendario"></ImageView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="2"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="20dp"
+                    android:text="Ruta:"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/txtRuta"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"></TextView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="date"
+                    android:src="@drawable/ic_ruta_car"></ImageView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:background="#BBDEFB"
+                        android:text="$"
+                        android:textColor="#000000"
+                        android:textSize="23dp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/txtTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#BBDEFB"
+                        android:inputType="number"
+                        android:text="0.00"
+                        android:textColor="#000000"
+                        android:textSize="22dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:text="Folio:"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#000000">
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtFolio"
+                        android:textSize="15sp"
+                        android:text="">
+                    </TextView>
+                </LinearLayout>-->
+            </LinearLayout>
+
+           <!-- <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="30dp">
+
+                <RadioButton
+                    android:id="@+id/radioContado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contado"
+                    android:textSize="5sp" />
+
+                <RadioButton
+                    android:id="@+id/radioCredito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Crèdito"
+                    android:textSize="5sp" />
+            </LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_above="@+id/navigationView_venta"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/layout_redondeado"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/editNombreProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:hint="Nombre del producto"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:gravity="center">
+            </TextView>
+            <EditText
+                android:id="@+id/editCantidad"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:hint="Cantidad"
+                android:layout_weight="1"
+                android:textSize="13dp"
+                android:inputType="numberDecimal"
+                android:gravity="center">
+            </EditText>
+
+            <Button
+                android:id="@+id/btnAgregarProducto"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_boton_redondeado"
+                android:text="AGREGAR"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="15dp"></Button>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbarThumbVertical="@drawable/layout_boton_redondeado"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal">
+
+                    <ListView
+                        android:id="@+id/listaProductos_cantidad"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"></ListView>
+
+                    <ListView
+                        android:id="@+id/listaProductos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"></ListView>
+
+                    <ListView
+                        android:id="@+id/listaProductos_subtotal"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"></ListView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationView_venta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="-2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="0dp"
+        android:background="?android:attr/windowBackground"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#ffffff"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/bottom_navigation" />
+
+
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/navigation_buscar"
+        android:icon="@drawable/ic_buscar"
+        app:showAsAction="always"
+        android:title="Buscar"/>
+
+    <item
+        android:id="@+id/navigation_limpiar"
+        android:icon="@drawable/ic_limpiar"
+        app:showAsAction="always"
+        android:title="Limpiar"/>
+
+    <item
+        android:id="@+id/navigation_codigo_barra"
+        android:icon="@drawable/codigo_barra"
+        app:showAsAction="always"
+        android:title="Codigo"/>
+    <item
+        android:id="@+id/navigation_Pagar"
+        android:icon="@drawable/icon_recib"
+        app:showAsAction="always"
+        android:title="Devolver"/>
+    <item
+        android:id="@+id/navigation_Consultar"
+        android:icon="@drawable/ic_venta"
+        app:showAsAction="always"
+        android:title="Colsultar"/>
+</menu>

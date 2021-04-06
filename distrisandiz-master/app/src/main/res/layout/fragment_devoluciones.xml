@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".devolucionesFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLIENTE:"
+                android:textSize="18dp"
+                android:layout_marginEnd="5dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/textViewClientex"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:background="@drawable/layout_redondeado"
+                android:layout_marginEnd="8dp"></TextView>
+
+            <ImageView
+                android:id="@+id/clienters"
+                android:layout_width="30dp"
+                android:layout_height="28dp"
+                android:layout_gravity="right"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="date"
+                android:src="@drawable/cliente_ic">
+            </ImageView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/layout_redondeado"
+            android:orientation="vertical"
+            android:paddingBottom="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Fecha:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tc_date"
+                            android:layout_width="80dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="13dp"></TextView>
+
+                        <ImageButton
+                            android:id="@+id/ts_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginTop="2dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:inputType="date"
+                            android:background="@drawable/layout_boton_ventas"
+                            android:src="@drawable/ic_calendario">
+                        </ImageButton>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:background="#BBDEFB"
+                        android:text="$"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView
+                        android:id="@+id/txtTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#BBDEFB"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#BBDEFB"
+                        android:text=".00"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="Ruta:"
+                            android:textSize="15dp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/tc_ruts"
+                            android:layout_width="80dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="13dp">
+
+                        </TextView>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="22dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:inputType="date"
+                            android:src="@drawable/ic_ruta_car"></ImageView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="Folio:"
+                            android:textSize="15sp"
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/txtFolio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="F189272"
+                            android:textSize="15sp"></TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="30dp">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/colorPrimary"
+                            android:text="Contado"
+                            android:textSize="11dp"
+                            tools:ignore="OnClick" />
+
+                        <RadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Crèdito"
+                            android:textSize="11dp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navigationView_ventarx"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/layout_redondeado"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editNombreProductox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Nombre del producto"
+                    android:textSize="13dp"></EditText>
+
+                <EditText
+                    android:id="@+id/editCantidad"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Cantidad"
+                    android:inputType="number"
+                    android:textSize="13dp"></EditText>
+
+                <Button
+                    android:id="@+id/btnAgregarProducto"
+                    android:layout_width="10dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/layout_boton_redondeado"
+                    android:text="AGREGAR"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="12dp"
+                    android:textStyle="bold"></Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/listaProductos_cantidad"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:paddingStart="6dp"></ListView>
+
+                <ListView
+                    android:id="@+id/listaProductos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="345dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingStart="1dp"></ListView>
+
+                <ListView
+                    android:id="@+id/listaProductos_subtotal"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"></ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationView_venta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#ffffff"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/botton_navigations" />
+</FrameLayout>

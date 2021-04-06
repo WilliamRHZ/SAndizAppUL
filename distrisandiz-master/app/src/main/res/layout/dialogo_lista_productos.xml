@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/layout_boton_redondeado_blanco">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:paddingStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center"></TextView>
+    <EditText
+        android:id="@+id/editFiltroNombreProducto"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:background="@drawable/layout_redondeado_gris"
+        android:paddingStart="10sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Escribe el Nombre del Producto"
+        android:inputType="text">
+    </EditText>
+
+    <ListView
+        android:id="@+id/listViewProductos"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+    </ListView>
+
+    <Button
+        android:id="@+id/btnCancelarProductos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Cancelar"
+        android:textColor="@color/cardview_light_background"
+        android:background="@drawable/layout_boton_redondeado_red">
+
+    </Button>
+</LinearLayout>

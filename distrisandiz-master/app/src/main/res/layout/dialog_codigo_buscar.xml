@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/layout_boton_redondeado_blanco">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:textStyle="bold">
+        </TextView>
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/EditBuscar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:layout_gravity="center"
+        android:hint="Escribe el Codigo"
+        android:layout_marginTop="32dp"
+        android:textSize="25sp"
+        android:inputType="number">
+    </EditText>
+    <LinearLayout
+        android:id="@+id/btnBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/layout_boton_redondeado"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_search"
+            android:layout_weight="1">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:text="Buscar"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp">
+        </TextView>
+
+    </LinearLayout>
+
+</LinearLayout>

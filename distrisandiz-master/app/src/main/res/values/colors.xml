@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1469A4</color>
+    <color name="colorPrimaryDark">#07548b</color>
+    <color name="colorAccent">#000000</color>
+
+    <color name="colorInicioSesion">#1469A4</color>
+    <color name="colorBackGround">#daecf4</color>
+    <color name="lightgray">#ededed</color>
+    <color name="colorBordeButton">#94c0d2</color>
+
+    <color name="colorRojo1">#BB1F1F</color>
+    <color name="buttonContado">#FFE310</color>
+    <color name="buttonCredito">#E63523</color>
+
+</resources>

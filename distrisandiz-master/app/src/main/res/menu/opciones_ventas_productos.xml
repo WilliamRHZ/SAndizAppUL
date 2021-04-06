@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:title="NuevaVenta"
+        android:id="@+id/nuevaventa"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_nuevaventa_ok"/>-->
+    <!--<item android:title="impresora"
+        android:id="@+id/impresora"
+        app:showAsAction="always"
+        android:icon="@drawable/impresora"/>-->
+    <item android:title="clientes"
+        android:id="@+id/clientes"
+        app:showAsAction="always"
+        android:icon="@drawable/cliente_icb"/>
+    <item android:title="Movimientos"
+        android:id="@+id/movimientos"
+        app:showAsAction="always"
+        android:icon="@drawable/home_ic"/>
+</menu>
