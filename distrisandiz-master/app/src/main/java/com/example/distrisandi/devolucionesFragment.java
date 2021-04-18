@@ -118,11 +118,15 @@ public class devolucionesFragment extends Fragment {
         String objetos02_1 = objetos02.replaceAll("[^\\dA-Za-z, :]", "");
         String[] pairs1 = objetos02_1.split(",");
         for (int i = 0; i < pairs1.length; i++) {
-            String pair = pairs1[i];
-            String[] keyvalue = pair.split(":");
-            map_client3_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_devoluciones);
+            try{
+                String pair = pairs1[i];
+                String[] keyvalue = pair.split(":");
+                map_client3_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.fragment_devoluciones);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         ///////////////////////////////
         setContentView(R.layout.fragment_devoluciones);

@@ -144,10 +144,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         String objetos02_1 = objetos02.replaceAll("[^\\dA-Za-z, :]","");
         String[] pairs1 = objetos02_1.split(",");
         for(int i = 0;i<pairs1.length;i++){
-            String pair = pairs1[i];
-            String[]keyvalue = pair.split(":");
-            map_cliente_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
-
+            try{
+                String pair = pairs1[i];
+                String[]keyvalue = pair.split(":");
+                map_cliente_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
+            }catch (Exception e){
+                Log.e("Error indice: "+ i, e.getMessage());
+            }
         }
         ///////////////////////////////
         setContentView(R.layout.activity_venta_productos);
@@ -157,7 +160,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         id_usuario = setting.getString("username", "");
 
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
         strFecha = sdf.format(c.getTime());
         Log.e("fechasssssssss",strFecha);
 
@@ -794,7 +797,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         //si hay internet
                                         enviardatosContado enviar = new enviardatosContado();
                                         enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
-                                                strFecha , "0","SIN DETALLES","");
+                                                strFecha , strFecha,"0", "SIN DETALLES");
 
 
                                     }
@@ -941,7 +944,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     dialogoContado.show();
                                     enviardatos enviar = new enviardatos();
                                     enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
-                                            strFecha, "0", "SIN DETALLES", "");
+                                            strFecha, strFecha,"0", "SIN DETALLES");
 
                                 }
                             });
@@ -1073,7 +1076,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             //si hay internet
                                             enviardatosCredito enviar = new enviardatosCredito();
                                             enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"2","0",textRuta.getText().toString(),id_usuario,
-                                                    strFecha, "0","SIN DETALLES","");
+                                                    strFecha, strFecha,"0","SIN DETALLES");
 
 
                                         }
@@ -1222,7 +1225,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             dialogoContado.show();
                                             enviardatosCredito enviar = new enviardatosCredito();
                                             enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
-                                                    strFecha, "0", "SIN DETALLES", "");
+                                                    strFecha, strFecha, "0", "SIN DETALLES");
 
                                         }
                                     });
@@ -1594,22 +1597,29 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         String objetos1 = objetos.replaceAll("[^\\dA-Za-z, ./:]","");
         String[] pairs = objetos1.split(",");
         for(int i = 0;i<pairs.length;i++){
-            String pair = pairs[i];
-            String[]keyvalue = pair.split(":");
-            String valor1 = keyvalue[1];
-            double valor2 = Double.valueOf(valor1);
-            map_producto_precio.put(keyvalue[0], String.valueOf(valor2));
-
+            try{
+                String pair = pairs[i];
+                String[]keyvalue = pair.split(":");
+                String valor1 = keyvalue[1];
+                double valor2 = Double.valueOf(valor1);
+                map_producto_precio.put(keyvalue[0], String.valueOf(valor2));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         SharedPreferences sharedPreferences_precioVenta = getSharedPreferences("productos", MODE_PRIVATE);
         String objetos_precioVenta = sharedPreferences_precioVenta.getString("lista_id_precioCompra","");
         String objetosa_precio = objetos_precioVenta.replaceAll("[^\\dA-Za-z,ñ, ./:]","");
         String[] pairs_precioVenta = objetosa_precio.split(",");
         for(int z = 0;z<pairs_precioVenta.length;z++){
-            String pair_precioVenta = pairs_precioVenta[z];
-            String[]keyvalue_PrecioVenta = pair_precioVenta.split(":");
+            try{
+                String pair_precioVenta = pairs_precioVenta[z];
+                String[]keyvalue_PrecioVenta = pair_precioVenta.split(":");
 
-            map_producto_precioVenta.put(keyvalue_PrecioVenta[0],keyvalue_PrecioVenta[1]);
+                map_producto_precioVenta.put(keyvalue_PrecioVenta[0],keyvalue_PrecioVenta[1]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1646,7 +1656,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             params.add(new BasicNameValuePair("id_caja",id_caja));    //------------------------------data ------baseee----------------------------------------------------
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldgrabarFecha",fldRegistrarFecha));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
@@ -1881,7 +1891,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             params.add(new BasicNameValuePair("id_caja",id_caja));
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));   //data base --------------------------compra Contado--------------------------
-            params.add(new BasicNameValuePair("fldgrabarFecha",fldRegistarFecha));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistarFecha));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
@@ -2116,7 +2126,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             params.add(new BasicNameValuePair("id_caja",id_caja));
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));  //-----------data base ---------------CompraContado-------------------------------------
-            params.add(new BasicNameValuePair("fldgrabarFecha",fldRegistrarFecha));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
@@ -2213,9 +2223,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         String objetos1 = objetos.replaceAll("[^\\dA-Za-z, /:]","");
                         String[] pairs = objetos1.split(",");
                         for(int i = 0;i<pairs.length;i++){
-                            String pair = pairs[i];
-                            String[]keyvalue = pair.split(":");
-                            map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
+                            try{
+                                String pair = pairs[i];
+                                String[]keyvalue = pair.split(":");
+                                map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                         for(int i=0; i< items.size();i++){
                             String folio = venta_cliente;

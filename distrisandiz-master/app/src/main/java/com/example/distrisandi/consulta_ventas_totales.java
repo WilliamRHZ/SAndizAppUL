@@ -98,13 +98,15 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         String obj_clientes = obj_cliente.replaceAll("[^\\dA-Za-z, :]","");
         String[] pairs_cliente = obj_clientes.split(",");
         for(int i = 0;i<pairs_cliente.length;i++) {
-            String pair_cliente = pairs_cliente[i];
-            Log.e("kkkkk",pair_cliente);
-            String[] keyvalue_cliente = pair_cliente.split(":");
-            map_cliente_id_1.put(keyvalue_cliente[1], String.valueOf(keyvalue_cliente[0]));
-            map_cliente_id_subir.put(keyvalue_cliente[0], String.valueOf(keyvalue_cliente[1]));
-
-
+            try{
+                String pair_cliente = pairs_cliente[i];
+                Log.e("kkkkk",pair_cliente);
+                String[] keyvalue_cliente = pair_cliente.split(":");
+                map_cliente_id_1.put(keyvalue_cliente[1], String.valueOf(keyvalue_cliente[0]));
+                map_cliente_id_subir.put(keyvalue_cliente[0], String.valueOf(keyvalue_cliente[1]));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
             //CONSULTAR EN LA BD TODAS LAS VENTAS
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
@@ -141,7 +143,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         mac_bluetooth= sharedPreferences1.getString("mac_bluetooth","");
         setContentView(R.layout.activity_consulta_ventas_totales);
 
-
+//
         SharedPreferences sharedPref = getSharedPreferences("lista_clientes_usuario", Context.MODE_PRIVATE);
         numero_ruta_vendedor = sharedPref.getString("numero_ruta","");
 
@@ -435,6 +437,8 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     SharedPreferences setting = getSharedPreferences("login_preference", MODE_PRIVATE);
                                                     String id_caja = sharedPref.getString("numero_ruta","");
                                                     String id_usuario = setting.getString("username", "");
+                                                    final SimpleDateFormat fecha = new SimpleDateFormat("YYYY-MM-dd");
+                                                    final String fecha_actual = fecha.format(c.getTime());
                                                     if(fila.moveToFirst()){
                                                         do{
                                                             String folio = fila.getString(0);
@@ -448,8 +452,8 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             progresoSubiendo.setCancelable(false);
                                                             progresoSubiendo.show();
                                                             enviardatos enviar = new enviardatos();
-                                                            enviar.execute(map_cliente_id_subir.get(txtnombreCilente.getText().toString()),tipo_operacion,estado_operacion,id_caja,id_usuario,fecha_actual,
-                                                                   cancelado_op,"SIN DETALLES","");
+                                                            enviar.execute(map_cliente_id_subir.get(txtnombreCilente.getText().toString()),tipo_operacion,estado_operacion,id_caja,id_usuario,fecha_actual,fecha_actual,
+                                                                   cancelado_op,"SIN DETALLES");
 
                                                         }while (fila.moveToNext());
                                                     }
@@ -706,7 +710,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
     }
 
 
-    //ENVIAR DATOS AL SERVIDOR
+    //ENVIAR DATOS AL SERVIDOR 
     private class enviardatos extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute(){
@@ -714,8 +718,9 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            String detalles = args[7];
-            String fldCancelado = args[6];
+            String detalles = args[8];
+            String fldCancelado = args[7];
+            String fldRegistrarFecha = args[6];
             String fldFechaVentaProducto = args[5];
             String id_usuario = args[4];
             String id_caja = args[3];
@@ -731,6 +736,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
             params.add(new BasicNameValuePair("id_caja",id_caja));
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
@@ -801,6 +807,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
             params.add(new BasicNameValuePair("id_caja",id_caja));
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldFechaVentaProducto));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);

@@ -74,7 +74,6 @@
                 android:textColorHint="#9e9e9e"
                 android:drawableLeft="@drawable/ic_person"
                 android:textSize="20dp"
-
                 android:inputType="textWebEmailAddress">
             </EditText>
             <EditText

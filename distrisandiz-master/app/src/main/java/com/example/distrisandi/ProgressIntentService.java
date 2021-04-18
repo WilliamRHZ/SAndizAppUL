@@ -109,19 +109,15 @@ public class ProgressIntentService extends IntentService {
                                 Log.e("foliossss", folio);
                                 enviardatos_real enviar_real = new enviardatos_real();
                                 enviar_real.execute(id_cliente,tipo_operacion,estado_operacion,id_caja,id_usuario,
-                                        fldFechaVentaProducto, cancelado_op,"SIN DETALLES","");
+                                        fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op,"SIN DETALLES");
                                 Log.e("foliossss", "_____________________");
                                 Thread.sleep(5000);
                             }catch (InterruptedException e) {
 
 
                             }
-
-
-
                         folio_a=folio;
                         Log.e("cliente_vendido10",folio_a);
-
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -140,7 +136,7 @@ public class ProgressIntentService extends IntentService {
             }
             // Quitar de primer plano
             stopForeground(true);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -209,7 +205,7 @@ public class ProgressIntentService extends IntentService {
             params.add(new BasicNameValuePair("id_caja",id_caja));
             params.add(new BasicNameValuePair("id_usuario",id_usuario));
             params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldregistrarFecha",fldRegistrarFecha));
+            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
             params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
             params.add(new BasicNameValuePair("detalles",detalles));
             JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences setting0 = getSharedPreferences("login_preference", MODE_PRIVATE);
         String value1 = setting0.getString("username", "");
-        if (value1 != null) {
+        if (!value1.equals("")) {
             loadSesionUsuario();
         }
             setContentView(R.layout.activity_main);

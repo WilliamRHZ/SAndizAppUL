@@ -152,10 +152,34 @@ public class Sesion_Usuario extends AppCompatActivity{
                                     String PIN = "1234567890";
                                     String PIN_R = editpin.getText().toString();
                                     if(PIN_R.equals(PIN)){
+                                  /*      SharedPreferences sharedPref = getSharedPreferences("lista_clientes_usuario", Context.MODE_PRIVATE);
+                                        sharedPref.edit().clear().apply();
+                                        sharedPref = getSharedPreferences("bluetooth_info", Context.MODE_PRIVATE);
+                                        sharedPref.edit().clear().apply();
+                                        sharedPref = getSharedPreferences("login_preference", Context.MODE_PRIVATE);
+                                        sharedPref.edit().clear().apply();
+                                        sharedPref = getSharedPreferences("folio_venta_actual", Context.MODE_PRIVATE);
+                                        sharedPref.edit().clear().apply();
+                                        sharedPref = getSharedPreferences("productos", Context.MODE_PRIVATE);
+                                        sharedPref.edit().clear().apply();*/
+
                                         File share_clientes = new File("/data/data/com.example.distrisandi/shared_prefs/");
                                         EliminarArchivos(new File("/data/data/com.example.distrisandi/files/"));
-                                        EliminarArchivos_1(new File("/data/data/com.example.distrisandi/databases/"));
+                                  //      EliminarArchivos_1(new File("/data/data/com.example.distrisandi/databases/"));
                                         EliminarArchivos_2(new File("/data/data/com.example.distrisandi/shared_prefs/"));
+
+
+                                        SQLiteDatabase db = new AdminSQLiteOpenHelper(Sesion_Usuario.this,"administracion",null,1).getWritableDatabase();
+                                        //  stopService(Sesion_Usuario.this.intent);
+                                        db.execSQL("DELETE FROM venta_cliente");
+                                        db.execSQL("DELETE FROM venta_detalles");
+                                        db.execSQL("DELETE FROM detalles_productos");
+
+                                        SQLiteDatabase db1 = new AdminSQLiteOpenHelper(Sesion_Usuario.this,"administracion1",null,1).getWritableDatabase();
+                                        //  stopService(Sesion_Usuario.this.intent);
+                                        db1.execSQL("DELETE FROM venta_cliente");
+                                        db1.execSQL("DELETE FROM venta_detalles");
+                                        db1.execSQL("DELETE FROM detalles_productos");
                                         try{
                                             Thread.sleep(2000);
                                             share_clientes.delete();
@@ -216,9 +240,7 @@ public class Sesion_Usuario extends AppCompatActivity{
             File share_productos = new File("/data/data/com.example.distrisandi/shared_prefs/productos.xml");
             if (share_clientes.exists() && share_productos.exists()){
                 Toast.makeText(Sesion_Usuario.this,"LOS DATOS YA ESTAN DESCARGADOS", Toast.LENGTH_SHORT).show();
-            }
-
-            else{
+            }else{
                 if(!isNetworkAvailable(this)){
                     AlertDialog.Builder descarga_sinConexion = new AlertDialog.Builder(Sesion_Usuario.this);
                     descarga_sinConexion.setIcon(R.drawable.ic_alerta);
@@ -320,6 +342,7 @@ public class Sesion_Usuario extends AppCompatActivity{
         @Override
         protected JSONObject doInBackground(String... args) {
             String username = args[0];
+            lista_data = new ArrayList<>();
 
             ArrayList params = new ArrayList();
             params.add(new BasicNameValuePair("username", username));
@@ -548,10 +571,6 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         registro.put("id_producto",id_product);
                         registro.put("key_producto",key_prod);
                         bd.insert("detalles_productos",null,registro);
-
-
-
-
                     }
 
                     if(will_1 == tamanio_productos-1){

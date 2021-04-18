@@ -106,9 +106,14 @@ public class gastosFragment extends Fragment {
         String objetos02_1 = objetos02.replaceAll("[^\\dA-Za-z, :]", "");
         String[] pairs1 = objetos02_1.split(",");
         for (int i = 0; i < pairs1.length; i++) {
-            String pair = pairs1[i];
-            String[]keyvalue = pair.split(":");
-            map_clienter_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
+            //añadir try catch dentro de for ESTIMACION
+            try{
+                String pair = pairs1[i];
+                String[]keyvalue = pair.split(":");
+                map_clienter_id.put(keyvalue[0], String.valueOf(keyvalue[1]));
+            }catch (Exception e){
+                Log.e("Error indice: "+ i, e.getMessage());
+            }
         }
         ///////////////////////////////
         setContentView(R.layout.fragment_gastos);
