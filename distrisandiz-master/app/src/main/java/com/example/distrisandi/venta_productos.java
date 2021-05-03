@@ -111,6 +111,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double cambio_imprimir;
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
+ /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";
    /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://localhost/failisa/WebService/productos_vendidos_detalles.php";*/
     JSONParser jsonParser = new JSONParser();
@@ -1311,7 +1313,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*15/100);
+                double precio_desc = valor_precio-(valor_precio*20/100);
                 double precio_max = valor_precio+ (valor_precio*40/100);
 
                 //si precio nuevo es menor que el 15%
@@ -1411,7 +1413,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         ContentValues registro = new ContentValues();
         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
         String objetos = sharedPreferences.getString("lista_productos_id","");
-        String objetos1 = objetos.replaceAll("[^\\dA-Za-z, /:]","");
+        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
         String[] pairs = objetos1.split(",");
         for(int i = 0;i<pairs.length;i++){
             String pair = pairs[i];
@@ -1699,7 +1701,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         ContentValues registro_d = new ContentValues();
                         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
                         String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z, /:]","");
+                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
                         String[] pairs = objetos1.split(",");
                         for(int i = 0;i<pairs.length;i++){
                             String pair = pairs[i];
@@ -1989,7 +1991,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         ContentValues registro_d = new ContentValues();
                         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
                         String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z, /:]","");
+                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
                         String[] pairs = objetos1.split(",");
                         for(int i = 0;i<pairs.length;i++){
                             String pair = pairs[i];
@@ -2220,7 +2222,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         ContentValues registro_d = new ContentValues();
                         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
                         String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z, /:]","");
+                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
                         String[] pairs = objetos1.split(",");
                         for(int i = 0;i<pairs.length;i++){
                             try{
@@ -2343,9 +2345,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             String id_enterprise = args[1];
             String json_array = args[0];
 
+            SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
+            String ruta_cliente = setting.getString("numero_ruta", "");
+
             ArrayList params = new ArrayList();
             params.add(new BasicNameValuePair("json_array",json_array));
             params.add(new BasicNameValuePair("id_enterprise",id_enterprise));
+            params.add(new BasicNameValuePair("route",ruta_cliente));
 
             JSONObject json = jsonParser.makeHttpRequest(URL_json, "POST", params);
             return json;

@@ -54,11 +54,20 @@ import static com.example.distrisandi.JSONParser.json;
 
 public class Sesion_Usuario extends AppCompatActivity{
 
-   String URL = "https://www.sandiz.com.mx/failisa/WebService/datos_usuario.php";
+    String URL = "https://www.sandiz.com.mx/failisa/WebService/datos_usuario.php";
     String URL1 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario.php";//lista de clientes
     String URL2 = "https://www.sandiz.com.mx/failisa/WebService/lista_productos.php";
     String URL4 = "https://www.sandiz.com.mx/failisa/WebService/lista_productos_1.php";
-    String URL3 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario_1.php";//lista de clientes*/
+    String URL3 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario_1.php";//lista de clientes
+
+
+   /* String URL = "http://10.0.2.2/sandiz/WebService/datos_usuario.php";
+    String URL1 = "http://10.0.2.2/sandiz/WebService/lista_clientes_usuario.php";//lista de clientes
+    String URL2 = "http://10.0.2.2/sandiz/WebService/lista_productos.php";
+    String URL4 = "http://10.0.2.2/sandiz/WebService/lista_productos_1.php";
+    String URL3 = "http://10.0.2.2/sandiz/WebService/lista_clientes_usuario_1.php";//lista de clientes
+
+
     /*String URL = "https://localhost/failisa/WebService/datos_usuario.php";
     String URL1 = "https://localhost/failisa/WebService/lista_clientes_usuario.php";//lista de clientes
     String URL2 = "https://localhost/failisa/WebService/lista_productos.php";
@@ -505,12 +514,15 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
 
         @Override
         protected JSONObject doInBackground(String... args) {
+            SharedPreferences setting = getSharedPreferences("login_preference", MODE_PRIVATE);
+            String value = setting.getString("username", "");
             String limite = args[1];
             String route = args[0];
             will_1 = Integer.parseInt(limite);
             ArrayList params = new ArrayList();
             params.add(new BasicNameValuePair("limite",limite));
             params.add(new BasicNameValuePair("route",route));
+            params.add(new BasicNameValuePair("user", value));
             JSONObject json = jsonParser.makeHttpRequest(URL4, "POST",params);
             return json;
         }

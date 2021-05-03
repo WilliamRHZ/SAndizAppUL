@@ -39,6 +39,8 @@ import static com.example.distrisandi.JSONParser.json;
 public class ProgressIntentService extends IntentService {
     private static final String TAG = ProgressIntentService.class.getSimpleName();
     JSONParser jsonParser = new JSONParser();
+   /* String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
 
@@ -65,7 +67,6 @@ public class ProgressIntentService extends IntentService {
     }
 
     private void handleActionRun() {
-
         try {
             // Se construye la notificación
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
@@ -85,14 +86,16 @@ public class ProgressIntentService extends IntentService {
             SimpleDateFormat fecha = new SimpleDateFormat("YYYY-MM-dd");
             String fldFechaVentaProducto = fecha.format(c.getTime());
             while(prueba){
-                Log.d(TAG, 1 + ""); // Logueo
-               Log.e("mensaje","iniciado");
+                if (isNetworkAvailable(ProgressIntentService.this)) {
 
-                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion",null,1);
-                SQLiteDatabase bd = admin.getWritableDatabase();
-                Cursor fila = bd.rawQuery("select folio, estado, id_cliente,tipo_operacion ,estado_operacion,cancelado from venta_cliente where estado" +"='" +estadobase+"' and cancelado='0' limit 1" ,null);
-                Log.e("tamanio_bd",String.valueOf(fila.getCount()));
-                if(fila.moveToFirst()){
+                    Log.d(TAG, 1 + ""); // Logueo
+                    Log.e("mensaje", "iniciado");
+
+                    AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion", null, 1);
+                    SQLiteDatabase bd = admin.getWritableDatabase();
+                    Cursor fila = bd.rawQuery("select folio, estado, id_cliente,tipo_operacion ,estado_operacion,cancelado from venta_cliente where estado" + "='" + estadobase + "' and cancelado='0' limit 1", null);
+                    Log.e("tamanio_bd", String.valueOf(fila.getCount()));
+                    if (fila.moveToFirst()) {
                         folio = fila.getString(0);
                         String id_cliente = fila.getString(2);
                         String tipo_operacion = fila.getString(3);
@@ -101,38 +104,39 @@ public class ProgressIntentService extends IntentService {
                         //enviardatos enviar = new enviardatos();
                         int folio_ex = folio.indexOf("FSC");
                         //Log.e("foliossss",String.valueOf(folio_ex));
-                        Log.e("mensaje",folio+id_cliente+tipo_operacion+cancelado_op);
+                        Log.e("mensaje", folio + id_cliente + tipo_operacion + cancelado_op);
 
-                            try {
+                        try {
 
-                                Log.e("mensaje","Hay datos que Subir");
-                                Log.e("foliossss", folio);
-                                enviardatos_real enviar_real = new enviardatos_real();
-                                enviar_real.execute(id_cliente,tipo_operacion,estado_operacion,id_caja,id_usuario,
-                                        fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op,"SIN DETALLES");
-                                Log.e("foliossss", "_____________________");
-                                Thread.sleep(5000);
-                            }catch (InterruptedException e) {
+                            Log.e("mensaje", "Hay datos que Subir");
+                            Log.e("foliossss", folio);
+                            enviardatos_real enviar_real = new enviardatos_real();
+                            enviar_real.execute(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
+                                    fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
+                            Log.e("foliossss", "_____________________");
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
 
 
-                            }
-                        folio_a=folio;
-                        Log.e("cliente_vendido10",folio_a);
+                        }
+                        folio_a = folio;
+                        Log.e("cliente_vendido10", folio_a);
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        startMyOwnForeground();
+                    else
+                        startForeground(1, new Notification());
+
+                    Intent localIntent = new Intent(Constaints.ACTION_RUN_ISERVICE)
+                            .putExtra(Constaints.EXTRA_PROGRESS, 1);
+
+                    // Emisión de {@code localIntent}
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
+
+                    // Retardo de 1 segundo en la iteración
+                    Thread.sleep(1000);
                 }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    startMyOwnForeground();
-                else
-                    startForeground(1, new Notification());
-
-                Intent localIntent = new Intent(Constaints.ACTION_RUN_ISERVICE)
-                        .putExtra(Constaints.EXTRA_PROGRESS, 1);
-
-                // Emisión de {@code localIntent}
-                LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
-
-                // Retardo de 1 segundo en la iteración
-                Thread.sleep(1000);
             }
             // Quitar de primer plano
             stopForeground(true);
@@ -311,9 +315,13 @@ public class ProgressIntentService extends IntentService {
             String id_enterprise = args[1];
             String json_array = args[0];
 
+            SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
+            String ruta_cliente = setting.getString("numero_ruta", "");
+
             ArrayList params = new ArrayList();
             params.add(new BasicNameValuePair("json_array",json_array));
             params.add(new BasicNameValuePair("id_enterprise",id_enterprise));
+            params.add(new BasicNameValuePair("route",ruta_cliente));
 
             JSONObject json = jsonParser.makeHttpRequest(URL_json, "POST", params);
             return json;
