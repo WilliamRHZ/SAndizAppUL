@@ -60,13 +60,13 @@ public class Sesion_Usuario extends AppCompatActivity{
     String URL4 = "https://www.sandiz.com.mx/failisa/WebService/lista_productos_1.php";
     String URL3 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario_1.php";//lista de clientes
 
-
-   /* String URL = "http://10.0.2.2/sandiz/WebService/datos_usuario.php";
+/*
+    String URL = "http://10.0.2.2/sandiz/WebService/datos_usuario.php";
     String URL1 = "http://10.0.2.2/sandiz/WebService/lista_clientes_usuario.php";//lista de clientes
     String URL2 = "http://10.0.2.2/sandiz/WebService/lista_productos.php";
     String URL4 = "http://10.0.2.2/sandiz/WebService/lista_productos_1.php";
     String URL3 = "http://10.0.2.2/sandiz/WebService/lista_clientes_usuario_1.php";//lista de clientes
-
+*/
 
     /*String URL = "https://localhost/failisa/WebService/datos_usuario.php";
     String URL1 = "https://localhost/failisa/WebService/lista_clientes_usuario.php";//lista de clientes
@@ -245,11 +245,11 @@ public class Sesion_Usuario extends AppCompatActivity{
             return true;
         }
         if (id == R.id.descargar){
-            File share_clientes = new File("/data/data/com.example.distrisandi/shared_prefs/lista_clientes_usuario.xml");
+           /* File share_clientes = new File("/data/data/com.example.distrisandi/shared_prefs/lista_clientes_usuario.xml");
             File share_productos = new File("/data/data/com.example.distrisandi/shared_prefs/productos.xml");
             if (share_clientes.exists() && share_productos.exists()){
                 Toast.makeText(Sesion_Usuario.this,"LOS DATOS YA ESTAN DESCARGADOS", Toast.LENGTH_SHORT).show();
-            }else{
+            }else{*/
                 if(!isNetworkAvailable(this)){
                     AlertDialog.Builder descarga_sinConexion = new AlertDialog.Builder(Sesion_Usuario.this);
                     descarga_sinConexion.setIcon(R.drawable.ic_alerta);
@@ -287,7 +287,7 @@ public class Sesion_Usuario extends AppCompatActivity{
 
 
                 }
-            }
+           // }
 
         }
         return super.onOptionsItemSelected(item);
@@ -527,8 +527,12 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
             return json;
         }
         protected void onPostExecute(JSONObject result){
+            SQLiteDatabase bd = null;
             try{
                 if(result!=null){
+                    AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(Sesion_Usuario.this,"administracion",null,1);
+                    bd =admin.getWritableDatabase();
+
                     JSONObject jsonObject = new JSONObject(json);
                     JSONArray jsonArray = jsonObject.getJSONArray("productos");
                     for ( int i=0;i<jsonArray.length();i++){
@@ -573,8 +577,8 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
 
 
                         //GUARDAR EN LA BASE DE DATOS DETALLES DE LOS PRODUCTOS
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(Sesion_Usuario.this,"administracion",null,1);
-                        SQLiteDatabase bd =admin.getWritableDatabase();
+                       // AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(Sesion_Usuario.this,"administracion",null,1);
+//                        SQLiteDatabase bd =admin.getWritableDatabase();
                         ContentValues registro = new ContentValues();
                         registro.put("codigo_producto",codigo_barra);
                         registro.put("nombre_producto",fldname);
@@ -584,6 +588,20 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         registro.put("key_producto",key_prod);
                         bd.insert("detalles_productos",null,registro);
                     }
+
+                    if(jsonObject.has("ventasCanceladas")){
+                        JSONArray jsonArrayCanceladas = jsonObject.getJSONArray("ventasCanceladas");
+                        for(int i = 0; i < jsonArrayCanceladas.length(); i++){
+                            ContentValues actualizarRegistro = new ContentValues();
+                            actualizarRegistro.put("cancelado", jsonArrayCanceladas.getJSONObject(i).getString("fldcanceled"));
+                            bd.update("venta_cliente", actualizarRegistro, "id_cliente=? AND folio=?", new String[]{jsonArrayCanceladas.getJSONObject(i).getString("id_customer"), jsonArrayCanceladas.getJSONObject(i).getString("id_productSale")});
+                        }
+                    }
+
+                    ContentValues actualizarRegistro = new ContentValues();
+                    actualizarRegistro.put("postActualizacionRegistro", "1");
+                    bd.update("venta_cliente", actualizarRegistro, "",null);
+
 
                     if(will_1 == tamanio_productos-1){
                         Toast.makeText(Sesion_Usuario.this,"DATOS DESCARGADOS",Toast.LENGTH_SHORT).show();
@@ -599,6 +617,9 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                 }
             }catch (JSONException e){
                 e.printStackTrace();
+            }finally {
+                if(bd != null)
+                    bd.close();
             }
 
         }

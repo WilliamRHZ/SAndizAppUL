@@ -111,8 +111,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double cambio_imprimir;
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
- /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
-    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";
+/*    String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
    /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://localhost/failisa/WebService/productos_vendidos_detalles.php";*/
     JSONParser jsonParser = new JSONParser();
@@ -375,12 +375,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                 SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
                 Cursor fila = sqLiteDatabase.rawQuery("select stock_producto from detalles_productos where nombre_producto "+"='" +estado_edit_producto+"' limit 1",null);
-                int valor_stock=0;
+                double valor_stock=0;
                 if(fila!=null){
                     if(fila.moveToFirst()){
                         String valor_stock_string = fila.getString(0);
-                        double valor_stock_bol = Double.parseDouble(valor_stock_string);
-                        valor_stock=(int)valor_stock_bol;
+                        valor_stock = Double.parseDouble(valor_stock_string);
+                        //valor_stock=(int)valor_stock_bol;
                     }
                 }
 
@@ -635,14 +635,24 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 TextView nomnre_cliente = (TextView)view.findViewById(R.id.txtlistaClientes);
-                Log.e("cliente_nombre",nomnre_cliente.getText().toString());
-                textViewListaClientes.setText(nomnre_cliente.getText().toString());
-                sharedPref = getSharedPreferences("nombre_cliente_vendido", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("nombre_cliente",nomnre_cliente.getText().toString());
-                editor.apply();
+                String clienteId = map_cliente_id.get(nomnre_cliente.getText().toString());
 
+                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                SQLiteDatabase bd = adminSQLiteOpenHelper.getReadableDatabase();
+                Cursor contador =bd.rawQuery("SELECT * FROM venta_cliente where id_cliente = ? AND postActualizacionRegistro = ?",new String[]{clienteId, "0"});
+                contador.moveToFirst();
+                if(contador.getCount() < 2){
+                    Log.e("cliente_nombre",nomnre_cliente.getText().toString());
+                    textViewListaClientes.setText(nomnre_cliente.getText().toString());
+                    sharedPref = getSharedPreferences("nombre_cliente_vendido", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("nombre_cliente",nomnre_cliente.getText().toString());
+                    editor.apply();
+                }else{
+                    Toast.makeText(venta_productos.this, "El cliente supero el limite de ventas", Toast.LENGTH_LONG).show();
+                }
 
+                bd.close();
                 dialog.dismiss();
             }
         });
@@ -790,6 +800,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         registro.put("estado_operacion", "2");
                                         registro.put("importe","0");
                                         registro.put("cancelado","0");
+                                        registro.put("postActualizacionRegistro","0");
                                         bd.insert("venta_cliente", null, registro);
                                         bd.close();
                                         guardardatos();
@@ -863,6 +874,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         registro.put("estado_operacion", "2");
                                         registro.put("importe",importe);
                                         registro.put("cancelado","0");
+                                        registro.put("postActualizacionRegistro","0");
                                         bd.insert("venta_cliente", null, registro);
                                         bd.close();
                                         //dialogoContado.setMessage("Imprimiendo");
@@ -916,7 +928,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     }
 
                                                 }catch (Exception e){
-
+                                                    Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         };
@@ -1069,6 +1081,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             registro.put("estado_operacion", "0");
                                             registro.put("importe","0");
                                             registro.put("cancelado","0");
+                                            registro.put("postActualizacionRegistro","0");
                                             bd.insert("venta_cliente", null, registro);
                                             bd.close();
                                             guardardatos();
@@ -1141,6 +1154,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             registro.put("estado_operacion", "0");
                                             registro.put("importe","0");
                                             registro.put("cancelado","0");
+                                            registro.put("postActualizacionRegistro","0");
                                             bd.insert("venta_cliente", null, registro);
                                             bd.close();
                                             dialogoContado.setMessage("Imprimiendo");
@@ -1197,6 +1211,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                         }
 
                                                     }catch (Exception e){
+                                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                                                     }
                                                 }
@@ -1693,6 +1708,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         registro.put("estado_operacion", "2");
                         registro.put("importe",importe);
                         registro.put("cancelado","0");
+                        registro.put("postActualizacionRegistro","0");
                         bd_1.insert("venta_cliente", null, registro);
                         bd_1.close();
                         //guardar detalles
@@ -1848,6 +1864,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     }
 
                                 }catch (Exception e){
+                                    Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -1965,6 +1982,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         }
 
                                     }catch (Exception e){
+                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
@@ -1983,6 +2001,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         registro.put("estado_operacion", "2");
                         registro.put("importe",importe);
                         registro.put("cancelado","0");
+                        registro.put("postActualizacionRegistro","0");
                         bd_1.insert("venta_cliente", null, registro);
                         bd_1.close();
                         //guardar detalles
@@ -2195,6 +2214,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         }
 
                                     }catch (Exception e){
+                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
@@ -2214,6 +2234,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         registro.put("estado_operacion", "2");
                         registro.put("importe",importe);
                         registro.put("cancelado","0");
+                        registro.put("postActualizacionRegistro","0");
                         bd_1.insert("venta_cliente", null, registro);
                         bd_1.close();
                         //guardar detalles
