@@ -21,72 +21,40 @@
         </TextView>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <!--<LinearLayout
+        android:id="@+id/btnNuevaVenta"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/btnImprimir"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/layout_boton_redondeado"
-            android:orientation="vertical"
-            android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/layout_boton_redondeado"
+        android:gravity="center"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:src="@drawable/ic_nueva_venta"
+            android:background="#2196F3"
             android:layout_weight="1">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
-                android:src="@drawable/ic_payment"
-                android:layout_weight="1">
-            </ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pagar"
-                android:textColor="@color/cardview_light_background"
-                android:layout_weight="1"
-                android:textSize="16dp">
-            </TextView>
-
-        </LinearLayout>
-        <!--<LinearLayout
-            android:id="@+id/btnNuevaVenta"
-            android:layout_width="80dp"
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/layout_boton_redondeado"
-            android:gravity="center"
-            android:layout_weight="1">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:src="@drawable/ic_nueva_venta"
-                android:background="#2196F3"
-                android:layout_weight="1">
-            </ImageView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nueva Venta"
-                android:textColor="#000000"
-                android:layout_weight="1"
-                android:textSize="10sp">
-            </TextView>
-        </LinearLayout>-->
-
-    </LinearLayout>
+            android:text="Nueva Venta"
+            android:textColor="#000000"
+            android:layout_weight="1"
+            android:textSize="10sp">
+        </TextView>
+    </LinearLayout>-->
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="   Total a Pagar"
         android:layout_gravity="center"
-        android:textSize="25sp"
+        android:layout_marginTop="4dp"
+        android:textSize="22sp"
         android:textColor="#000000">
     </TextView>
     <TextView
@@ -94,7 +62,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
-        android:background="@drawable/layout_redondeado"
+        android:background="@drawable/layout_boton_redondeado_blanco"
         android:layout_gravity="center"
         android:text="  $ 1500.00  "
         android:textSize="25sp"
@@ -102,10 +70,11 @@
     </TextView>
     <TextView
         android:layout_width="300dp"
+        android:layout_marginTop="4dp"
         android:layout_height="wrap_content"
         android:text="   Importe Recibido"
         android:layout_gravity="center"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:textColor="#000000">
     </TextView>
     <EditText
@@ -113,7 +82,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
-        android:background="@drawable/layout_redondeado"
+        android:background="@drawable/layout_boton_redondeado_blanco"
         android:layout_gravity="center"
         android:hint="Importe Recibido"
         android:textSize="25sp"
@@ -127,6 +96,8 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/layout_boton_redondeado"
         android:orientation="horizontal"
+        android:elevation="12dp"
+        android:padding="2dp"
         android:layout_gravity="center">
         <ImageView
             android:layout_width="30dp"
@@ -154,9 +125,40 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/layout_redondeado"
+        android:background="@drawable/layout_boton_redondeado_blanco"
         android:layout_gravity="center"
-        android:textSize="25sp">
+        android:textSize="26sp">
     </TextView>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/btnImprimir"
+            android:layout_width="200dp"
+            android:layout_height="55dp"
+            android:background="@drawable/button_yellow"
+            android:orientation="horizontal"
+            android:elevation="12dp"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:src="@drawable/ic_payment"
+                android:layout_weight="1">
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pagar"
+                android:textStyle="bold"
+                android:textColor="@color/cardview_light_background"
+                android:layout_weight="1"
+                android:textSize="20dp">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

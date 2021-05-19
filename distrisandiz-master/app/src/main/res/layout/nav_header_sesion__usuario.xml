@@ -27,7 +27,7 @@
         android:textSize="20sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:gravity="center"
-        android:text="José Sántiz Ruiz"/>
+        android:text="Nombre del usuario"/>
 
     <TextView
         android:id="@+id/txtRol"

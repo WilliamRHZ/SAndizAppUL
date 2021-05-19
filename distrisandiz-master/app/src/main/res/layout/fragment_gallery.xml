@@ -89,7 +89,7 @@
         android:paddingEnd="8sp"
         android:paddingBottom="8dp"
         android:orientation="vertical"
-        android:background="@drawable/layout_redondeado"
+        android:background="@drawable/layout_boton_redondeado_blanco"
         android:layout_below="@+id/layout1">
         <TextView
             android:layout_width="match_parent"

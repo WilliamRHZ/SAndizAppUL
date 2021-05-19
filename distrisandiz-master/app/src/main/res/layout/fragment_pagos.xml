@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#EFEFEF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,108 +51,140 @@
                 </RadioButton>
             </LinearLayout>-->
 
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Deuda Totál"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#000000">
+            </TextView>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="$"
+                    android:textColor="#666666"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="8"
+                    android:shadowRadius="4"></TextView>
+
+                <TextView
+                    android:id="@+id/txtTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:inputType="number"
+                    android:text="0.00"
+                    android:textColor="#666666"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="8"
+                    android:shadowRadius="4"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:layout_marginEnd="20dp"
-                >
+                android:layout_marginTop="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="30dp"
-                    android:layout_weight=".5">
+                    android:orientation="horizontal"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:elevation="14dp"
+                    android:padding="4dp"
+                    android:background="@drawable/layout_boton_redondeado_blanco">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_printer">
+                    </ImageView>
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Deuda Total"
-                        android:gravity="center"
-                        android:textSize="13dp"
+                        android:textColor="#000000"
                         android:textStyle="bold"
-                        android:textColor="#000000">
+                        android:text="Imprimir">
                     </TextView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:elevation="14dp"
+                    android:padding="4dp"
+                    android:background="@drawable/layout_boton_redondeado_blanco">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic__history_24">
+                    </ImageView>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="1dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_printer">
-                            </ImageView>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Imprimir">
-                            </TextView>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight=".8"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic__history_24"></ImageView>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Historial">
-                            </TextView>
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:text="Historial">
+                    </TextView>
                 </LinearLayout>
 
             </LinearLayout>
 
+
+
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_redondeado"
+            android:elevation="12dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center"
+                android:layout_marginTop="6dp"
+                android:text="Entradas de productos por pagar"
+                android:textStyle="bold"
                 android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:text="$  58,209.10"></TextView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginStart="-6dp"
-                android:layout_marginEnd="-6dp"
-                android:text="entradas de Productos por Pagar"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/layout_boton_redondeado"
-                android:textSize="13dp">
+                android:textSize="18dp">
             </TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:text="Clientes"
@@ -160,80 +193,49 @@
             <Spinner
                 android:id="@+id/spinnerProovedores"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/layout_redondeado">
+                android:elevation="2dp"
+                android:background="@drawable/spinner_list">
             </Spinner>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:text="FECHA"></TextView>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_filtro"></ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Filtrar"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_limpiar">
-                    </ImageView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Limpiar">
-                    </TextView>
-                </LinearLayout>
+                    android:layout_marginStart="110dp"
+                    android:layout_marginEnd="110dp"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:text="CLIENTE"></TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:text="MONTO"></TextView>
+
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_gravity="center"
-                android:text="No existen entrada de productos por pagar">
-            </TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-4dp"
-            android:layout_marginEnd="-4dp"
-            android:background="@drawable/layout_redondeado"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:text="Pagos"></TextView>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:fillViewport="true"
                 android:scrollbarThumbVertical="@drawable/layout_boton_redondeado"
                 android:visibility="visible"

@@ -1328,8 +1328,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*20/100);
-                double precio_max = valor_precio+ (valor_precio*40/100);
+                double precio_desc = valor_precio-(valor_precio*1/100);
+                double precio_max = valor_precio+ (valor_precio*1/100);
 
                 //si precio nuevo es menor que el 15%
                 if(Double.compare(precio_ven,precio_desc)<0){

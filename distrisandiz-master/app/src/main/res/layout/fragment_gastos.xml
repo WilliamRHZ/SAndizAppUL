@@ -28,24 +28,24 @@
                 android:textStyle="bold"></TextView>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical">
-
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="199dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
                         android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="199dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -78,55 +78,55 @@
                             android:inputType="date"
                             ></ImageButton>
 
-                        </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="199dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="8dp"
-                                    android:text="Fecha Fin:"
-                                    android:textSize="14dp"
-                                    android:textStyle="bold"></TextView>
-
-
-                                <TextView
-                                    android:id="@+id/txtFecharyx"
-                                    android:layout_width="86dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="2dp"
-                                    android:gravity="center"
-                                    android:text="15/01/2021"
-                                    android:textSize="14dp"
-                                    android:layout_gravity="center"
-                                    ></TextView>
-
-                                <ImageButton
-                                    android:id="@+id/tb_dater"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:background="@drawable/layout_boton_ventas"
-                                    android:clickable="true"
-                                    android:focusable="false"
-                                    android:inputType="date"
-                                    android:src="@drawable/ic_calendario"></ImageButton>
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
+                    </LinearLayout>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="199dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
                         android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="8dp"
+                            android:text="Fecha Fin:"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
+
+
+                        <TextView
+                            android:id="@+id/txtFecharyx"
+                            android:layout_width="86dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:gravity="center"
+                            android:text="15/01/2021"
+                            android:textSize="14dp"
+                            android:layout_gravity="center"
+                            ></TextView>
+
+                        <ImageButton
+                            android:id="@+id/tb_dater"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/layout_boton_ventas"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:inputType="date"
+                            android:src="@drawable/ic_calendario"></ImageButton>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
 
 
@@ -166,42 +166,42 @@
                             android:src="@drawable/ic_ruta_car"></ImageView>
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:orientation="horizontal">
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:layout_marginTop="2dp"
-                                android:text="Gastos:"
-                                android:textSize="15dp"
-                                android:textStyle="bold"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_marginTop="2dp"
+                            android:text="Gastos:"
+                            android:textSize="15dp"
+                            android:textStyle="bold"></TextView>
 
-                            <AutoCompleteTextView
-                                android:id="@+id/Gastos1"
-                                android:layout_width="220dp"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="4dp"
-                                android:hint="Ingrese un gasto"
-                                android:completionThreshold="1"
-                                android:completionHint="seleccione un gasto">
-                            </AutoCompleteTextView>
+                        <AutoCompleteTextView
+                            android:id="@+id/Gastos1"
+                            android:layout_width="220dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="4dp"
+                            android:hint="Ingrese un gasto"
+                            android:completionThreshold="1"
+                            android:completionHint="seleccione un gasto">
+                        </AutoCompleteTextView>
 
-                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
-    android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="1dp"
                         android:layout_height="34dp"
@@ -255,77 +255,77 @@
                             android:textStyle="bold"
                             android:textColor="#ffffff"></TextView>
                     </LinearLayout>
-                   </LinearLayout>
                 </LinearLayout>
-
-
             </LinearLayout>
 
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-            android:background="@drawable/layout_redondeado"   >
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="2dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/fndo_blanco">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gastos"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="35dp"
-                android:textStyle="bold"
-                android:textColor="#000000">
-            </TextView>
+            android:orientation="vertical"
+            android:background="@drawable/layout_redondeado"   >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginTop="3dp">
-
-                <ImageButton
-                    android:id="@+id/btnAgregargasto"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/fndo_blanco">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:layout_marginEnd="55dp"
-                    android:background="@drawable/fndo_blanco"
-                    android:src="@drawable/ic_agregar">
+                    android:text="Gastos"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="35dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000">
+                </TextView>
 
-                </ImageButton>
-
-                <ImageButton
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="55dp"
-                    android:clickable="true"
-                    android:text="@string/modificar"
-                    android:background="@drawable/fndo_blanco"
-                    android:src="@drawable/ic_editar">
-                </ImageButton>
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp">
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:background="@drawable/fndo_blanco"
-                    android:src="@drawable/ic_eliminar">
-                </ImageButton>
+                    <ImageButton
+                        android:id="@+id/btnAgregargasto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:layout_marginEnd="55dp"
+                        android:background="@drawable/fndo_blanco"
+                        android:src="@drawable/ic_agregar">
 
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="55dp"
+                        android:clickable="true"
+                        android:text="@string/modificar"
+                        android:background="@drawable/fndo_blanco"
+                        android:src="@drawable/ic_editar">
+                    </ImageButton>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:background="@drawable/fndo_blanco"
+                        android:src="@drawable/ic_eliminar">
+                    </ImageButton>
+
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
 
             <ListView
                 android:layout_width="match_parent"

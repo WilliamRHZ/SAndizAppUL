@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:text="No hay Impresoras Disponibles"
         android:gravity="center"
-        android:textColor="#000000"
+        android:textColor="#D01717"
         android:textSize="20sp"
         android:textStyle="bold">
     </TextView>
