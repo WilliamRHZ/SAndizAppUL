@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEFEF"
     tools:context=".gastosFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#EFEFEF"
         android:orientation="vertical">
 
 
@@ -16,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="#EFEFEF"
             android:paddingBottom="10dp">
 
             <TextView
@@ -40,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="4dp"
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="199dp"
@@ -72,7 +75,7 @@
                             android:background="@drawable/layout_boton_ventas"
                             android:src="@drawable/ic_calendario"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="4dp"
                             android:clickable="true"
                             android:focusable="false"
                             android:inputType="date"
@@ -300,7 +303,7 @@
                         android:clickable="true"
                         android:layout_marginEnd="55dp"
                         android:background="@drawable/fndo_blanco"
-                        android:src="@drawable/ic_agregar">
+                        android:src="@drawable/ic_outline_playlist_add_24">
 
                     </ImageButton>
 
@@ -311,7 +314,7 @@
                         android:clickable="true"
                         android:text="@string/modificar"
                         android:background="@drawable/fndo_blanco"
-                        android:src="@drawable/ic_editar">
+                        android:src="@drawable/ic_create_24">
                     </ImageButton>
 
                     <ImageButton
@@ -319,7 +322,7 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:background="@drawable/fndo_blanco"
-                        android:src="@drawable/ic_eliminar">
+                        android:src="@drawable/ic_outline_delete_outline_24">
                     </ImageButton>
 
 
@@ -327,10 +330,17 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ></ListView>
+                android:layout_height="wrap_content"></ListView>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

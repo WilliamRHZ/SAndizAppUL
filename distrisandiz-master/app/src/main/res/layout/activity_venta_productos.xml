@@ -233,8 +233,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="13.4dp"
-            android:layout_marginStart="14dp">
+            android:layout_marginEnd="14dp"
+            android:layout_marginStart="13dp">
 
             <TextView
                 android:id="@+id/editNombreProducto"
@@ -249,7 +249,7 @@
             </TextView>
             <EditText
                 android:id="@+id/editCantidad"
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:hint="Cantidad"
                 android:layout_weight="1"

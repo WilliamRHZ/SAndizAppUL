@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/layout_boton_redondeado_blanco">
+    android:background="@drawable/layout_dialog">
 
     <TextView
         android:id="@+id/textView"
