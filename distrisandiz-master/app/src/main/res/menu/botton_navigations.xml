@@ -28,5 +28,5 @@
         android:id="@+id/navigation_Consultar"
         android:icon="@drawable/ic_venta"
         app:showAsAction="always"
-        android:title="Colsultar"/>
+        android:title="Consultar"/>
 </menu>

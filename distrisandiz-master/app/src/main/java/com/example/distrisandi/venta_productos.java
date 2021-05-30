@@ -104,6 +104,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     Map<String,String> map_cliente_id = new HashMap<String, String>();
     Map<String,String> map_producto_codigo_barra = new HashMap<String, String>();
     private Map<String,String> map_producto_precioVenta = new HashMap<String, String>();
+    private Map<String,String> map_peso_producto = new HashMap<String, String>();
     private double totalpagar;
     private double valor_stock_1;
     private  double valor_precio;
@@ -111,7 +112,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double cambio_imprimir;
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
-/*    String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+ /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
    /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://localhost/failisa/WebService/productos_vendidos_detalles.php";*/
@@ -1022,7 +1023,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         {
                             if(mac_bluetooth.equals("")){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(venta_productos.this);
@@ -1440,7 +1440,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             registro.put("folio",folio);
             registro.put("codigo_producto",map_producto_codigo.get(items.get(i)));
             registro.put("cantidad_vendido",cantidad_item.get(i));
-            registro.put("peso_producto","0");
+            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+            registro.put("peso_producto",pesoProductoTotal);
 
             String id_producto = map_producto_codigo.get(items.get(i));
             //int tamanio = map_producto_precioVenta.size();
@@ -1638,6 +1639,20 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 e.printStackTrace();
             }
         }
+        String listaPesoProducto = sharedPreferences.getString("lista_peso_producto","");
+        String listaPesoProductoReplace = listaPesoProducto.replaceAll("[^\\dA-Za-z, ./:]","");
+        String[] values = listaPesoProductoReplace.split(",");
+        for(int i = 0;i<values.length;i++){
+            try{
+                String pair = values[i];
+                String[]keyvalue = pair.split(":");
+                String valor1 = keyvalue[1];
+                double valor2 = Double.parseDouble(valor1);
+                map_peso_producto.put(keyvalue[0], String.valueOf(valor2));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -1686,7 +1701,30 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     final String mensaje = result.getString("message");
                     if(mensaje.equals("error")){
                         //Log.e("mensaje","error");
-
+                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                        dialogo.setTitle("ALERTA");
+                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                        dialogo.setConfirmText("OK");
+                        dialogo.setCancelable(true);
+                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                items.clear();
+                                cantidad_item.clear();
+                                precio_item.clear();
+                                //textFolio.setText("");
+                                textTotal.setText("0");
+                                textViewListaClientes.setText("");
+                                ADP.notifyDataSetChanged();
+                                ADP_cantidad.notifyDataSetChanged();
+                                ADP_Precio.notifyDataSetChanged();
+                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        dialogo.show();
                     }else {
                             //dialogoContado.setMessage("Imprimiendo...");
                             Log.e("mensale","exito");
@@ -1729,7 +1767,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             registro_d.put("folio",mensaje);
                             registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
                             registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            registro_d.put("peso_producto","0");
+                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                            registro_d.put("peso_producto",pesoProductoTotal);
 
                             String id_producto = map_producto_codigo.get(items.get(i));
                             //int tamanio = map_producto_precioVenta.size();
@@ -1923,7 +1962,30 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     final String mensaje = result.getString("message");
                     if(mensaje.equals("error")){
                         //Log.e("mensaje","error");
-
+                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                        dialogo.setTitle("ALERTA");
+                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                        dialogo.setConfirmText("OK");
+                        dialogo.setCancelable(true);
+                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                items.clear();
+                                cantidad_item.clear();
+                                precio_item.clear();
+                                //textFolio.setText("");
+                                textTotal.setText("0");
+                                textViewListaClientes.setText("");
+                                ADP.notifyDataSetChanged();
+                                ADP_cantidad.notifyDataSetChanged();
+                                ADP_Precio.notifyDataSetChanged();
+                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        dialogo.show();
                     }else {
                         //dialogoContado.setMessage("Imprimiendo...");
                         Log.e("mensale","exito");
@@ -1997,7 +2059,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         registro.put("total", textTotal.getText().toString());
                         registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
                         registro.put("estado", "Subido");
-                        registro.put("tipo_operacion", "1");
+                        registro.put("tipo_operacion", "2");
                         registro.put("estado_operacion", "2");
                         registro.put("importe",importe);
                         registro.put("cancelado","0");
@@ -2022,7 +2084,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             registro_d.put("folio",mensaje);
                             registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
                             registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            registro_d.put("peso_producto","0");
+                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                            registro_d.put("peso_producto",pesoProductoTotal);
 
                             String id_producto = map_producto_codigo.get(items.get(i));
                             //int tamanio = map_producto_precioVenta.size();
@@ -2158,9 +2221,32 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             try{
                 if(result != null){
                     final String mensaje = result.getString("message");
-                    if(mensaje.equals("Error")){
+                    if(mensaje.equals("error")){
                         //Log.e("mensaje","error");
-
+                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                        dialogo.setTitle("ALERTA");
+                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                        dialogo.setConfirmText("OK");
+                        dialogo.setCancelable(true);
+                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                items.clear();
+                                cantidad_item.clear();
+                                precio_item.clear();
+                                //textFolio.setText("");
+                                textTotal.setText("0");
+                                textViewListaClientes.setText("");
+                                ADP.notifyDataSetChanged();
+                                ADP_cantidad.notifyDataSetChanged();
+                                ADP_Precio.notifyDataSetChanged();
+                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        dialogo.show();
                     }else {
                         if(!mac_bluetooth.equals("")){
                             dialogoContado.setMessage("Imprimiendo...");
@@ -2259,7 +2345,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             registro_d.put("folio",mensaje);
                             registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
                             registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            registro_d.put("peso_producto","0");
+                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                            registro_d.put("peso_producto",pesoProductoTotal);
 
                             String id_producto = map_producto_codigo.get(items.get(i));
                             //int tamanio = map_producto_precioVenta.size();

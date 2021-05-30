@@ -62,7 +62,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
     final ArrayList<String>lista_estados = new ArrayList<>();
     private boolean estado= false;
     JSONParser jsonParser = new JSONParser();
- /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+/*    String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
@@ -158,21 +158,48 @@ public class consulta_ventas_totales extends AppCompatActivity  {
             @Override
             public View getView(int position,View convertView,ViewGroup parent){
                 View view = super.getView(position,convertView,parent);
+                TextView tEstado = view.findViewById(R.id.txtEstado_vendido);
+                TextView tTotal = view.findViewById(R.id.txtTotal_vendido);
+                TextView tFolio = view.findViewById(R.id.txtFolio_vendido);
+                TextView tNombre = view.findViewById(R.id.txtNombrecliente);
+                TextView tSigno = view.findViewById(R.id.tSigno);
+
                 AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                 SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
-                Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where cancelado='1'",null);
+                Cursor cursor_folio = sql_folio.rawQuery("select cancelado, tipo_operacion from venta_cliente where folio='"+tFolio.getText().toString()+"'",null);
                 String folio_sql="";
+
                 if(cursor_folio!=null){
                     if(cursor_folio.moveToFirst()){
                         do{
-                            folio_sql = cursor_folio.getString(0);
-                            int posicion_item = ventas.indexOf(folio_sql);
-                            Log.e("folios_canc",String.valueOf(posicion_item));
-                            if(position == posicion_item) {
+                            //folio_sql = cursor_folio.getString(0);
+                            //int posicion_item = ventas.indexOf(folio_sql);
+                            //Log.e("folios_canc",String.valueOf(posicion_item));
+                            String cancelado = cursor_folio.getString(0);
+                            if(cancelado.equals("1")/*position == posicion_item*/) {
+                                tEstado.setText(tEstado.getText() + "/Cancelado");
+                                tEstado.setTextColor(Color.WHITE);
+                                tTotal.setTextColor(Color.WHITE);
+                                tFolio.setTextColor(Color.WHITE);
+                                tNombre.setTextColor(Color.WHITE);
+                                tSigno.setTextColor(Color.WHITE);
                                 view.setBackgroundColor(Color.RED);
-                            }
-                            if(position==0){
-                                view.setBackgroundColor(Color.TRANSPARENT);
+                            }else if(cursor_folio.getString(0).equals("0")/*position==0*/){
+                                if(cursor_folio.getString(1).equals("2")){
+                                    tEstado.setTextColor(Color.WHITE);
+                                    tTotal.setTextColor(Color.WHITE);
+                                    tFolio.setTextColor(Color.WHITE);
+                                    tNombre.setTextColor(Color.WHITE);
+                                    tSigno.setTextColor(Color.WHITE);
+                                    view.setBackgroundColor(Color.BLUE);
+                                }else{
+                                    tEstado.setTextColor(Color.BLACK);
+                                    tTotal.setTextColor(Color.BLACK);
+                                    tFolio.setTextColor(Color.parseColor("#1A237E"));
+                                    tNombre.setTextColor(Color.BLACK);
+                                    tSigno.setTextColor(Color.BLACK);
+                                    view.setBackgroundColor(Color.TRANSPARENT);
+                                }
                             }
                         }
                         while (cursor_folio.moveToNext());

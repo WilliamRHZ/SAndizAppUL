@@ -66,7 +66,7 @@ public class Sesion_Usuario extends AppCompatActivity{
     String URL2 = "http://10.0.2.2/sandiz/WebService/lista_productos.php";
     String URL4 = "http://10.0.2.2/sandiz/WebService/lista_productos_1.php";
     String URL3 = "http://10.0.2.2/sandiz/WebService/lista_clientes_usuario_1.php";//lista de clientes
-*/
+
 
     /*String URL = "https://localhost/failisa/WebService/datos_usuario.php";
     String URL1 = "https://localhost/failisa/WebService/lista_clientes_usuario.php";//lista de clientes
@@ -101,6 +101,7 @@ public class Sesion_Usuario extends AppCompatActivity{
     Map<String,String> codigo_barra_distribucion= new HashMap<>();
     Map<String,String> id_precioCompra= new HashMap<>();
     Map<String,String> key_producto = new HashMap<>();
+    Map<String,String> lista_peso_producto = new HashMap<>();
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -543,6 +544,7 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         String precion_venta = jsonArray.getJSONObject(i).getString("fldsalePrice");
                         String cantidad_producto = jsonArray.getJSONObject(i).getString("flddistributionAmount");
                         String key_prod = jsonArray.getJSONObject(i).getString("fldkey");
+                        String peso_producto = jsonArray.getJSONObject(i).getString("fldweightInKg");
                         lista_productos.put(fldname,precion_venta);
                         lista_productos_nombres.put(fldname,"");
                         lista_productos_id.put(fldname,id_product);
@@ -553,6 +555,7 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         codigo_barra_precioVenta.put(codigo_barra,precion_venta);
                         codigo_barra_distribucion.put(codigo_barra,cantidad_producto);
                         key_producto.put(key_prod,fldname);
+                        lista_peso_producto.put(fldname, peso_producto);
                         String lista_productos_string = new Gson().toJson(lista_productos);
                         String lista_productos_string1 = new Gson().toJson(lista_productos_nombres);
                         String lista_producto_codigo_barra= new Gson().toJson(codigo_barra_producto);
@@ -561,17 +564,19 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         String lista_codigo_barra_precioCompra = new Gson().toJson(codigo_barra_precioCompra);
                         String lista_id_precioCompra = new Gson().toJson(id_precioCompra);
                         String lista_key_producto = new Gson().toJson(key_producto);
+                        String peso_producto_lista = new Gson().toJson(lista_peso_producto);
+
                         SharedPreferences sharedPreferences = getSharedPreferences("productos",Context.MODE_PRIVATE);
-                        sharedPreferences.edit().putString("lista_productos",lista_productos_string).commit();
-                        sharedPreferences.edit().putString("lista_productos_nombres",lista_productos_string1).commit();
-                        sharedPreferences.edit().putString("lista_producto_codigo_barra",lista_producto_codigo_barra).commit();
-                        sharedPreferences.edit().putString("lista_codigo_producto",lista_codigo_producto).commit();
-                        sharedPreferences.edit().putString("lista_productos_id",lista_producto_id).commit();
-                        sharedPreferences.edit().putString("lista_productos_precioCompra",lista_codigo_barra_precioCompra).commit();
-                        sharedPreferences.edit().putString("lista_id_precioCompra",lista_id_precioCompra).commit();
-                        sharedPreferences.edit().putString("lista_key_producto",lista_key_producto).commit();
+                        sharedPreferences.edit().putString("lista_productos",lista_productos_string).apply();
+                        sharedPreferences.edit().putString("lista_productos_nombres",lista_productos_string1).apply();
+                        sharedPreferences.edit().putString("lista_producto_codigo_barra",lista_producto_codigo_barra).apply();
+                        sharedPreferences.edit().putString("lista_codigo_producto",lista_codigo_producto).apply();
+                        sharedPreferences.edit().putString("lista_productos_id",lista_producto_id).apply();
+                        sharedPreferences.edit().putString("lista_productos_precioCompra",lista_codigo_barra_precioCompra).apply();
+                        sharedPreferences.edit().putString("lista_id_precioCompra",lista_id_precioCompra).apply();
+                        sharedPreferences.edit().putString("lista_key_producto",lista_key_producto).apply();
+                        sharedPreferences.edit().putString("lista_peso_producto", peso_producto_lista).apply();
                         //sharedPreferences.edit().putString("lista_productos_distribucion",lista_producto_distribucion).commit();
-                        String objetos = sharedPreferences.getString("lista_productos","");
                         //progressDialog.setMessage("Descargando Datos : \n" + jose_1 + "   "+"de" +"   "+ tamanio_productos+ "   "+ "Productos");
                         pDialog.setContentText("Descargando Datos : \n" + will_1 + "   "+"de" +"   "+ tamanio_productos+ "   "+ "Productos");
 
@@ -586,6 +591,7 @@ private class ListaClientes_1a extends  AsyncTask<String, String, JSONObject>{
                         registro.put("precio_venta_producto",precion_venta);
                         registro.put("id_producto",id_product);
                         registro.put("key_producto",key_prod);
+                        registro.put("peso_producto", peso_producto);
                         bd.insert("detalles_productos",null,registro);
                     }
 

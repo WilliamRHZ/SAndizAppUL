@@ -24,7 +24,7 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table venta_cliente(folio text, total text, id_cliente text, tipo_operacion text , estado text, estado_operacion text,importe text,cancelado text, postActualizacionRegistro text, unique(folio))");
         db.execSQL("create table venta_detalles(folio text, codigo_producto text, cantidad_vendido text, peso_producto text,precio_compra text,precio_real text, precio_venta text)");
-        db.execSQL("create table detalles_productos(id_producto text primary key, codigo_producto text, key_producto text ,nombre_producto text, stock_producto text,precio_venta_producto text, unique(id_producto) ON CONFLICT REPLACE)");
+        db.execSQL("create table detalles_productos(id_producto text primary key, codigo_producto text, key_producto text ,nombre_producto text, stock_producto text,precio_venta_producto text, peso_producto text,unique(id_producto) ON CONFLICT REPLACE)");
        // db.execSQL("Create table gastos_vendedor()");
     }
 
