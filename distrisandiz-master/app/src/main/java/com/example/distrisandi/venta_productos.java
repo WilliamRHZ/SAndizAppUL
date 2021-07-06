@@ -163,7 +163,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         id_usuario = setting.getString("username", "");
 
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         strFecha = sdf.format(c.getTime());
         Log.e("fechasssssssss",strFecha);
 
@@ -1591,8 +1591,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
     private void insertarFecha(){
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("YY");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yy");
         int fecha = c.get(Calendar.HOUR_OF_DAY);
         int fecha1 = c.get(Calendar.MINUTE);
         int fecha2 = c.get(Calendar.SECOND);
