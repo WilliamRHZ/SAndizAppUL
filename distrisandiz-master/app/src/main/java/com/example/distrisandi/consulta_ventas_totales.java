@@ -212,7 +212,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         listView_ventas.setAdapter(adapter);
         //OBTENER FECHA
         final Calendar c = Calendar.getInstance();
-        final SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-YYYY");
+        final SimpleDateFormat fecha = new SimpleDateFormat("dd-MM-yyyy");
         final String fecha_actual = fecha.format(c.getTime());
         int f_hora = c.get(Calendar.HOUR_OF_DAY);
         int f_min= c.get(Calendar.MINUTE);
@@ -466,7 +466,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     SharedPreferences setting = getSharedPreferences("login_preference", MODE_PRIVATE);
                                                     String id_caja = sharedPref.getString("numero_ruta","");
                                                     String id_usuario = setting.getString("username", "");
-                                                    final SimpleDateFormat fecha = new SimpleDateFormat("YYYY-MM-dd");
+                                                    final SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
                                                     final String fecha_actual = fecha.format(c.getTime());
                                                     if(fila.moveToFirst()){
                                                         do{

@@ -83,7 +83,7 @@ public class ProgressIntentService extends IntentService {
             String id_usuario = setting.getString("username", "");
 
             final Calendar c = Calendar.getInstance();
-            SimpleDateFormat fecha = new SimpleDateFormat("YYYY-MM-dd");
+            SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
             String fldFechaVentaProducto = fecha.format(c.getTime());
             while(prueba){
                 if (isNetworkAvailable(ProgressIntentService.this)) {
