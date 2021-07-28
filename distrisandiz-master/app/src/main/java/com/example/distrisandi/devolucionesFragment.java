@@ -136,7 +136,7 @@ public class devolucionesFragment extends Fragment {
         id_usuariow = setting.getString("username", "");
 
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdt = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
         strsFecha = sdt.format(c.getTime());
         Log.e("fechasssssssss", strsFecha);
 

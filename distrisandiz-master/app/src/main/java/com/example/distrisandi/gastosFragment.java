@@ -123,7 +123,7 @@ public class gastosFragment extends Fragment {
         id_usuariou = setting.getString("username", "");
 
             final Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdt = new SimpleDateFormat("YYYY-MM-dd");
+            SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
             strsFecha = sdt.format(c.getTime());
             Log.e("fechasssssssss", strsFecha);
 
@@ -138,9 +138,9 @@ public class gastosFragment extends Fragment {
            // btnAgregarGasto = (Button)view.findViewById(R.id.btnAgregargasto);
             //Spinner gastos = (Spinner) view.findViewById(R.id.spinnerGastos);
             //Spinner Ruta = (Spinner) view.findViewById(R.id.spinnerRuta);
-            //tvDate = (EditText) view.findViewById(R.id.tv_date);//add date picker---------------------------------------------------------------------------------------------<
+            //tvDate = (EditText) view.findViewById(R.id.tv_date);//add date picker------------------------------------------------------------------------------------<
             //tbDate=(ImageButton) view.findViewById(R.id.tb_date);
-            //etDate = (EditText) view.findViewById(R.id.et_date);//add date picker----------------------------------------------------------------------------------------------<
+            //etDate = (EditText) view.findViewById(R.id.et_date);//add date picker------------------------------------------------------------------------------------<
             //esDate=(ImageView) view.findViewById(R.id.es_date);
         teXtFechar = (TextView)view.findViewById(R.id.txtFechar);
         teXtRutar = (TextView) view.findViewById(R.id.txtRutar);
@@ -178,8 +178,8 @@ public class gastosFragment extends Fragment {
 
     private void insertarFechar(){
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("YY");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yy");
         int fecha = c.get(Calendar.HOUR_OF_DAY);
         int fecha1 = c.get(Calendar.MINUTE);
         int fecha2 = c.get(Calendar.SECOND);
