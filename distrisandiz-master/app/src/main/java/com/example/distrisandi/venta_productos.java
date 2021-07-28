@@ -112,7 +112,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double cambio_imprimir;
     String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
- /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
+  /*  String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
    /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
     String URL_json = "https://localhost/failisa/WebService/productos_vendidos_detalles.php";*/
@@ -1699,7 +1699,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             try{
                 if(result != null){
                     final String mensaje = result.getString("message");
-                    if(mensaje.equals("error")){
+                    if(mensaje.equals("error_caja_cerrada")){
                         //Log.e("mensaje","error");
                         SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
                         dialogo.setTitle("ALERTA");
@@ -1725,7 +1725,32 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             }
                         });
                         dialogo.show();
-                    }else {
+                    }else if(mensaje.equals("error")){
+                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                        dialogo.setTitle("ALERTA");
+                        dialogo.setContentText("Ocurrio un error al realizar la venta");
+                        dialogo.setConfirmText("OK");
+                        dialogo.setCancelable(true);
+                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                                items.clear();
+                                cantidad_item.clear();
+                                precio_item.clear();
+                                //textFolio.setText("");
+                                textTotal.setText("0");
+                                textViewListaClientes.setText("");
+                                ADP.notifyDataSetChanged();
+                                ADP_cantidad.notifyDataSetChanged();
+                                ADP_Precio.notifyDataSetChanged();
+                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        dialogo.show();
+                    } else{
                             //dialogoContado.setMessage("Imprimiendo...");
                             Log.e("mensale","exito");
                             SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
