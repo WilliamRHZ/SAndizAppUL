@@ -301,7 +301,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\nDESCRIPCION"+
                                                                         "\nCANTIDAD       PRECIO      TOTAL"+
                                                                         "\n--------------------------------"+"\n");
-                                                                Thread.sleep(1500);
+                                                                Thread.sleep(500);
                                                                 double total_venta = 0.00;
                                                                 if(fila_reimprimir.moveToFirst()){
                                                                     do{
@@ -319,10 +319,10 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         }
                                                                         IntentPrint("\n"+nombre_producto +
                                                                                 "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ String.valueOf(subtotal_producto));
-                                                                        Thread.sleep(500);
+                                                                        Thread.sleep(150);
                                                                     }while (fila_reimprimir.moveToNext());
                                                                 }
-                                                                Thread.sleep(500);
+                                                                Thread.sleep(200);
                                                                 IntentPrint("\n--------------------------------"+
                                                                         "\n"+"          Total :      $" + total_venta+
                                                                         "\n"+
@@ -334,7 +334,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\n"+
                                                                         "\n");
                                                                 try {
-                                                                    Thread.sleep(2000);
+                                                                    Thread.sleep(500);
                                                                     Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                     Log.e("wil234","impresion terminada");
                                                                 }catch (InterruptedException e){
@@ -555,7 +555,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\nDESCRIPCION"+
                                                                     "\nCANTIDAD       PRECIO      TOTAL"+
                                                                     "\n--------------------------------\n");
-                                                            Thread.sleep(2000);
+                                                            Thread.sleep(500);
                                                             if(fila_reimprimir.moveToFirst()){
                                                                 do{
                                                                     String codigo = fila_reimprimir.getString(0);
@@ -572,10 +572,10 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     }
                                                                     IntentPrint("\n"+nombre_producto +
                                                                             "\n"+cantidad+"        "+"$"+subtotal+ "        "+"$"+ String.valueOf(subtotal_producto));
-                                                                    Thread.sleep(500);
+                                                                    Thread.sleep(150);
                                                                 }while (fila_reimprimir.moveToNext());
                                                             }
-                                                            Thread.sleep(1000);
+                                                            Thread.sleep(200);
                                                             IntentPrint("\n--------------------------------"+
                                                                     "\n"+"          Total :      $" + total_venta+
                                                                     "\n"+
@@ -588,7 +588,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\n"+
                                                                     "\n");
                                                             try {
-                                                                Thread.sleep(2000);
+                                                                Thread.sleep(500);
                                                                 Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                 Log.e("jos234","impresion terminada");
                                                             }catch (InterruptedException e){

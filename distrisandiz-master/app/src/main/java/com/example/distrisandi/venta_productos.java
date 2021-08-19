@@ -901,16 +901,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "DESCRIPCION\n" +
                                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                                 "--------------------------------\n");
-                                                        Thread.sleep(2000);
+                                                        Thread.sleep(500);
                                                         for (int k = 0; k < items.size(); k++) {
                                                             String cantidad = cantidad_item.get(k);
                                                             String descripcion = items.get(k);
                                                             String precio = map_producto_precio.get(descripcion);
                                                             String total = String.valueOf(precio_item.get(k));
                                                             IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                            Thread.sleep(500);
+                                                            Thread.sleep(150);
                                                         }
-                                                        Thread.sleep(1000);
+                                                        Thread.sleep(200);
                                                         IntentPrint("--------------------------------\n" +
                                                                 "   Total:        $" + totalpagar + "\n" +
                                                                 "   Efectivo:     $" + importe + "\n" +
@@ -924,7 +924,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "\n"+
                                                                 "\n"+
                                                                 "\n");
-                                                        Thread.sleep(500);
+                                                        Thread.sleep(150);
 
                                                     }
 
@@ -1180,16 +1180,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "DESCRIPCION\n" +
                                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                                     "--------------------------------\n");
-                                                            Thread.sleep(2000);
+                                                            Thread.sleep(500);
                                                             for (int k = 0; k < items.size(); k++) {
                                                                 String cantidad = cantidad_item.get(k);
                                                                 String descripcion = items.get(k);
                                                                 String precio = map_producto_precio.get(descripcion);
                                                                 String total = String.valueOf(precio_item.get(k));
                                                                 IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                                Thread.sleep(500);
+                                                                Thread.sleep(150);
                                                             }
-                                                            Thread.sleep(1000);
+                                                            Thread.sleep(200);
                                                             IntentPrint("--------------------------------\n" +
                                                                     "   Total:        $" + totalpagar + "\n" +
                                                                     "\n"+
@@ -1207,7 +1207,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "\n"+
                                                                     "\n"+
                                                                     "\n");
-                                                            Thread.sleep(500);
+                                                            Thread.sleep(150);
                                                         }
 
                                                     }catch (Exception e){
@@ -1898,7 +1898,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "DESCRIPCION\n" +
                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                 "--------------------------------\n");
-                                        Thread.sleep(2000);
+                                        Thread.sleep(500);
 
                                         for (int k = 0; k < items.size(); k++) {
                                             String cantidad = cantidad_item.get(k);
@@ -1906,9 +1906,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             String precio = map_producto_precio.get(descripcion);
                                             String total = String.valueOf(precio_item.get(k));
                                             IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                            Thread.sleep(500);
+                                            Thread.sleep(150);
                                         }
-                                        Thread.sleep(1000);
+                                        Thread.sleep(200);
                                         IntentPrint("--------------------------------\n" +
                                                 "   Total:        $" + totalpagar + "\n" +
                                                 "   Efectivo:     $" + importe + "\n" +
@@ -1923,7 +1923,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "\n"+
                                                 "\n");
 
-                                        Thread.sleep(500);
+                                        Thread.sleep(150);
 
                                     }
 
@@ -2037,16 +2037,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(2000);
+                                            Thread.sleep(500);
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
                                                 String precio = map_producto_precio.get(descripcion);
                                                 String total = String.valueOf(precio_item.get(k));
                                                 IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                Thread.sleep(500);
+                                                Thread.sleep(150);
                                             }
-                                            Thread.sleep(1000);
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "\n"+
@@ -2064,7 +2064,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(500);
+                                            Thread.sleep(150);
 
                                         }
 
@@ -2298,16 +2298,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(2000);
+                                            Thread.sleep(500);
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
                                                 String precio = map_producto_precio.get(descripcion);
                                                 String total = String.valueOf(precio_item.get(k));
                                                 IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                Thread.sleep(500);
+                                                Thread.sleep(150);
                                             }
-                                            Thread.sleep(1000);
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "   Efectivo:     $" + importe + "\n" +
@@ -2321,7 +2321,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(500);
+                                            Thread.sleep(150);
                                         }
 
                                     }catch (Exception e){
