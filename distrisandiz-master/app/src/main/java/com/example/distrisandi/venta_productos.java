@@ -2521,21 +2521,39 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         if(PrintHeader.length>256)
         {
             value+="\nValue is more than 128 size\n";
-            Toast.makeText(this, value, Toast.LENGTH_LONG).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(venta_productos.this, value, Toast.LENGTH_LONG).show();
+                }
+            });
         }
         else
         {
             try
             {
-
                 outputStream.write(txtvalue.getBytes());
-                outputStream.close();
-                socket.close();
             }
             catch(Exception ex)
             {
+                Log.e("INTENT_PRINT", ex.getMessage());
+
                 value+=ex.toString()+ "\n" +"Excep IntentPrint \n";
-                Toast.makeText(this, value, Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(venta_productos.this, value, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            finally{
+                try {
+                    outputStream.close();
+                    socket.close();
+                } catch (IOException e) {
+                    Log.e("INTENT_PRINT", e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -2575,14 +2593,25 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             else
             {
                 value+="No Devices found";
-                Toast.makeText(this, value, Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(venta_productos.this, value, Toast.LENGTH_LONG).show();
+                    }
+                });
                 return;
             }
         }
         catch(Exception ex)
         {
+            Log.e("INIT_PRINTER", ex.getMessage());
             value+=ex.toString()+ "\n" +" InitPrinter \n";
-            Toast.makeText(this, value, Toast.LENGTH_LONG).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(venta_productos.this, value, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
     void beginListenForData() {
@@ -2640,6 +2669,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             }
 
                         } catch (IOException ex) {
+                            Log.e("BEGIN_LISTEN_FOR_DATA", ex.getMessage());
                             stopWorker = true;
                         }
 
@@ -2650,6 +2680,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             workerThread.start();
 
         } catch (Exception e) {
+            Log.e("BEGIN_LISTEN_FOR_DATA", e.getMessage());
             e.printStackTrace();
         }
     }
