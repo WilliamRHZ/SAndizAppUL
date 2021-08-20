@@ -569,8 +569,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
                             //sDialog.dismissWithAnimation();
-                            Intent intent = new Intent(venta_productos.this,Sesion_Usuario.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(venta_productos.this,Sesion_Usuario.class);
+                            //startActivity(intent);
                             finish();
                         }
                     })
@@ -1540,6 +1540,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     ADP_Precio.notifyDataSetChanged();
                     Intent intent = new Intent(venta_productos.this,venta_productos.class);
                     startActivity(intent);
+                    finish();
                 }
                 });
             dialogo.show();
