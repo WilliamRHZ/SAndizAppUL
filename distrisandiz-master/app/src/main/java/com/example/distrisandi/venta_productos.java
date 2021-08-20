@@ -750,7 +750,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             builder.setTitle("No estas conectado a     una impresora");
                             builder.setIcon(R.drawable.ic_alerta);
                             builder.setCancelable(true);
-                            builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -889,7 +889,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     for (int m=0;m<2;m++) {
                                                         IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                                 + "          S.A. de C.V     \n " +
-                                                                "Calzada Jorge Gomez # 203 Col \n " +
+                                                                "Calzada Jorge Gomez # 199 Col \n " +
                                                                 "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                                 "         Chis., Mex.\n" +
                                                                 "RFC:CFA1607131N1     " + strDate + "\n" +
@@ -901,7 +901,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "DESCRIPCION\n" +
                                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                                 "--------------------------------\n");
-                                                        Thread.sleep(900);
+                                                        Thread.sleep(500);
                                                         for (int k = 0; k < items.size(); k++) {
                                                             String cantidad = cantidad_item.get(k);
                                                             String descripcion = items.get(k);
@@ -910,7 +910,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                             IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                             Thread.sleep(150);
                                                         }
-                                                        Thread.sleep(100);
+                                                        Thread.sleep(200);
                                                         IntentPrint("--------------------------------\n" +
                                                                 "   Total:        $" + totalpagar + "\n" +
                                                                 "   Efectivo:     $" + importe + "\n" +
@@ -924,7 +924,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "\n"+
                                                                 "\n"+
                                                                 "\n");
-                                                        Thread.sleep(100);
+                                                        Thread.sleep(150);
 
                                                     }
 
@@ -1168,7 +1168,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                         for (int m=0;m<2;m++) {
                                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                                     + "          S.A. de C.V     \n " +
-                                                                    "Calzada Jorge Gomez # 203 Col \n " +
+                                                                    "Calzada Jorge Gomez # 199 Col \n " +
                                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                                     "         Chis., Mex.\n" +
                                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
@@ -1180,16 +1180,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "DESCRIPCION\n" +
                                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                                     "--------------------------------\n");
-                                                            Thread.sleep(900);
+                                                            Thread.sleep(500);
                                                             for (int k = 0; k < items.size(); k++) {
                                                                 String cantidad = cantidad_item.get(k);
                                                                 String descripcion = items.get(k);
                                                                 String precio = map_producto_precio.get(descripcion);
                                                                 String total = String.valueOf(precio_item.get(k));
-                                                                IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                                 Thread.sleep(150);
                                                             }
-                                                            Thread.sleep(100);
+                                                            Thread.sleep(200);
                                                             IntentPrint("--------------------------------\n" +
                                                                     "   Total:        $" + totalpagar + "\n" +
                                                                     "\n"+
@@ -1207,7 +1207,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "\n"+
                                                                     "\n"+
                                                                     "\n");
-                                                           // Thread.sleep(500);
+                                                            Thread.sleep(150);
                                                         }
 
                                                     }catch (Exception e){
@@ -1328,8 +1328,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*1/100);     // ----modifica el porcentaje minimo al cual se le permite cambiar el precio
-                double precio_max = valor_precio+ (valor_precio*1/100);     // ----modifica el porcentaje maximo al cual se le permite cambiar el precio
+                double precio_desc = valor_precio-(valor_precio*1/100);
+                double precio_max = valor_precio+ (valor_precio*1/100);
 
                 //si precio nuevo es menor que el 15%
                 if(Double.compare(precio_ven,precio_desc)<0){
@@ -1887,7 +1887,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     for (int m=0;m<2;m++) {
                                         IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                 + "          S.A. de C.V     \n " +
-                                                "Calzada Jorge Gomez # 203 Col \n " +
+                                                "Calzada Jorge Gomez # 199 Col \n " +
                                                 "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                 "         Chis., Mex.\n" +
                                                 "RFC:CFA1607131N1     " + strDate + "\n" +
@@ -1899,17 +1899,17 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "DESCRIPCION\n" +
                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                 "--------------------------------\n");
-                                        Thread.sleep(900);
+                                        Thread.sleep(500);
 
                                         for (int k = 0; k < items.size(); k++) {
                                             String cantidad = cantidad_item.get(k);
                                             String descripcion = items.get(k);
                                             String precio = map_producto_precio.get(descripcion);
                                             String total = String.valueOf(precio_item.get(k));
-                                            IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                            IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                             Thread.sleep(150);
                                         }
-                                        Thread.sleep(100);
+                                        Thread.sleep(200);
                                         IntentPrint("--------------------------------\n" +
                                                 "   Total:        $" + totalpagar + "\n" +
                                                 "   Efectivo:     $" + importe + "\n" +
@@ -1924,7 +1924,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "\n"+
                                                 "\n");
 
-                                        Thread.sleep(100);
+                                        Thread.sleep(150);
 
                                     }
 
@@ -2026,7 +2026,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         for (int m=0;m<2;m++) {
                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                     + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez #203 Col \n " +
+                                                    "Calzada Jorge Gomez # 199 Col \n " +
                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                     "         Chis., Mex.\n" +
                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
@@ -2038,7 +2038,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(900);
+                                            Thread.sleep(500);
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
@@ -2047,7 +2047,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                 Thread.sleep(150);
                                             }
-                                            Thread.sleep(100);
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "\n"+
@@ -2065,7 +2065,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(100);
+                                            Thread.sleep(150);
 
                                         }
 
@@ -2287,7 +2287,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         for (int m=0;m<2;m++) {
                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                     + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 203 Col \n " +
+                                                    "Calzada Jorge Gomez # 199 Col \n " +
                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                     "         Chis., Mex.\n" +
                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
@@ -2299,16 +2299,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(900);
+                                            Thread.sleep(500);
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
                                                 String precio = map_producto_precio.get(descripcion);
                                                 String total = String.valueOf(precio_item.get(k));
-                                                IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                 Thread.sleep(150);
                                             }
-                                            Thread.sleep(100);
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "   Efectivo:     $" + importe + "\n" +
@@ -2322,7 +2322,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(100);
+                                            Thread.sleep(150);
                                         }
 
                                     }catch (Exception e){

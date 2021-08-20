@@ -287,7 +287,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             try{
                                                                 IntentPrint("\n     COMERCIALIZADORA FAILI "+
                                                                         "\n          S.A.de C.V "+
-                                                                        "\nCalzada Jorge Gomez # 203 Col"+
+                                                                        "\nCalzada Jorge Gomez #199 Col"+
                                                                         "\nCerro Hueco, Tuxtla Gutierrez"+
                                                                         "\n       Chis., Mex. "+
                                                                         "\n"+
@@ -301,7 +301,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\nDESCRIPCION"+
                                                                         "\nCANTIDAD       PRECIO      TOTAL"+
                                                                         "\n--------------------------------"+"\n");
-                                                                Thread.sleep(900);
+                                                                Thread.sleep(500);
                                                                 double total_venta = 0.00;
                                                                 if(fila_reimprimir.moveToFirst()){
                                                                     do{
@@ -318,7 +318,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                             nombre_producto = fila_nombre_producto.getString(0);
                                                                         }
                                                                         IntentPrint("\n"+nombre_producto +
-                                                                                "\n"+cantidad+"         "+"$"+subtotal+ "         "+"$"+ String.valueOf(subtotal_producto));
+                                                                                "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ String.valueOf(subtotal_producto));
                                                                         Thread.sleep(150);
                                                                     }while (fila_reimprimir.moveToNext());
                                                                 }
@@ -334,7 +334,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\n"+
                                                                         "\n");
                                                                 try {
-                                                                    Thread.sleep(200);
+                                                                    Thread.sleep(500);
                                                                     Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                     Log.e("wil234","impresion terminada");
                                                                 }catch (InterruptedException e){
@@ -423,7 +423,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     bd_regresar.close();
 
                                                     try {
-                                                        Thread.sleep(200);
+                                                        Thread.sleep(1000);
                                                         dialog.dismiss();
                                                         Toast.makeText(consulta_ventas_totales.this, "CANCELADO", Toast.LENGTH_LONG).show();
                                                     } catch (InterruptedException e) {
@@ -543,7 +543,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             double total_venta = 0.00;
                                                             IntentPrint("\n     COMERCIALIZADORA FAILI "+
                                                                     "\n          S.A.de C.V "+
-                                                                    "\nCalzada Jorge Gomez # 203 Col"+
+                                                                    "\nCalzada Jorge Gomez #199 Col"+
                                                                     "\nCerro Hueco, Tuxtla Gutierrez"+
                                                                     "\n       Chiapas, Mexico "+
                                                                     "\nRFC:CFA1607131N1     "+ fecha_actual+
@@ -555,7 +555,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\nDESCRIPCION"+
                                                                     "\nCANTIDAD       PRECIO      TOTAL"+
                                                                     "\n--------------------------------\n");
-                                                            Thread.sleep(900);
+                                                            Thread.sleep(500);
                                                             if(fila_reimprimir.moveToFirst()){
                                                                 do{
                                                                     String codigo = fila_reimprimir.getString(0);
@@ -571,11 +571,11 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         nombre_producto = fila_nombre_producto.getString(0);
                                                                     }
                                                                     IntentPrint("\n"+nombre_producto +
-                                                                            "\n"+cantidad+"       "+"$"+subtotal+ "       "+"$"+ String.valueOf(subtotal_producto));
+                                                                            "\n"+cantidad+"        "+"$"+subtotal+ "        "+"$"+ String.valueOf(subtotal_producto));
                                                                     Thread.sleep(150);
                                                                 }while (fila_reimprimir.moveToNext());
                                                             }
-                                                            Thread.sleep(150);
+                                                            Thread.sleep(200);
                                                             IntentPrint("\n--------------------------------"+
                                                                     "\n"+"          Total :      $" + total_venta+
                                                                     "\n"+
@@ -588,7 +588,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\n"+
                                                                     "\n");
                                                             try {
-                                                                Thread.sleep(200);
+                                                                Thread.sleep(500);
                                                                 Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                 Log.e("jos234","impresion terminada");
                                                             }catch (InterruptedException e){
