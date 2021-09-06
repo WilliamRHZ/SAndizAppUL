@@ -41,8 +41,11 @@ public class ProgressIntentService extends IntentService {
     JSONParser jsonParser = new JSONParser();
  /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
+ String URL = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos.php";
+    String URL_json = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos_detalles.php";
+
+    /*String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
+    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";*/
 
 
 

@@ -54,11 +54,17 @@ import static com.example.distrisandi.JSONParser.json;
 
 public class Sesion_Usuario extends AppCompatActivity{
 
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/datos_usuario.php";
+    String URL = "https://www.sandiz.com.mx/sandiztapachula/WebService/datos_usuario.php";
+    String URL1 = "https://www.sandiz.com.mx/sandiztapachula/WebService/lista_clientes_usuario.php";//lista de clientes
+    String URL2 = "https://www.sandiz.com.mx/sandiztapachula/WebService/lista_productos.php";
+    String URL4 = "https://www.sandiz.com.mx/sandiztapachula/WebService/lista_productos_1.php";
+    String URL3 = "https://www.sandiz.com.mx/sandiztapachula/WebService/lista_clientes_usuario_1.php";//lista de clientes
+
+    /*String URL = "https://www.sandiz.com.mx/failisa/WebService/datos_usuario.php";
     String URL1 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario.php";//lista de clientes
     String URL2 = "https://www.sandiz.com.mx/failisa/WebService/lista_productos.php";
     String URL4 = "https://www.sandiz.com.mx/failisa/WebService/lista_productos_1.php";
-    String URL3 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario_1.php";//lista de clientes
+    String URL3 = "https://www.sandiz.com.mx/failisa/WebService/lista_clientes_usuario_1.php";//lista de clientes*/
 
 
    /* String URL = "http://10.0.2.2/sandiz/WebService/datos_usuario.php";

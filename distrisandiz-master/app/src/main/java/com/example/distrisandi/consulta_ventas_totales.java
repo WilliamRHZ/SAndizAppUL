@@ -64,8 +64,10 @@ public class consulta_ventas_totales extends AppCompatActivity  {
     JSONParser jsonParser = new JSONParser();
    /* String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
+   String URL = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos.php";
+    String URL_json = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos_detalles.php";
+    /*String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
+    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";*/
     private String id_cliente="";
     private String id_tipoOperacion="";
     private String id_estadoOperacion="";
@@ -285,13 +287,13 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                         @Override
                                                         public void run(){
                                                             try{
-                                                                IntentPrint("\n     COMERCIALIZADORA FAILI "+
+                                                                IntentPrint("\n     SANDIZ TAPACHULA "+
                                                                         "\n          S.A.de C.V "+
-                                                                        "\nCalzada Jorge Gomez #199 Col"+
-                                                                        "\nCerro Hueco, Tuxtla Gutierrez"+
+                                                                        "\nSegunda Ote prolongacion S/N"+
+                                                                        "\nCol. San Antonio, Tapachula"+
                                                                         "\n       Chis., Mex. "+
                                                                         "\n"+
-                                                                        "\nRFC:CFA1607131N1     "+ fecha_actual+
+                                                                        "\nRFC:EESN700923QR2     "+ fecha_actual+
                                                                         "\nHORA:" + hora_actual+ "          RUTA:"+numero_ruta_vendedor+
                                                                         "\nCLIENTE:" + nombre_cliente_vendido +
                                                                         "\nFOLIO:   " + txtFolio +
@@ -541,12 +543,13 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     public void run(){
                                                         try{
                                                             double total_venta = 0.00;
-                                                            IntentPrint("\n     COMERCIALIZADORA FAILI "+
+                                                            IntentPrint("\n     SANDIZ TAPACHULA "+
                                                                     "\n          S.A.de C.V "+
-                                                                    "\nCalzada Jorge Gomez #199 Col"+
-                                                                    "\nCerro Hueco, Tuxtla Gutierrez"+
-                                                                    "\n       Chiapas, Mexico "+
-                                                                    "\nRFC:CFA1607131N1     "+ fecha_actual+
+                                                                    "\nSegunda Ote prolongacion S/N"+
+                                                                    "\nCol. San Antonio, Tapachula"+
+                                                                    "\n       Chis., Mex. "+
+                                                                    "\n"+
+                                                                    "\nRFC:EESN700923QR2     "+ fecha_actual+
                                                                     "\nHORA:" + hora_actual+ "          RUTA:"+numero_ruta_vendedor+
                                                                     "\nCLIENTE:" + nombre_cliente_vendido +
                                                                     "\nFOLIO:   " + txtFolio +

@@ -110,8 +110,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double valor_precio;
     private double importe;
     private  double cambio_imprimir;
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
+    String URL = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos.php";
+    String URL_json = "https://www.sandiz.com.mx/sandiztapachula/WebService/productos_vendidos_detalles.php";
+    /*String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";*/
+    /*String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";*/
   /*  String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
     String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
    /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
@@ -887,12 +889,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             public void run(){
                                                 try{
                                                     for (int m=0;m<2;m++) {
-                                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                + "          S.A. de C.V     \n " +
-                                                                "Calzada Jorge Gomez # 199 Col \n " +
-                                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                "         Chis., Mex.\n" +
-                                                                "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                        IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                                "\n          S.A.de C.V "+
+                                                                "\nSegunda Ote prolongacion S/N"+
+                                                                "\nCol. San Antonio, Tapachula"+
+                                                                "\n       Chis., Mex. "+
+                                                                "\n"+
+                                                                "RFC:EESN700923QR2     " + strDate + "\n" +
                                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                 "CLIENTE:" + value1 + "\n" +
                                                                 "FOLIO:   " + venta_cliente +"\n"+
@@ -1166,12 +1169,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 public void run(){
                                                     try{
                                                         for (int m=0;m<2;m++) {
-                                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                    + "          S.A. de C.V     \n " +
-                                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                    "         Chis., Mex.\n" +
-                                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                                    "\n          S.A.de C.V "+
+                                                                    "\nSegunda Ote prolongacion S/N"+
+                                                                    "\nCol. San Antonio, Tapachula"+
+                                                                    "\n       Chis., Mex. "+
+                                                                    "\n"+
+                                                                    "RFC:EESN700923QR2     "  + strDate + "\n" +
                                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                     "CLIENTE:" + value1 + "\n" +
                                                                     "FOLIO:   " + venta_cliente +"\n"+
@@ -1197,7 +1201,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "   Por este pagare debo(emos) y\n"+
                                                                     "pagare(mos) incondicionalmente\n" +
                                                                     "            a la\n"+
-                                                                    " Distribuidora Faili S.A de C.V\n" +
+                                                                    " SANDIZ TAPACHULA S.A de C.V\n" +
                                                                     "  la cantidad de $"+totalpagar +" MxN\n"+
                                                                     " respaldada por esta nota "+
                                                                     "       de venta a:\n"+
@@ -1885,12 +1889,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             public void run(){
                                 try{
                                     for (int m=0;m<2;m++) {
-                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                + "          S.A. de C.V     \n " +
-                                                "Calzada Jorge Gomez # 199 Col \n " +
-                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                "         Chis., Mex.\n" +
-                                                "RFC:CFA1607131N1     " + strDate + "\n" +
+                                        IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                "\n          S.A.de C.V "+
+                                                "\nSegunda Ote prolongacion S/N"+
+                                                "\nCol. San Antonio, Tapachula"+
+                                                "\n       Chis., Mex. "+
+                                                "\n"+
+                                                "RFC:EESN700923QR2     "  + strDate + "\n" +
                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                 "CLIENTE:" + value1 + "\n" +
                                                 "FOLIO:   " + mensaje +"\n"+
@@ -2024,12 +2029,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                    "\n          S.A.de C.V "+
+                                                    "\nSegunda Ote prolongacion S/N"+
+                                                    "\nCol. San Antonio, Tapachula"+
+                                                    "\n       Chis., Mex. "+
+                                                    "\n"+
+                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+
@@ -2055,7 +2061,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "   Por este pagare debo(emos) y\n"+
                                                     "pagare(mos) incondicionalmente\n" +
                                                     "            a la\n"+
-                                                    " Distribuidora Faili S.A de C.V\n" +
+                                                    " SANDIZ TAPACHULA S.A de C.V\n" +
                                                     "  la cantidad de $"+totalpagar +" MxN\n"+
                                                     " respaldada por esta nota "+
                                                     "       de venta a:\n"+
@@ -2285,12 +2291,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                    "\n          S.A.de C.V "+
+                                                    "\nSegunda Ote prolongacion S/N"+
+                                                    "\nCol. San Antonio, Tapachula"+
+                                                    "\n       Chis., Mex. "+
+                                                    "\n"+
+                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+

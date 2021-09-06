@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.Buffer;
 import java.util.ArrayList;
 
-public class JSONParser {
+public class  JSONParser {
     static InputStream is = null;
     static JSONObject jObj = null;
     static JSONArray jArr = null;

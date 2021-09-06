@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private  EditText edUsuario;
     private  EditText edContrasenia;
     ProgressDialog dialogoIniciarSesion;
+    String URL = "https://sandiz.com.mx/sandiztapachula/WebService/index.php";
 
-    String URL = "https://sandiz.com.mx/failisa/WebService/index.php";
+   /* String URL = "https://sandiz.com.mx/failisa/WebService/index.php";*/
    // String URL = "http://10.0.2.2/sandiz/WebService/index.php";
     //String URL = "  https://192.168.8.85/sandizsistema/WebService/v2/index.php";
 

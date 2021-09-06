@@ -44,8 +44,8 @@ public class GalleryFragment extends Fragment {
     LinearLayout botonGuardar;
     LinearLayout botonContrasenia;
     //URL´S PARA COMUNICAR CON PHP
-    String URL = "https://sandiz.com.mx/failisa/WebService/cambio_datos_usuarios.php";
-   String URL_Contrasenia = "https://sandiz.com.mx/failisa/WebService/cambio_contrasenia_usuario.php";
+    String URL = "https://sandiz.com.mx/sandiztapachula/WebService/cambio_datos_usuarios.php";
+   String URL_Contrasenia = "https://sandiz.com.mx/sandiztapachula/WebService/cambio_contrasenia_usuario.php";
 
    //  String URL = "https://192.168.0.9/sandizsistema/WebService/v2/cambio_datos_usuarios.php";
     //String URL_Contrasenia = "https://192.168.0.9/sandizsistema/WebService/v2/cambio_contrasenia_usuario.php";
