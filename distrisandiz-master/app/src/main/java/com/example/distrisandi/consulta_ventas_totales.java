@@ -289,8 +289,13 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             try{
                                                                 IntentPrint("\n     SANDIZ TAPACHULA "+
                                                                         "\n          S.A.de C.V "+
+<<<<<<< HEAD
                                                                         "\nSegunda Ote prolongacion S/N"+
                                                                         "\nCol. San Antonio, Tapachula"+
+=======
+                                                                        "\nCalzada Jorge Gomez # 203 Col"+
+                                                                        "\nCerro Hueco, Tuxtla Gutierrez"+
+>>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                         "\n       Chis., Mex. "+
                                                                         "\n"+
                                                                         "\nRFC:EESN700923QR2     "+ fecha_actual+
@@ -303,7 +308,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\nDESCRIPCION"+
                                                                         "\nCANTIDAD       PRECIO      TOTAL"+
                                                                         "\n--------------------------------"+"\n");
-                                                                Thread.sleep(500);
+                                                                Thread.sleep(900);
                                                                 double total_venta = 0.00;
                                                                 if(fila_reimprimir.moveToFirst()){
                                                                     do{
@@ -320,7 +325,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                             nombre_producto = fila_nombre_producto.getString(0);
                                                                         }
                                                                         IntentPrint("\n"+nombre_producto +
-                                                                                "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ String.valueOf(subtotal_producto));
+                                                                                "\n"+cantidad+"         "+"$"+subtotal+ "         "+"$"+ String.valueOf(subtotal_producto));
                                                                         Thread.sleep(150);
                                                                     }while (fila_reimprimir.moveToNext());
                                                                 }
@@ -336,7 +341,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\n"+
                                                                         "\n");
                                                                 try {
-                                                                    Thread.sleep(500);
+                                                                    Thread.sleep(200);
                                                                     Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                     Log.e("wil234","impresion terminada");
                                                                 }catch (InterruptedException e){
@@ -425,7 +430,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     bd_regresar.close();
 
                                                     try {
-                                                        Thread.sleep(1000);
+                                                        Thread.sleep(200);
                                                         dialog.dismiss();
                                                         Toast.makeText(consulta_ventas_totales.this, "CANCELADO", Toast.LENGTH_LONG).show();
                                                     } catch (InterruptedException e) {
@@ -545,11 +550,18 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             double total_venta = 0.00;
                                                             IntentPrint("\n     SANDIZ TAPACHULA "+
                                                                     "\n          S.A.de C.V "+
+<<<<<<< HEAD
                                                                     "\nSegunda Ote prolongacion S/N"+
                                                                     "\nCol. San Antonio, Tapachula"+
                                                                     "\n       Chis., Mex. "+
                                                                     "\n"+
                                                                     "\nRFC:EESN700923QR2     "+ fecha_actual+
+=======
+                                                                    "\nCalzada Jorge Gomez # 203 Col"+
+                                                                    "\nCerro Hueco, Tuxtla Gutierrez"+
+                                                                    "\n       Chiapas, Mexico "+
+                                                                    "\nRFC:CFA1607131N1     "+ fecha_actual+
+>>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                     "\nHORA:" + hora_actual+ "          RUTA:"+numero_ruta_vendedor+
                                                                     "\nCLIENTE:" + nombre_cliente_vendido +
                                                                     "\nFOLIO:   " + txtFolio +
@@ -558,7 +570,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\nDESCRIPCION"+
                                                                     "\nCANTIDAD       PRECIO      TOTAL"+
                                                                     "\n--------------------------------\n");
-                                                            Thread.sleep(500);
+                                                            Thread.sleep(900);
                                                             if(fila_reimprimir.moveToFirst()){
                                                                 do{
                                                                     String codigo = fila_reimprimir.getString(0);
@@ -574,11 +586,11 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         nombre_producto = fila_nombre_producto.getString(0);
                                                                     }
                                                                     IntentPrint("\n"+nombre_producto +
-                                                                            "\n"+cantidad+"        "+"$"+subtotal+ "        "+"$"+ String.valueOf(subtotal_producto));
+                                                                            "\n"+cantidad+"       "+"$"+subtotal+ "       "+"$"+ String.valueOf(subtotal_producto));
                                                                     Thread.sleep(150);
                                                                 }while (fila_reimprimir.moveToNext());
                                                             }
-                                                            Thread.sleep(200);
+                                                            Thread.sleep(150);
                                                             IntentPrint("\n--------------------------------"+
                                                                     "\n"+"          Total :      $" + total_venta+
                                                                     "\n"+
@@ -591,7 +603,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\n"+
                                                                     "\n");
                                                             try {
-                                                                Thread.sleep(500);
+                                                                Thread.sleep(200);
                                                                 Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                 Log.e("jos234","impresion terminada");
                                                             }catch (InterruptedException e){
