@@ -889,22 +889,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             public void run(){
                                                 try{
                                                     for (int m=0;m<2;m++) {
-<<<<<<< HEAD
-                                                        IntentPrint("\n     SANDIZ TAPACHULA "+
-                                                                "\n          S.A.de C.V "+
-                                                                "\nSegunda Ote prolongacion S/N"+
-                                                                "\nCol. San Antonio, Tapachula"+
-                                                                "\n       Chis., Mex. "+
-                                                                "\n"+
-                                                                "RFC:EESN700923QR2     " + strDate + "\n" +
-=======
                                                         IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                                 + "          S.A. de C.V     \n " +
                                                                 "Calzada Jorge Gomez # 203 Col \n " +
                                                                 "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                                 "         Chis., Mex.\n" +
                                                                 "RFC:CFA1607131N1     " + strDate + "\n" +
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                 "CLIENTE:" + value1 + "\n" +
                                                                 "FOLIO:   " + venta_cliente +"\n"+
@@ -1178,22 +1168,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 public void run(){
                                                     try{
                                                         for (int m=0;m<2;m++) {
-<<<<<<< HEAD
-                                                            IntentPrint("\n     SANDIZ TAPACHULA "+
-                                                                    "\n          S.A.de C.V "+
-                                                                    "\nSegunda Ote prolongacion S/N"+
-                                                                    "\nCol. San Antonio, Tapachula"+
-                                                                    "\n       Chis., Mex. "+
-                                                                    "\n"+
-                                                                    "RFC:EESN700923QR2     "  + strDate + "\n" +
-=======
                                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                                     + "          S.A. de C.V     \n " +
                                                                     "Calzada Jorge Gomez # 203 Col \n " +
                                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                                     "         Chis., Mex.\n" +
                                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                     "CLIENTE:" + value1 + "\n" +
                                                                     "FOLIO:   " + venta_cliente +"\n"+
@@ -1907,22 +1887,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             public void run(){
                                 try{
                                     for (int m=0;m<2;m++) {
-<<<<<<< HEAD
-                                        IntentPrint("\n     SANDIZ TAPACHULA "+
-                                                "\n          S.A.de C.V "+
-                                                "\nSegunda Ote prolongacion S/N"+
-                                                "\nCol. San Antonio, Tapachula"+
-                                                "\n       Chis., Mex. "+
-                                                "\n"+
-                                                "RFC:EESN700923QR2     "  + strDate + "\n" +
-=======
                                         IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                 + "          S.A. de C.V     \n " +
                                                 "Calzada Jorge Gomez # 203 Col \n " +
                                                 "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                 "         Chis., Mex.\n" +
                                                 "RFC:CFA1607131N1     " + strDate + "\n" +
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                 "CLIENTE:" + value1 + "\n" +
                                                 "FOLIO:   " + mensaje +"\n"+
@@ -2056,22 +2026,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-<<<<<<< HEAD
-                                            IntentPrint("\n     SANDIZ TAPACHULA "+
-                                                    "\n          S.A.de C.V "+
-                                                    "\nSegunda Ote prolongacion S/N"+
-                                                    "\nCol. San Antonio, Tapachula"+
-                                                    "\n       Chis., Mex. "+
-                                                    "\n"+
-                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
-=======
                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                     + "          S.A. de C.V     \n " +
                                                     "Calzada Jorge Gomez #203 Col \n " +
                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                     "         Chis., Mex.\n" +
                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+
@@ -2327,22 +2287,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-<<<<<<< HEAD
-                                            IntentPrint("\n     SANDIZ TAPACHULA "+
-                                                    "\n          S.A.de C.V "+
-                                                    "\nSegunda Ote prolongacion S/N"+
-                                                    "\nCol. San Antonio, Tapachula"+
-                                                    "\n       Chis., Mex. "+
-                                                    "\n"+
-                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
-=======
                                             IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
                                                     + "          S.A. de C.V     \n " +
                                                     "Calzada Jorge Gomez # 203 Col \n " +
                                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
                                                     "         Chis., Mex.\n" +
                                                     "RFC:CFA1607131N1     " + strDate + "\n" +
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+
