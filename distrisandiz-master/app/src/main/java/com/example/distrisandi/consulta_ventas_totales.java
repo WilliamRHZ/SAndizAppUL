@@ -291,8 +291,11 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\n          S.A.de C.V "+
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                                         "\nSegunda Ote prolongacion S/N"+
                                                                         "\nCol. San Antonio, Tapachula"+
+=======
+>>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
 =======
 >>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
 =======
@@ -555,11 +558,14 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\n          S.A.de C.V "+
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                                     "\nSegunda Ote prolongacion S/N"+
                                                                     "\nCol. San Antonio, Tapachula"+
                                                                     "\n       Chis., Mex. "+
                                                                     "\n"+
                                                                     "\nRFC:EESN700923QR2     "+ fecha_actual+
+=======
+>>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
 =======
 >>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
 =======
