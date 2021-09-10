@@ -287,19 +287,9 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                         @Override
                                                         public void run(){
                                                             try{
-                                                                IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                                double total_venta = 0.00;
+                                                                IntentPrint("\n    COMERCIALIZADORA FAILI"+
                                                                         "\n          S.A.de C.V "+
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                                                        "\nSegunda Ote prolongacion S/N"+
-                                                                        "\nCol. San Antonio, Tapachula"+
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                         "\nCalzada Jorge Gomez # 203 Col"+
                                                                         "\nCerro Hueco, Tuxtla Gutierrez"+
                                                                         "\n       Chis., Mex. "+
@@ -554,22 +544,8 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                     public void run(){
                                                         try{
                                                             double total_venta = 0.00;
-                                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                            IntentPrint("\n    COMERCIALIZADORA FAILI"+
                                                                     "\n          S.A.de C.V "+
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                                                    "\nSegunda Ote prolongacion S/N"+
-                                                                    "\nCol. San Antonio, Tapachula"+
-                                                                    "\n       Chis., Mex. "+
-                                                                    "\n"+
-                                                                    "\nRFC:EESN700923QR2     "+ fecha_actual+
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
-=======
->>>>>>> parent of 8449641 (Merge branch 'main' of https://github.com/WilliamRHZ/SAndizAppUL into main)
                                                                     "\nCalzada Jorge Gomez # 203 Col"+
                                                                     "\nCerro Hueco, Tuxtla Gutierrez"+
                                                                     "\n       Chiapas, Mexico "+
