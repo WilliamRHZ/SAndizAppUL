@@ -22,7 +22,12 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import com.example.distrisandi.network.APIClient;
+import com.example.distrisandi.network.APIInterface;
 import com.google.gson.Gson;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -38,23 +43,14 @@ import static com.example.distrisandi.JSONParser.json;
 
 public class ProgressIntentService extends IntentService {
     private static final String TAG = ProgressIntentService.class.getSimpleName();
-    JSONParser jsonParser = new JSONParser();
- /*   String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
-    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
-
-
-
     private String folio="";
     private String folio_a="";
-    private   String folio_recibido;
-
+    private String folio_recibido;
+    private APIInterface apiInterface;
 
     public ProgressIntentService() {
         super("ProgressIntentService");
     }
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -68,6 +64,7 @@ public class ProgressIntentService extends IntentService {
 
     private void handleActionRun() {
         try {
+            apiInterface = APIClient.getClient();
             // Se construye la notificación
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setSmallIcon(android.R.drawable.stat_sys_download_done)
@@ -110,8 +107,11 @@ public class ProgressIntentService extends IntentService {
 
                             Log.e("mensaje", "Hay datos que Subir");
                             Log.e("foliossss", folio);
-                            enviardatos_real enviar_real = new enviardatos_real();
-                            enviar_real.execute(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
+                           // enviardatos_real enviar_real = new enviardatos_real();
+                          //  enviar_real.execute(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
+                          //         fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
+
+                            enviarDatosReal(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
                                     fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
                             Log.e("foliossss", "_____________________");
                             Thread.sleep(5000);
@@ -177,83 +177,55 @@ public class ProgressIntentService extends IntentService {
         Log.d(TAG, "Servicio destruido...");
     }
 
+    private void enviarDatosReal(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles){
+        folio_recibido = "";
+        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        String mensaje = result.getString("message");
+                        if(mensaje.equals("error")){
 
+                        }else {
+                            if (isNetworkAvailable(ProgressIntentService.this))
+                            {
+                                folio_recibido = result.getString("message");
+                                //Toast.makeText(ProgressIntentService.this,"datos no cambiados",Toast.LENGTH_SHORT).show();
+                                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion", null, 1);
+                                AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion1", null, 1);
+                                SQLiteDatabase bd = admin.getWritableDatabase();
+                                SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
+                                ContentValues actualizar = new ContentValues();
+                                ContentValues actualizar_1 = new ContentValues();
+                                actualizar.put("estado", "Subido");
+                                actualizar_1.put("folio", folio_recibido);
+                                actualizar.put("folio", folio_recibido);
+                                bd.update("venta_cliente", actualizar, "folio=?", new String[]{folio});
+                                bd_1.update("venta_detalles", actualizar_1, "folio=?", new String[]{folio});
+                                bd.close();
+                                bd_1.close();
+                                getResult();
+                            }
 
-    private class enviardatos_real extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-
-            folio_recibido="";
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldFechaVentaProducto = args[6];
-            String fldRegistrarFecha = args[5];
-            String id_usuario = args[4];
-            String id_caja = args[3];
-            String id_estadoOperacion = args[2];
-            String id_tipoOperacion = args[1];
-            String id_cliente = args[0];
-            //String id_ventaProducto = args[0];
-
-
-            ArrayList params = new ArrayList();
-           // params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-           // String folio_r= id_ventaProducto;
-            return json;
-
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-
-                if(result != null){
-                    String mensaje = result.getString("message");
-                    if(mensaje.equals("error")){
-
+                        }
                     }else {
-                        if (isNetworkAvailable(ProgressIntentService.this))
-                        {
-                            folio_recibido = result.getString("message");
-                        //Toast.makeText(ProgressIntentService.this,"datos no cambiados",Toast.LENGTH_SHORT).show();
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion", null, 1);
-                        AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion1", null, 1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                        ContentValues actualizar = new ContentValues();
-                        ContentValues actualizar_1 = new ContentValues();
-                        actualizar.put("estado", "Subido");
-                        actualizar_1.put("folio", folio_recibido);
-                        actualizar.put("folio", folio_recibido);
-                        bd.update("venta_cliente", actualizar, "folio=?", new String[]{folio});
-                        bd_1.update("venta_detalles", actualizar_1, "folio=?", new String[]{folio});
-                        bd.close();
-                        bd_1.close();
-                        getResult();
+                        //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
                     }
-
-                    }
-                }else {
-                    //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-            }catch (JSONException e){
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
+
     private JSONArray getResult(){
         //Toast.makeText(consulta_ventas_totales.this,"hola mudno",Toast.LENGTH_SHORT).show();
         //eturn  null;
@@ -299,61 +271,55 @@ public class ProgressIntentService extends IntentService {
         String output = gson.toJson(resultSet);
         //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
         Log.d("foliossss", output);
-        enviardatos_detalles enviar_dato = new enviardatos_detalles();
+        //enviardatos_detalles enviar_dato = new enviardatos_detalles();
         String id_enterprise = "1";
-        enviar_dato.execute(output,id_enterprise,"");
+        //enviar_dato.execute(output,id_enterprise,"");
+
+        enviarDatosDetalles(output,id_enterprise);
         return resultSet;
     }
 
-    private class enviardatos_detalles extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String id_enterprise = args[1];
-            String json_array = args[0];
+    private void enviarDatosDetalles(String jsonArray, String idEnterprise){
+        SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
+        String ruta_cliente = setting.getString("numero_ruta", "");
+        Call<String> response = apiInterface.productosVendidosDetalles(jsonArray, idEnterprise, ruta_cliente);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        String mensaje_datos = result.getString("message");
+                        Log.e("mensaje1002q",mensaje_datos);
+                        if(mensaje_datos.equals("exito") || mensaje_datos.equals(folio_recibido)){
+                            if(isNetworkAvailable(ProgressIntentService.this)){
+                                Toast.makeText(ProgressIntentService.this,"DATOS GUARDADOS", Toast.LENGTH_SHORT).show();
+                                AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion",null,1);
+                                SQLiteDatabase bd = admin.getWritableDatabase();
+                                ContentValues actualizar = new ContentValues();
+                                actualizar.put("estado","Subido");
+                                bd.update("venta_cliente",actualizar,"folio=?",new String[]{folio_recibido});
+                                bd.close();
+                            }
 
-            SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
-            String ruta_cliente = setting.getString("numero_ruta", "");
 
-            ArrayList params = new ArrayList();
-            params.add(new BasicNameValuePair("json_array",json_array));
-            params.add(new BasicNameValuePair("id_enterprise",id_enterprise));
-            params.add(new BasicNameValuePair("route",ruta_cliente));
 
-            JSONObject json = jsonParser.makeHttpRequest(URL_json, "POST", params);
-            return json;
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    String mensaje_datos = result.getString("message");
-                    Log.e("mensaje1002q",mensaje_datos);
-                    if(mensaje_datos.equals("exito") || mensaje_datos.equals(folio_recibido)){
-                        if(isNetworkAvailable(ProgressIntentService.this)){
-                            Toast.makeText(ProgressIntentService.this,"DATOS GUARDADOS", Toast.LENGTH_SHORT).show();
-                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion",null,1);
-                            SQLiteDatabase bd = admin.getWritableDatabase();
-                            ContentValues actualizar = new ContentValues();
-                            actualizar.put("estado","Subido");
-                            bd.update("venta_cliente",actualizar,"folio=?",new String[]{folio_recibido});
-                            bd.close();
+                        }else {
+                            Toast.makeText(ProgressIntentService.this,"DATOS NO GUARDADOS EN EL SERVIDOR",Toast.LENGTH_SHORT).show();
                         }
-
-
-
                     }else {
-                        Toast.makeText(ProgressIntentService.this,"DATOS NO GUARDADOS EN EL SERVIDOR",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(consulta_ventas_totales.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    //Toast.makeText(consulta_ventas_totales.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-            }catch (JSONException e){
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     //CONEXION A INTERNET//
