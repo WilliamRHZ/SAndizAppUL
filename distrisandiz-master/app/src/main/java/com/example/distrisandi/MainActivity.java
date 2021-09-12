@@ -43,7 +43,6 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     LinearLayout botonIniciar;
     LinearLayout txtRegistrar;
     private  EditText edUsuario;
@@ -142,14 +141,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     //Toast.makeText(MainActivity.this,"REGISTRAR", Toast.LENGTH_SHORT).s how();
                     createCustomDialog().show();
-
                 }
             });
-
-
-
-
         }
+
         public AlertDialog createCustomDialog () {
             final AlertDialog alertDialog;
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
