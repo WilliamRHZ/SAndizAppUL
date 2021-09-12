@@ -40,6 +40,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.distrisandi.network.APIClient;
+import com.example.distrisandi.network.APIInterface;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import org.apache.http.message.BasicNameValuePair;
@@ -60,6 +63,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import android.graphics.Color;
 
 
@@ -110,13 +117,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private  double valor_precio;
     private double importe;
     private  double cambio_imprimir;
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
-  /*  String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
-    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
-   /* String URL = "https://localhost/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://localhost/failisa/WebService/productos_vendidos_detalles.php";*/
-    JSONParser jsonParser = new JSONParser();
+
     private boolean estado= false;
     private ProgressDialog dialogoFolio;
     private ProgressDialog dialogoContado;
@@ -136,11 +137,11 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private String mac_bluetooth;
 
 
-
+    private APIInterface apiInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        apiInterface = APIClient.getClient();
         //OBTENER ID DE CLIENTES
         SharedPreferences share_listaClientes = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
         String objetos02 = share_listaClientes.getString("lista_clientes_id","");
@@ -809,11 +810,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     }
                                     else {
                                         //si hay internet
-                                        enviardatosContado enviar = new enviardatosContado();
-                                        enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
+                                    //    enviardatosContado enviar = new enviardatosContado();
+                                    //    enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
+                                     //           strFecha , strFecha,"0", "SIN DETALLES");
+
+                                        enviarDatosContado(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
                                                 strFecha , strFecha,"0", "SIN DETALLES");
-
-
                                     }
                                 }
                             });
@@ -957,9 +959,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     dialogoContado.setTitle("Espere...");
                                     dialogoContado.setMessage("Enviando Datos...");
                                     dialogoContado.show();
-                                    enviardatos enviar = new enviardatos();
-                                    enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
-                                            strFecha, strFecha,"0", "SIN DETALLES");
+                                    //enviardatos enviar = new enviardatos();
+                                    //enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
+                                     //       strFecha, strFecha,"0", "SIN DETALLES");
+
+                                    enviarDatos(map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
+                                                   strFecha, strFecha,"0", "SIN DETALLES");
 
                                 }
                             });
@@ -1089,10 +1094,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         }
                                         else {
                                             //si hay internet
-                                            enviardatosCredito enviar = new enviardatosCredito();
-                                            enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"2","0",textRuta.getText().toString(),id_usuario,
-                                                    strFecha, strFecha,"0","SIN DETALLES");
+                                            //enviardatosCredito enviar = new enviardatosCredito();
+                                           // enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"2","0",textRuta.getText().toString(),id_usuario,
+                                            //        strFecha, strFecha,"0","SIN DETALLES");
 
+                                            enviarDatosCredito(map_cliente_id.get(textViewListaClientes.getText()),"2","0",textRuta.getText().toString(),id_usuario,
+                                                    strFecha, strFecha,"0","SIN DETALLES");
 
                                         }
                                     }
@@ -1240,10 +1247,12 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             dialogoContado.setTitle("Espere...");
                                             dialogoContado.setMessage("Enviando Datos...");
                                             dialogoContado.show();
-                                            enviardatosCredito enviar = new enviardatosCredito();
-                                            enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
-                                                    strFecha, strFecha, "0", "SIN DETALLES");
+                                           /// enviardatosCredito enviar = new enviardatosCredito();
+                                          ///  enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
+                                          ///          strFecha, strFecha, "0", "SIN DETALLES");
 
+                                            enviarDatosCredito(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
+                                                    strFecha, strFecha, "0", "SIN DETALLES");
                                         }
                                     });
                                     builder.show();
@@ -1661,625 +1670,195 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
     }
 
-
-    private class enviardatos extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldFechaVentaProducto = args[6];
-            String fldRegistrarFecha = args [5];                                                //-----------------------------------data baseeee-----------------------
-            String id_usuario = args[4];
-            String id_caja = args[3];
-            String id_estadoOperacion = args[2];
-            String id_tipoOperacion = args[1];
-            String id_cliente = args[0];
-            //String id_ventaProducto = args[0];
-
-            ArrayList params = new ArrayList();
-           //params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));    //------------------------------data ------baseee----------------------------------------------------
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-            return json;
-
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    final String mensaje = result.getString("message");
-                    if(mensaje.equals("error_caja_cerrada")){
-                        //Log.e("mensaje","error");
-                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                        dialogo.setTitle("ALERTA");
-                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
-                        dialogo.setConfirmText("OK");
-                        dialogo.setCancelable(true);
-                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                                items.clear();
-                                cantidad_item.clear();
-                                precio_item.clear();
-                                //textFolio.setText("");
-                                textTotal.setText("0");
-                                textViewListaClientes.setText("");
-                                ADP.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                        dialogo.show();
-                    }else if(mensaje.equals("error")){
-                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                        dialogo.setTitle("ALERTA");
-                        dialogo.setContentText("Ocurrio un error al realizar la venta");
-                        dialogo.setConfirmText("OK");
-                        dialogo.setCancelable(true);
-                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                                items.clear();
-                                cantidad_item.clear();
-                                precio_item.clear();
-                                //textFolio.setText("");
-                                textTotal.setText("0");
-                                textViewListaClientes.setText("");
-                                ADP.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                        dialogo.show();
-                    } else{
+    private void enviarDatos(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
+        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        final String mensaje = result.getString("message");
+                        if(mensaje.equals("error_caja_cerrada")){
+                            //Log.e("mensaje","error");
+                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                            dialogo.setTitle("ALERTA");
+                            dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                            dialogo.setConfirmText("OK");
+                            dialogo.setCancelable(true);
+                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    items.clear();
+                                    cantidad_item.clear();
+                                    precio_item.clear();
+                                    //textFolio.setText("");
+                                    textTotal.setText("0");
+                                    textViewListaClientes.setText("");
+                                    ADP.notifyDataSetChanged();
+                                    ADP_cantidad.notifyDataSetChanged();
+                                    ADP_Precio.notifyDataSetChanged();
+                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            dialogo.show();
+                        }else if(mensaje.equals("error")){
+                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                            dialogo.setTitle("ALERTA");
+                            dialogo.setContentText("Ocurrio un error al realizar la venta");
+                            dialogo.setConfirmText("OK");
+                            dialogo.setCancelable(true);
+                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    items.clear();
+                                    cantidad_item.clear();
+                                    precio_item.clear();
+                                    //textFolio.setText("");
+                                    textTotal.setText("0");
+                                    textViewListaClientes.setText("");
+                                    ADP.notifyDataSetChanged();
+                                    ADP_cantidad.notifyDataSetChanged();
+                                    ADP_Precio.notifyDataSetChanged();
+                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            dialogo.show();
+                        } else{
                             //dialogoContado.setMessage("Imprimiendo...");
                             Log.e("mensale","exito");
                             SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
                             final String value1 = setting0.getString("nombre_cliente", "");
 
 
-                        //dialogoContado.dismiss();
+                            //dialogoContado.dismiss();
 
-                        //dialogoContado.setMessage("Guardando Datos...");
-                        AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                        SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("folio", mensaje);
-                        registro.put("total", textTotal.getText().toString());
-                        registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                        registro.put("estado", "Subido");
-                        registro.put("tipo_operacion", "1");
-                        registro.put("estado_operacion", "2");
-                        registro.put("importe",importe);
-                        registro.put("cancelado","0");
-                        registro.put("postActualizacionRegistro","0");
-                        bd_1.insert("venta_cliente", null, registro);
-                        bd_1.close();
-                        //guardar detalles
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        ContentValues registro_d = new ContentValues();
-                        SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                        String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
-                        String[] pairs = objetos1.split(",");
-                        for(int i = 0;i<pairs.length;i++){
-                            String pair = pairs[i];
-                            String[]keyvalue = pair.split(":");
-                            map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
-                        }
-                        for(int i=0; i< items.size();i++){
-                            String folio = venta_cliente;
-                            registro_d.put("folio",mensaje);
-                            registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-                            registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
-                            registro_d.put("peso_producto",pesoProductoTotal);
-
-                            String id_producto = map_producto_codigo.get(items.get(i));
-                            //int tamanio = map_producto_precioVenta.size();
-                            String precio_Compra = map_producto_precioVenta.get(id_producto);
-                            final String nombre = items.get((i));
-                            //obtener precio del proucto
-                            final String precio_1 = map_producto_precio.get(nombre);
-                            //mostrar precio del producto en edit_precio
-                            //CONSULTA stock EN BD
-                            AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                            SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-                            Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
-                            double valor_precio1=0;
-                            if(fila_precio!=null){
-                                if(fila_precio.moveToFirst()){
-                                    String valor_precio_string = fila_precio.getString(0);
-                                    double valor_precio_bol = Double.parseDouble(valor_precio_string);
-                                    valor_precio1=valor_precio_bol;
-                                }
+                            //dialogoContado.setMessage("Guardando Datos...");
+                            AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                            SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
+                            ContentValues registro = new ContentValues();
+                            registro.put("folio", mensaje);
+                            registro.put("total", textTotal.getText().toString());
+                            registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
+                            registro.put("estado", "Subido");
+                            registro.put("tipo_operacion", "1");
+                            registro.put("estado_operacion", "2");
+                            registro.put("importe",importe);
+                            registro.put("cancelado","0");
+                            registro.put("postActualizacionRegistro","0");
+                            bd_1.insert("venta_cliente", null, registro);
+                            bd_1.close();
+                            //guardar detalles
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd = admin.getWritableDatabase();
+                            ContentValues registro_d = new ContentValues();
+                            SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
+                            String objetos = sharedPreferences.getString("lista_productos_id","");
+                            String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
+                            String[] pairs = objetos1.split(",");
+                            for(int i = 0;i<pairs.length;i++){
+                                String pair = pairs[i];
+                                String[]keyvalue = pair.split(":");
+                                map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
                             }
+                            for(int i=0; i< items.size();i++){
+                                String folio = venta_cliente;
+                                registro_d.put("folio",mensaje);
+                                registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
+                                registro_d.put("cantidad_vendido",cantidad_item.get(i));
+                                double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                                registro_d.put("peso_producto",pesoProductoTotal);
 
-                            registro_d.put("precio_compra",precio_Compra);
-                            // Log.e("precio_venta",precio_Compra);
-                            //Log.e("precio_venta",String.valueOf(precio_Compra));
-                            registro_d.put("precio_real",valor_precio1);
-                            registro_d.put("precio_venta",precio_1);
-                            bd.insert("venta_detalles",null,registro_d);
-                        }
-                        //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
-                        bd.close();
-                        //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
-                        //texto.setTextColor(Color.GREEN);
-                        //boton_estado.setImageResource(R.mipmap.ic_check);
-                        //finish();
-                        //getResult();
-                        stock();
-                        //obtebner detalles
-                        //dialogoContado.setMessage("Enviando Detalles...");
-                        AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
-                        Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
-                        JSONArray resultSet     = new JSONArray();
+                                String id_producto = map_producto_codigo.get(items.get(i));
+                                //int tamanio = map_producto_precioVenta.size();
+                                String precio_Compra = map_producto_precioVenta.get(id_producto);
+                                final String nombre = items.get((i));
+                                //obtener precio del proucto
+                                final String precio_1 = map_producto_precio.get(nombre);
+                                //mostrar precio del producto en edit_precio
+                                //CONSULTA stock EN BD
+                                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
+                                Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
+                                double valor_precio1=0;
+                                if(fila_precio!=null){
+                                    if(fila_precio.moveToFirst()){
+                                        String valor_precio_string = fila_precio.getString(0);
+                                        double valor_precio_bol = Double.parseDouble(valor_precio_string);
+                                        valor_precio1=valor_precio_bol;
+                                    }
+                                }
 
-                        fila.moveToFirst();
-                        while (fila.isAfterLast() == false) {
+                                registro_d.put("precio_compra",precio_Compra);
+                                // Log.e("precio_venta",precio_Compra);
+                                //Log.e("precio_venta",String.valueOf(precio_Compra));
+                                registro_d.put("precio_real",valor_precio1);
+                                registro_d.put("precio_venta",precio_1);
+                                bd.insert("venta_detalles",null,registro_d);
+                            }
+                            //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
+                            bd.close();
+                            //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
+                            //texto.setTextColor(Color.GREEN);
+                            //boton_estado.setImageResource(R.mipmap.ic_check);
+                            //finish();
+                            //getResult();
+                            stock();
+                            //obtebner detalles
+                            //dialogoContado.setMessage("Enviando Detalles...");
+                            AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
+                            Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
+                            JSONArray resultSet     = new JSONArray();
 
-                            int totalColumn = fila.getColumnCount();
-                            JSONObject rowObject = new JSONObject();
+                            fila.moveToFirst();
+                            while (fila.isAfterLast() == false) {
 
-                            for( int i=0 ;  i< totalColumn ; i++ )
-                            {
-                                if( fila.getColumnName(i) != null )
+                                int totalColumn = fila.getColumnCount();
+                                JSONObject rowObject = new JSONObject();
+
+                                for( int i=0 ;  i< totalColumn ; i++ )
                                 {
-                                    try
+                                    if( fila.getColumnName(i) != null )
                                     {
-                                        if( fila.getString(i) != null )
+                                        try
                                         {
-                                            Log.d("TAG_NAME", fila.getString(i) );
-                                            rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
-                                        }
-                                        else
-                                        {
-                                            rowObject.put( fila.getColumnName(i) ,  "" );
-                                        }
-                                    }
-                                    catch( Exception e )
-                                    {
-                                        Log.d("TAG_NAME", e.getMessage()  );
-                                    }
-                                }
-                            }
-                            resultSet.put(rowObject);
-                            fila.moveToNext();
-                        }
-                        fila.close();
-                        Gson gson = new Gson();
-                        String output = gson.toJson(resultSet);
-                        //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
-                        Log.d("ventaproducto", output);
-                        enviardatos_detalles enviar_dato = new enviardatos_detalles();
-                        String id_enterprise = "1";
-                        //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
-                        enviar_dato.execute(output,id_enterprise,"");
-                        //return resultSet;
-
-                        final Thread t = new Thread(){
-                            @Override
-                            public void run(){
-                                try{
-                                    for (int m=0;m<2;m++) {
-                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                + "          S.A. de C.V     \n " +
-                                                "Calzada Jorge Gomez # 199 Col \n " +
-                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                "         Chis., Mex.\n" +
-                                                "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                "CLIENTE:" + value1 + "\n" +
-                                                "FOLIO:   " + mensaje +"\n"+
-                                                "           CONTADO\n" +
-                                                "--------------------------------\n" +
-                                                "DESCRIPCION\n" +
-                                                "CANTIDAD     PRECIO      TOTAL\n" +
-                                                "--------------------------------\n");
-                                        Thread.sleep(500);
-
-                                        for (int k = 0; k < items.size(); k++) {
-                                            String cantidad = cantidad_item.get(k);
-                                            String descripcion = items.get(k);
-                                            String precio = map_producto_precio.get(descripcion);
-                                            String total = String.valueOf(precio_item.get(k));
-                                            IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                            Thread.sleep(150);
-                                        }
-                                        Thread.sleep(200);
-                                        IntentPrint("--------------------------------\n" +
-                                                "   Total:        $" + totalpagar + "\n" +
-                                                "   Efectivo:     $" + importe + "\n" +
-                                                "   Cambio:       $" + cambio_imprimir + "\n" +
-                                                "--------------------------------\n"+
-                                                "    Gracias por su compra!!\n" +
-                                                "   el importe de esta nota\n" +
-                                                "   sera aplicada a la factura \n" +
-                                                "           del dia\n"+
-                                                "\n"+
-                                                "\n"+
-                                                "\n"+
-                                                "\n");
-
-                                        Thread.sleep(150);
-
-                                    }
-
-                                }catch (Exception e){
-                                    Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        };
-                        t.start();
-                        if(t.isAlive()){
-                            Log.e("proceso",String.valueOf(t.isAlive()));
-
-                        }
-                    }
-                }else {
-                    //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-    }
-    private class enviardatosCredito extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldFechaVentaProducto = args[6];  //---------------------------------------data base -----------compra Contado
-            String fldRegistarFecha= args [5];
-            String id_usuario = args[4];
-            String id_caja = args[3];
-            String id_estadoOperacion = args[2];
-            String id_tipoOperacion = args[1 ];
-            String id_cliente = args[0];
-            //String id_ventaProducto = args[0];
-
-            ArrayList params = new ArrayList();
-            //params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));   //data base --------------------------compra Contado--------------------------
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistarFecha));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-            return json;
-
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    final String mensaje = result.getString("message");
-                    if(mensaje.equals("error")){
-                        //Log.e("mensaje","error");
-                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                        dialogo.setTitle("ALERTA");
-                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
-                        dialogo.setConfirmText("OK");
-                        dialogo.setCancelable(true);
-                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                                items.clear();
-                                cantidad_item.clear();
-                                precio_item.clear();
-                                //textFolio.setText("");
-                                textTotal.setText("0");
-                                textViewListaClientes.setText("");
-                                ADP.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                        dialogo.show();
-                    }else {
-                        //dialogoContado.setMessage("Imprimiendo...");
-                        Log.e("mensale","exito");
-                        SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                        final String value1 = setting0.getString("nombre_cliente", "");
-                        if(!mac_bluetooth.equals("")){
-
-                            final Thread t = new Thread(){
-                                @Override
-                                public void run(){
-                                    try{
-                                        for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                    "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                    "CLIENTE:" + value1 + "\n" +
-                                                    "FOLIO:   " + mensaje +"\n"+
-                                                    "           CREDITO\n" +
-                                                    "--------------------------------\n" +
-                                                    "DESCRIPCION\n" +
-                                                    "CANTIDAD     PRECIO      TOTAL\n" +
-                                                    "--------------------------------\n");
-                                            Thread.sleep(500);
-                                            for (int k = 0; k < items.size(); k++) {
-                                                String cantidad = cantidad_item.get(k);
-                                                String descripcion = items.get(k);
-                                                String precio = map_producto_precio.get(descripcion);
-                                                String total = String.valueOf(precio_item.get(k));
-                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                Thread.sleep(150);
+                                            if( fila.getString(i) != null )
+                                            {
+                                                Log.d("TAG_NAME", fila.getString(i) );
+                                                rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
                                             }
-                                            Thread.sleep(200);
-                                            IntentPrint("--------------------------------\n" +
-                                                    "   Total:        $" + totalpagar + "\n" +
-                                                    "\n"+
-                                                    "--------------------------------\n"+
-                                                    "   Por este pagare debo(emos) y\n"+
-                                                    "pagare(mos) incondicionalmente\n" +
-                                                    "            a la\n"+
-                                                    " Distribuidora Faili S.A de C.V\n" +
-                                                    "  la cantidad de $"+totalpagar +" MxN\n"+
-                                                    " respaldada por esta nota "+
-                                                    "       de venta a:\n"+
-                                                     value1+"\n" +
-                                                    "  Gracias por su compra :)"+
-                                                    "\n"+
-                                                    "\n"+
-                                                    "\n"+
-                                                    "\n");
-                                            Thread.sleep(150);
-
+                                            else
+                                            {
+                                                rowObject.put( fila.getColumnName(i) ,  "" );
+                                            }
                                         }
-
-                                    }catch (Exception e){
-                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }
-                            };
-                            t.run();
-                        }
-                        //dialogoContado.setMessage("Guardando Datos...");
-                        AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                        SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("folio", mensaje);
-                        registro.put("total", textTotal.getText().toString());
-                        registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                        registro.put("estado", "Subido");
-                        registro.put("tipo_operacion", "2");
-                        registro.put("estado_operacion", "2");
-                        registro.put("importe",importe);
-                        registro.put("cancelado","0");
-                        registro.put("postActualizacionRegistro","0");
-                        bd_1.insert("venta_cliente", null, registro);
-                        bd_1.close();
-                        //guardar detalles
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        ContentValues registro_d = new ContentValues();
-                        SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                        String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
-                        String[] pairs = objetos1.split(",");
-                        for(int i = 0;i<pairs.length;i++){
-                            String pair = pairs[i];
-                            String[]keyvalue = pair.split(":");
-                            map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
-                        }
-                        for(int i=0; i< items.size();i++){
-                            String folio = venta_cliente;
-                            registro_d.put("folio",mensaje);
-                            registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-                            registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
-                            registro_d.put("peso_producto",pesoProductoTotal);
-
-                            String id_producto = map_producto_codigo.get(items.get(i));
-                            //int tamanio = map_producto_precioVenta.size();
-                            String precio_Compra = map_producto_precioVenta.get(id_producto);
-                            final String nombre = items.get((i));
-                            //obtener precio del proucto
-                            final String precio_1 = map_producto_precio.get(nombre);
-                            //mostrar precio del producto en edit_precio
-                            //CONSULTA stock EN BD
-                            AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                            SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-                            Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
-                            double valor_precio1=0;
-                            if(fila_precio!=null){
-                                if(fila_precio.moveToFirst()){
-                                    String valor_precio_string = fila_precio.getString(0);
-                                    double valor_precio_bol = Double.parseDouble(valor_precio_string);
-                                    valor_precio1=valor_precio_bol;
-                                }
-                            }
-
-                            registro_d.put("precio_compra",precio_Compra);
-                            // Log.e("precio_venta",precio_Compra);
-                            //Log.e("precio_venta",String.valueOf(precio_Compra));
-                            registro_d.put("precio_real",valor_precio1);
-                            registro_d.put("precio_venta",precio_1);
-                            bd.insert("venta_detalles",null,registro_d);
-                        }
-                        //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
-                        bd.close();
-                        //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
-                        //texto.setTextColor(Color.GREEN);
-                        //boton_estado.setImageResource(R.mipmap.ic_check);
-                        //finish();
-                        //getResult();
-                        stock();
-                        //obtebner detalles
-                       // dialogoContado.setMessage("Enviando Detalles...");
-                        AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
-                        Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
-                        JSONArray resultSet     = new JSONArray();
-
-                        fila.moveToFirst();
-                        while (fila.isAfterLast() == false) {
-
-                            int totalColumn = fila.getColumnCount();
-                            JSONObject rowObject = new JSONObject();
-
-                            for( int i=0 ;  i< totalColumn ; i++ )
-                            {
-                                if( fila.getColumnName(i) != null )
-                                {
-                                    try
-                                    {
-                                        if( fila.getString(i) != null )
+                                        catch( Exception e )
                                         {
-                                            Log.d("TAG_NAME", fila.getString(i) );
-                                            rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
+                                            Log.d("TAG_NAME", e.getMessage()  );
                                         }
-                                        else
-                                        {
-                                            rowObject.put( fila.getColumnName(i) ,  "" );
-                                        }
-                                    }
-                                    catch( Exception e )
-                                    {
-                                        Log.d("TAG_NAME", e.getMessage()  );
                                     }
                                 }
+                                resultSet.put(rowObject);
+                                fila.moveToNext();
                             }
-                            resultSet.put(rowObject);
-                            fila.moveToNext();
-                        }
-                        fila.close();
-                        Gson gson = new Gson();
-                        String output = gson.toJson(resultSet);
-                        //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
-                        Log.d("ventaproducto", output);
-                        enviardatos_detalles enviar_dato = new enviardatos_detalles();
-                        String id_enterprise = "1";
-                        //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
-                        enviar_dato.execute(output,id_enterprise,"");
-                        //return resultSet;
-                    }
-                }else {
-                    //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-
-    private class enviardatosContado extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldFechaVentaProducto = args[6];    //---------------------------------------------------data base --------------CompraContado
-            String fldRegistrarFecha = args [5];
-            String id_usuario = args[4];
-            String id_caja = args[3];
-            String id_estadoOperacion = args[2];
-            String id_tipoOperacion = args[1];
-            String id_cliente = args[0];
-            //String id_ventaProducto = args[0];
-
-            ArrayList params = new ArrayList();
-            //params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));  //-----------data base ---------------CompraContado-------------------------------------
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-            return json;
-
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    final String mensaje = result.getString("message");
-                    if(mensaje.equals("error")){
-                        //Log.e("mensaje","error");
-                        SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                        dialogo.setTitle("ALERTA");
-                        dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
-                        dialogo.setConfirmText("OK");
-                        dialogo.setCancelable(true);
-                        dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                                items.clear();
-                                cantidad_item.clear();
-                                precio_item.clear();
-                                //textFolio.setText("");
-                                textTotal.setText("0");
-                                textViewListaClientes.setText("");
-                                ADP.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                        dialogo.show();
-                    }else {
-                        if(!mac_bluetooth.equals("")){
-                            dialogoContado.setMessage("Imprimiendo...");
-                            Log.e("mensale","exito");
-                            SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                            final String value1 = setting0.getString("nombre_cliente", "");
-
+                            fila.close();
+                            Gson gson = new Gson();
+                            String output = gson.toJson(resultSet);
+                            //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
+                            Log.d("ventaproducto", output);
+                            //enviardatos_detalles enviar_dato = new enviardatos_detalles();
+                            String id_enterprise = "1";
+                            //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
+                            //enviar_dato.execute(output,id_enterprise,"");
+                            //return resultSet;
+                            enviarDatosDetalles(output, id_enterprise);
                             final Thread t = new Thread(){
                                 @Override
                                 public void run(){
@@ -2300,6 +1879,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
                                             Thread.sleep(500);
+
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
@@ -2315,14 +1895,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "   Cambio:       $" + cambio_imprimir + "\n" +
                                                     "--------------------------------\n"+
                                                     "    Gracias por su compra!!\n" +
-                                                    "   el importe de esta nota\n" + //-------------------------------------------------------------------777777777777777777777777777777777
+                                                    "   el importe de esta nota\n" +
                                                     "   sera aplicada a la factura \n" +
                                                     "           del dia\n"+
                                                     "\n"+
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
+
                                             Thread.sleep(150);
+
                                         }
 
                                     }catch (Exception e){
@@ -2331,187 +1913,534 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     }
                                 }
                             };
-                            t.run();
-                        }
+                            t.start();
+                            if(t.isAlive()){
+                                Log.e("proceso",String.valueOf(t.isAlive()));
 
-                        //dialogoContado.setMessage("Guardando Datos...");
-                        AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                        SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                        ContentValues registro = new ContentValues();
-                        registro.put("folio", mensaje);
-                        registro.put("total", textTotal.getText().toString());
-                        registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                        registro.put("estado", "Subido");
-                        registro.put("tipo_operacion", "1");
-                        registro.put("estado_operacion", "2");
-                        registro.put("importe",importe);
-                        registro.put("cancelado","0");
-                        registro.put("postActualizacionRegistro","0");
-                        bd_1.insert("venta_cliente", null, registro);
-                        bd_1.close();
-                        //guardar detalles
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        ContentValues registro_d = new ContentValues();
-                        SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                        String objetos = sharedPreferences.getString("lista_productos_id","");
-                        String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
-                        String[] pairs = objetos1.split(",");
-                        for(int i = 0;i<pairs.length;i++){
-                            try{
+                            }
+                        }
+                    }else {
+                        //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void enviarDatosCredito(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
+        Call<String> response = apiInterface.productosVendidos(idCliente, tipoOperacion, estadoOperacion, idCaja, idUsuario, fechaVEntaProducto, registrarFecha, cancelado, detalles);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        final String mensaje = result.getString("message");
+                        if(mensaje.equals("error")){
+                            //Log.e("mensaje","error");
+                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                            dialogo.setTitle("ALERTA");
+                            dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                            dialogo.setConfirmText("OK");
+                            dialogo.setCancelable(true);
+                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    items.clear();
+                                    cantidad_item.clear();
+                                    precio_item.clear();
+                                    //textFolio.setText("");
+                                    textTotal.setText("0");
+                                    textViewListaClientes.setText("");
+                                    ADP.notifyDataSetChanged();
+                                    ADP_cantidad.notifyDataSetChanged();
+                                    ADP_Precio.notifyDataSetChanged();
+                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            dialogo.show();
+                        }else {
+                            //dialogoContado.setMessage("Imprimiendo...");
+                            Log.e("mensale","exito");
+                            SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
+                            final String value1 = setting0.getString("nombre_cliente", "");
+                            if(!mac_bluetooth.equals("")){
+
+                                final Thread t = new Thread(){
+                                    @Override
+                                    public void run(){
+                                        try{
+                                            for (int m=0;m<2;m++) {
+                                                IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
+                                                        + "          S.A. de C.V     \n " +
+                                                        "Calzada Jorge Gomez # 199 Col \n " +
+                                                        "Cerro Hueco, Tuxtla Gutierrez \n" +
+                                                        "         Chis., Mex.\n" +
+                                                        "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                        "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
+                                                        "CLIENTE:" + value1 + "\n" +
+                                                        "FOLIO:   " + mensaje +"\n"+
+                                                        "           CREDITO\n" +
+                                                        "--------------------------------\n" +
+                                                        "DESCRIPCION\n" +
+                                                        "CANTIDAD     PRECIO      TOTAL\n" +
+                                                        "--------------------------------\n");
+                                                Thread.sleep(500);
+                                                for (int k = 0; k < items.size(); k++) {
+                                                    String cantidad = cantidad_item.get(k);
+                                                    String descripcion = items.get(k);
+                                                    String precio = map_producto_precio.get(descripcion);
+                                                    String total = String.valueOf(precio_item.get(k));
+                                                    IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+                                                    Thread.sleep(150);
+                                                }
+                                                Thread.sleep(200);
+                                                IntentPrint("--------------------------------\n" +
+                                                        "   Total:        $" + totalpagar + "\n" +
+                                                        "\n"+
+                                                        "--------------------------------\n"+
+                                                        "   Por este pagare debo(emos) y\n"+
+                                                        "pagare(mos) incondicionalmente\n" +
+                                                        "            a la\n"+
+                                                        " Distribuidora Faili S.A de C.V\n" +
+                                                        "  la cantidad de $"+totalpagar +" MxN\n"+
+                                                        " respaldada por esta nota "+
+                                                        "       de venta a:\n"+
+                                                        value1+"\n" +
+                                                        "  Gracias por su compra :)"+
+                                                        "\n"+
+                                                        "\n"+
+                                                        "\n"+
+                                                        "\n");
+                                                Thread.sleep(150);
+
+                                            }
+
+                                        }catch (Exception e){
+                                            Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                };
+                                t.run();
+                            }
+                            //dialogoContado.setMessage("Guardando Datos...");
+                            AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                            SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
+                            ContentValues registro = new ContentValues();
+                            registro.put("folio", mensaje);
+                            registro.put("total", textTotal.getText().toString());
+                            registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
+                            registro.put("estado", "Subido");
+                            registro.put("tipo_operacion", "2");
+                            registro.put("estado_operacion", "2");
+                            registro.put("importe",importe);
+                            registro.put("cancelado","0");
+                            registro.put("postActualizacionRegistro","0");
+                            bd_1.insert("venta_cliente", null, registro);
+                            bd_1.close();
+                            //guardar detalles
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd = admin.getWritableDatabase();
+                            ContentValues registro_d = new ContentValues();
+                            SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
+                            String objetos = sharedPreferences.getString("lista_productos_id","");
+                            String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
+                            String[] pairs = objetos1.split(",");
+                            for(int i = 0;i<pairs.length;i++){
                                 String pair = pairs[i];
                                 String[]keyvalue = pair.split(":");
                                 map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
-                            }catch (Exception e){
-                                e.printStackTrace();
                             }
-                        }
-                        for(int i=0; i< items.size();i++){
-                            String folio = venta_cliente;
-                            registro_d.put("folio",mensaje);
-                            registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-                            registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
-                            registro_d.put("peso_producto",pesoProductoTotal);
+                            for(int i=0; i< items.size();i++){
+                                String folio = venta_cliente;
+                                registro_d.put("folio",mensaje);
+                                registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
+                                registro_d.put("cantidad_vendido",cantidad_item.get(i));
+                                double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                                registro_d.put("peso_producto",pesoProductoTotal);
 
-                            String id_producto = map_producto_codigo.get(items.get(i));
-                            //int tamanio = map_producto_precioVenta.size();
-                            String precio_Compra = map_producto_precioVenta.get(id_producto);
-                            final String nombre = items.get((i));
-                            //obtener precio del proucto
-                            final String precio_1 = map_producto_precio.get(nombre);
-                            //mostrar precio del producto en edit_precio
-                            //CONSULTA stock EN BD
-                            AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                            SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-                            Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
-                            double valor_precio1=0;
-                            if(fila_precio!=null){
-                                if(fila_precio.moveToFirst()){
-                                    String valor_precio_string = fila_precio.getString(0);
-                                    double valor_precio_bol = Double.parseDouble(valor_precio_string);
-                                    valor_precio1=valor_precio_bol;
+                                String id_producto = map_producto_codigo.get(items.get(i));
+                                //int tamanio = map_producto_precioVenta.size();
+                                String precio_Compra = map_producto_precioVenta.get(id_producto);
+                                final String nombre = items.get((i));
+                                //obtener precio del proucto
+                                final String precio_1 = map_producto_precio.get(nombre);
+                                //mostrar precio del producto en edit_precio
+                                //CONSULTA stock EN BD
+                                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
+                                Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
+                                double valor_precio1=0;
+                                if(fila_precio!=null){
+                                    if(fila_precio.moveToFirst()){
+                                        String valor_precio_string = fila_precio.getString(0);
+                                        double valor_precio_bol = Double.parseDouble(valor_precio_string);
+                                        valor_precio1=valor_precio_bol;
+                                    }
                                 }
+
+                                registro_d.put("precio_compra",precio_Compra);
+                                // Log.e("precio_venta",precio_Compra);
+                                //Log.e("precio_venta",String.valueOf(precio_Compra));
+                                registro_d.put("precio_real",valor_precio1);
+                                registro_d.put("precio_venta",precio_1);
+                                bd.insert("venta_detalles",null,registro_d);
                             }
+                            //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
+                            bd.close();
+                            //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
+                            //texto.setTextColor(Color.GREEN);
+                            //boton_estado.setImageResource(R.mipmap.ic_check);
+                            //finish();
+                            //getResult();
+                            stock();
+                            //obtebner detalles
+                            // dialogoContado.setMessage("Enviando Detalles...");
+                            AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
+                            Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
+                            JSONArray resultSet     = new JSONArray();
 
-                            registro_d.put("precio_compra",precio_Compra);
-                            // Log.e("precio_venta",precio_Compra);
-                            //Log.e("precio_venta",String.valueOf(precio_Compra));
-                            registro_d.put("precio_real",valor_precio1);
-                            registro_d.put("precio_venta",precio_1);
-                            bd.insert("venta_detalles",null,registro_d);
-                        }
-                        //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
-                        bd.close();
-                        //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
-                        //texto.setTextColor(Color.GREEN);
-                        //boton_estado.setImageResource(R.mipmap.ic_check);
-                        //finish();
-                        //getResult();
-                        stock();
-                        //obtebner detalles
-                        //dialogoContado.setMessage("Enviando Detalles...");
-                        AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                        SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
-                        Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
-                        JSONArray resultSet     = new JSONArray();
+                            fila.moveToFirst();
+                            while (fila.isAfterLast() == false) {
 
-                        fila.moveToFirst();
-                        while (fila.isAfterLast() == false) {
+                                int totalColumn = fila.getColumnCount();
+                                JSONObject rowObject = new JSONObject();
 
-                            int totalColumn = fila.getColumnCount();
-                            JSONObject rowObject = new JSONObject();
-
-                            for( int i=0 ;  i< totalColumn ; i++ )
-                            {
-                                if( fila.getColumnName(i) != null )
+                                for( int i=0 ;  i< totalColumn ; i++ )
                                 {
-                                    try
+                                    if( fila.getColumnName(i) != null )
                                     {
-                                        if( fila.getString(i) != null )
+                                        try
                                         {
-                                            Log.d("TAG_NAME", fila.getString(i) );
-                                            rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
+                                            if( fila.getString(i) != null )
+                                            {
+                                                Log.d("TAG_NAME", fila.getString(i) );
+                                                rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
+                                            }
+                                            else
+                                            {
+                                                rowObject.put( fila.getColumnName(i) ,  "" );
+                                            }
                                         }
-                                        else
+                                        catch( Exception e )
                                         {
-                                            rowObject.put( fila.getColumnName(i) ,  "" );
+                                            Log.d("TAG_NAME", e.getMessage()  );
                                         }
-                                    }
-                                    catch( Exception e )
-                                    {
-                                        Log.d("TAG_NAME", e.getMessage()  );
                                     }
                                 }
+                                resultSet.put(rowObject);
+                                fila.moveToNext();
                             }
-                            resultSet.put(rowObject);
-                            fila.moveToNext();
+                            fila.close();
+                            Gson gson = new Gson();
+                            String output = gson.toJson(resultSet);
+                            //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
+                            Log.d("ventaproducto", output);
+                            //enviardatos_detalles enviar_dato = new enviardatos_detalles();
+                            String id_enterprise = "1";
+                            //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
+                            //enviar_dato.execute(output,id_enterprise,"");
+                            enviarDatosDetalles(output, id_enterprise);
+                            //return resultSet;
                         }
-                        fila.close();
-                        Gson gson = new Gson();
-                        String output = gson.toJson(resultSet);
-                        //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
-                        Log.d("ventaproducto", output);
-                        enviardatos_detalles enviar_dato = new enviardatos_detalles();
-                        String id_enterprise = "1";
-                        //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
-                        enviar_dato.execute(output,id_enterprise,"");
-                        //return resultSet;
-                    }
-                }else {
-                    //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    //ENVIAR DETALLES AL SERVIDOR
-    private class enviardatos_detalles extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String id_enterprise = args[1];
-            String json_array = args[0];
-
-            SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
-            String ruta_cliente = setting.getString("numero_ruta", "");
-
-            ArrayList params = new ArrayList();
-            params.add(new BasicNameValuePair("json_array",json_array));
-            params.add(new BasicNameValuePair("id_enterprise",id_enterprise));
-            params.add(new BasicNameValuePair("route",ruta_cliente));
-
-            JSONObject json = jsonParser.makeHttpRequest(URL_json, "POST", params);
-            return json;
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    String mensaje = result.getString("message");
-                    if(mensaje.equals("exito")){
-                        //dialogoContado.dismiss();
-                        //Toast.makeText(venta_productos.this,"DATOS GUARDADOS", Toast.LENGTH_SHORT).show();
-
-
                     }else {
-                        //Toast.makeText(ProgressIntentService.this,"DATOS NO GUARDADOS EN EL SERVIDOR",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    //Toast.makeText(consulta_ventas_totales.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-            }catch (JSONException e){
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
+    private void enviarDatosContado(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
+        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        final String mensaje = result.getString("message");
+                        if(mensaje.equals("error")){
+                            //Log.e("mensaje","error");
+                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
+                            dialogo.setTitle("ALERTA");
+                            dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
+                            dialogo.setConfirmText("OK");
+                            dialogo.setCancelable(true);
+                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    items.clear();
+                                    cantidad_item.clear();
+                                    precio_item.clear();
+                                    //textFolio.setText("");
+                                    textTotal.setText("0");
+                                    textViewListaClientes.setText("");
+                                    ADP.notifyDataSetChanged();
+                                    ADP_cantidad.notifyDataSetChanged();
+                                    ADP_Precio.notifyDataSetChanged();
+                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            dialogo.show();
+                        }else {
+                            if(!mac_bluetooth.equals("")){
+                                dialogoContado.setMessage("Imprimiendo...");
+                                Log.e("mensale","exito");
+                                SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
+                                final String value1 = setting0.getString("nombre_cliente", "");
 
+                                final Thread t = new Thread(){
+                                    @Override
+                                    public void run(){
+                                        try{
+                                            for (int m=0;m<2;m++) {
+                                                IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
+                                                        + "          S.A. de C.V     \n " +
+                                                        "Calzada Jorge Gomez # 199 Col \n " +
+                                                        "Cerro Hueco, Tuxtla Gutierrez \n" +
+                                                        "         Chis., Mex.\n" +
+                                                        "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                        "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
+                                                        "CLIENTE:" + value1 + "\n" +
+                                                        "FOLIO:   " + mensaje +"\n"+
+                                                        "           CONTADO\n" +
+                                                        "--------------------------------\n" +
+                                                        "DESCRIPCION\n" +
+                                                        "CANTIDAD     PRECIO      TOTAL\n" +
+                                                        "--------------------------------\n");
+                                                Thread.sleep(500);
+                                                for (int k = 0; k < items.size(); k++) {
+                                                    String cantidad = cantidad_item.get(k);
+                                                    String descripcion = items.get(k);
+                                                    String precio = map_producto_precio.get(descripcion);
+                                                    String total = String.valueOf(precio_item.get(k));
+                                                    IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+                                                    Thread.sleep(150);
+                                                }
+                                                Thread.sleep(200);
+                                                IntentPrint("--------------------------------\n" +
+                                                        "   Total:        $" + totalpagar + "\n" +
+                                                        "   Efectivo:     $" + importe + "\n" +
+                                                        "   Cambio:       $" + cambio_imprimir + "\n" +
+                                                        "--------------------------------\n"+
+                                                        "    Gracias por su compra!!\n" +
+                                                        "   el importe de esta nota\n" + //-------------------------------------------------------------------777777777777777777777777777777777
+                                                        "   sera aplicada a la factura \n" +
+                                                        "           del dia\n"+
+                                                        "\n"+
+                                                        "\n"+
+                                                        "\n"+
+                                                        "\n");
+                                                Thread.sleep(150);
+                                            }
+
+                                        }catch (Exception e){
+                                            Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                };
+                                t.run();
+                            }
+
+                            //dialogoContado.setMessage("Guardando Datos...");
+                            AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                            SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
+                            ContentValues registro = new ContentValues();
+                            registro.put("folio", mensaje);
+                            registro.put("total", textTotal.getText().toString());
+                            registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
+                            registro.put("estado", "Subido");
+                            registro.put("tipo_operacion", "1");
+                            registro.put("estado_operacion", "2");
+                            registro.put("importe",importe);
+                            registro.put("cancelado","0");
+                            registro.put("postActualizacionRegistro","0");
+                            bd_1.insert("venta_cliente", null, registro);
+                            bd_1.close();
+                            //guardar detalles
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd = admin.getWritableDatabase();
+                            ContentValues registro_d = new ContentValues();
+                            SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
+                            String objetos = sharedPreferences.getString("lista_productos_id","");
+                            String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
+                            String[] pairs = objetos1.split(",");
+                            for(int i = 0;i<pairs.length;i++){
+                                try{
+                                    String pair = pairs[i];
+                                    String[]keyvalue = pair.split(":");
+                                    map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                            for(int i=0; i< items.size();i++){
+                                String folio = venta_cliente;
+                                registro_d.put("folio",mensaje);
+                                registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
+                                registro_d.put("cantidad_vendido",cantidad_item.get(i));
+                                double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+                                registro_d.put("peso_producto",pesoProductoTotal);
+
+                                String id_producto = map_producto_codigo.get(items.get(i));
+                                //int tamanio = map_producto_precioVenta.size();
+                                String precio_Compra = map_producto_precioVenta.get(id_producto);
+                                final String nombre = items.get((i));
+                                //obtener precio del proucto
+                                final String precio_1 = map_producto_precio.get(nombre);
+                                //mostrar precio del producto en edit_precio
+                                //CONSULTA stock EN BD
+                                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
+                                Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
+                                double valor_precio1=0;
+                                if(fila_precio!=null){
+                                    if(fila_precio.moveToFirst()){
+                                        String valor_precio_string = fila_precio.getString(0);
+                                        double valor_precio_bol = Double.parseDouble(valor_precio_string);
+                                        valor_precio1=valor_precio_bol;
+                                    }
+                                }
+
+                                registro_d.put("precio_compra",precio_Compra);
+                                // Log.e("precio_venta",precio_Compra);
+                                //Log.e("precio_venta",String.valueOf(precio_Compra));
+                                registro_d.put("precio_real",valor_precio1);
+                                registro_d.put("precio_venta",precio_1);
+                                bd.insert("venta_detalles",null,registro_d);
+                            }
+                            //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
+                            bd.close();
+                            //Toast.makeText(venta_productos.this,"FOLIO RECIBIDO"+mensaje, Toast.LENGTH_SHORT).show();
+                            //texto.setTextColor(Color.GREEN);
+                            //boton_estado.setImageResource(R.mipmap.ic_check);
+                            //finish();
+                            //getResult();
+                            stock();
+                            //obtebner detalles
+                            //dialogoContado.setMessage("Enviando Detalles...");
+                            AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+                            SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
+                            Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
+                            JSONArray resultSet     = new JSONArray();
+
+                            fila.moveToFirst();
+                            while (fila.isAfterLast() == false) {
+
+                                int totalColumn = fila.getColumnCount();
+                                JSONObject rowObject = new JSONObject();
+
+                                for( int i=0 ;  i< totalColumn ; i++ )
+                                {
+                                    if( fila.getColumnName(i) != null )
+                                    {
+                                        try
+                                        {
+                                            if( fila.getString(i) != null )
+                                            {
+                                                Log.d("TAG_NAME", fila.getString(i) );
+                                                rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
+                                            }
+                                            else
+                                            {
+                                                rowObject.put( fila.getColumnName(i) ,  "" );
+                                            }
+                                        }
+                                        catch( Exception e )
+                                        {
+                                            Log.d("TAG_NAME", e.getMessage()  );
+                                        }
+                                    }
+                                }
+                                resultSet.put(rowObject);
+                                fila.moveToNext();
+                            }
+                            fila.close();
+                            Gson gson = new Gson();
+                            String output = gson.toJson(resultSet);
+                            //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
+                            Log.d("ventaproducto", output);
+                            //enviardatos_detalles enviar_dato = new enviardatos_detalles();
+                            String id_enterprise = "1";
+                            //Toast.makeText(venta_productos.this,output, Toast.LENGTH_SHORT).show();
+                            //enviar_dato.execute(output,id_enterprise,"");
+
+                            enviarDatosDetalles(output, id_enterprise);
+                            //return resultSet;
+                        }
+                    }else {
+                        //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void enviarDatosDetalles(String jsonArray, String idEnterprise){
+        SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
+        String ruta_cliente = setting.getString("numero_ruta", "");
+        Call<String> response = apiInterface.productosVendidosDetalles(jsonArray, idEnterprise, ruta_cliente);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        String mensaje = result.getString("message");
+                        if(mensaje.equals("exito")){
+                            //dialogoContado.dismiss();
+                            //Toast.makeText(venta_productos.this,"DATOS GUARDADOS", Toast.LENGTH_SHORT).show();
+
+
+                        }else {
+                            //Toast.makeText(ProgressIntentService.this,"DATOS NO GUARDADOS EN EL SERVIDOR",Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        //Toast.makeText(consulta_ventas_totales.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
 
     public void IntentPrint(String txtvalue)
     {
