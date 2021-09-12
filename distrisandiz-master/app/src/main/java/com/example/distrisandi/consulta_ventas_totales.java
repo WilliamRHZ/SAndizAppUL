@@ -35,6 +35,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.distrisandi.network.APIClient;
+import com.example.distrisandi.network.APIInterface;
 import com.google.gson.Gson;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -54,18 +57,16 @@ import java.util.Set;
 import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class consulta_ventas_totales extends AppCompatActivity  {
+     public class consulta_ventas_totales extends AppCompatActivity  {
     private ListView listView_ventas;
     final ArrayList<String> ventas = new ArrayList<>();
     final ArrayList<String> total_venta = new ArrayList<>();
     final ArrayList<String>lista_estados = new ArrayList<>();
     private boolean estado= false;
-    JSONParser jsonParser = new JSONParser();
-   /* String URL = "http://10.0.2.2/sandiz/WebService/productos_vendidos.php";
-    String URL_json = "http://10.0.2.2/sandiz/WebService/productos_vendidos_detalles.php";*/
-    String URL = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos.php";
-    String URL_json = "https://www.sandiz.com.mx/failisa/WebService/productos_vendidos_detalles.php";
     private String id_cliente="";
     private String id_tipoOperacion="";
     private String id_estadoOperacion="";
@@ -92,9 +93,12 @@ public class consulta_ventas_totales extends AppCompatActivity  {
     ProgressDialog progressoDialogMasivo;
 
     private String folio_nuevo;
+
+    private APIInterface apiInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
+        apiInterface = APIClient.getClient();
         SharedPreferences share_nom_cliente = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
         String obj_cliente = share_nom_cliente.getString("lista_clientes_id","");
         String obj_clientes = obj_cliente.replaceAll("[^\\dA-Za-z, :]","");
@@ -480,9 +484,11 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                             progresoSubiendo.setMessage("Subiendo venta actual");
                                                             progresoSubiendo.setCancelable(false);
                                                             progresoSubiendo.show();
-                                                            enviardatos enviar = new enviardatos();
-                                                            enviar.execute(map_cliente_id_subir.get(txtnombreCilente.getText().toString()),tipo_operacion,estado_operacion,id_caja,id_usuario,fecha_actual,fecha_actual,
-                                                                   cancelado_op,"SIN DETALLES");
+                                                            //enviardatos enviar = new enviardatos();
+                                                            //enviar.execute(map_cliente_id_subir.get(txtnombreCilente.getText().toString()),tipo_operacion,estado_operacion,id_caja,id_usuario,fecha_actual,fecha_actual,
+                                                            //       cancelado_op,"SIN DETALLES");
+                                                            enviarDatos(map_cliente_id_subir.get(txtnombreCilente.getText().toString()),tipo_operacion,estado_operacion,id_caja,id_usuario,fecha_actual,fecha_actual,
+                                                                    cancelado_op,"SIN DETALLES");
 
                                                         }while (fila.moveToNext());
                                                     }
@@ -738,149 +744,57 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         return false;
     }
 
+    private void enviarDatos(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles){
+        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        folio_nuevo = result.getString("message");
+                        Log.d("ventaproducto", folio_nuevo);
+                        if(folio_nuevo.equals("error")){
+                            progresoSubiendo.dismiss();
+                            Toast.makeText(consulta_ventas_totales.this,"Datos no cambiados",Toast.LENGTH_SHORT).show();
+                        }else {
+                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
+                            AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+                            SQLiteDatabase bd = admin.getWritableDatabase();
+                            SQLiteDatabase bd_detalles = admin_detalles.getWritableDatabase();
+                            ContentValues actualizar = new ContentValues();
+                            ContentValues actualizar_detalles = new ContentValues();
+                            actualizar.put("estado","Subido");
+                            actualizar.put("folio",folio_nuevo);
+                            actualizar_detalles.put("folio",folio_nuevo);
+                            bd.update("venta_cliente",actualizar,"folio=?",new String[]{txtFolio});
+                            bd_detalles.update("venta_detalles",actualizar_detalles,"folio=?",new String[]{txtFolio});
+                            bd.close();
+                            bd_detalles.close();
+                            Toast.makeText(consulta_ventas_totales.this,"Guardado correctamente", Toast.LENGTH_SHORT).show();
+                            try{
+                                Thread.sleep(5000);
+                                getResult();
+                            }catch (InterruptedException e){
 
-    //ENVIAR DATOS AL SERVIDOR 
-    private class enviardatos extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldRegistrarFecha = args[6];
-            String fldFechaVentaProducto = args[5];
-            String id_usuario = args[4];
-            String id_caja = args[3];
-            String id_estadoOperacion = args[2];
-            String id_tipoOperacion = args[1];
-            String id_cliente = args[0];
-            //String id_ventaProducto = args[0];
-            ArrayList params = new ArrayList();
-           // params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldRegistrarFecha));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-            return json;
-        }
-        protected void onPostExecute(JSONObject result){
-
-            try{
-                if(result != null){
-                    folio_nuevo = result.getString("message");
-                    Log.d("ventaproducto", folio_nuevo);
-                    if(folio_nuevo.equals("error")){
-                        progresoSubiendo.dismiss();
-                        Toast.makeText(consulta_ventas_totales.this,"Datos no cambiados",Toast.LENGTH_SHORT).show();
-                    }else {
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
-                        AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        SQLiteDatabase bd_detalles = admin_detalles.getWritableDatabase();
-                        ContentValues actualizar = new ContentValues();
-                        ContentValues actualizar_detalles = new ContentValues();
-                        actualizar.put("estado","Subido");
-                        actualizar.put("folio",folio_nuevo);
-                        actualizar_detalles.put("folio",folio_nuevo);
-                        bd.update("venta_cliente",actualizar,"folio=?",new String[]{txtFolio});
-                        bd_detalles.update("venta_detalles",actualizar_detalles,"folio=?",new String[]{txtFolio});
-                        bd.close();
-                        bd_detalles.close();
-                        Toast.makeText(consulta_ventas_totales.this,"Guardado correctamente", Toast.LENGTH_SHORT).show();
-                        try{
-                            Thread.sleep(5000);
-                            getResult();
-                        }catch (InterruptedException e){
-
-                        }
-
-                    }
-                }else {
-                    Toast.makeText(consulta_ventas_totales.this,"No conectado con el servidor", Toast.LENGTH_SHORT).show();
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-    }
-    //ENVIAR DATOS MASIVOS AL SERVIDOR
-    private class enviardatos_masivo extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String detalles = args[8];
-            String fldCancelado = args[7];
-            String fldFechaVentaProducto = args[6];
-            String id_usuario = args[5];
-            String id_caja = args[4];
-            String id_estadoOperacion = args[3];
-            String id_tipoOperacion = args[2];
-            String id_cliente = args[1];
-            String id_ventaProducto = args[0];
-            ArrayList params = new ArrayList();
-            params.add(new BasicNameValuePair("id_ventaProducto",id_ventaProducto));
-            params.add(new BasicNameValuePair("id_cliente",id_cliente));
-            params.add(new BasicNameValuePair("id_tipoOperacion",id_tipoOperacion));
-            params.add(new BasicNameValuePair("id_estadoOperacion",id_estadoOperacion));
-            params.add(new BasicNameValuePair("id_caja",id_caja));
-            params.add(new BasicNameValuePair("id_usuario",id_usuario));
-            params.add(new BasicNameValuePair("fldFechaVentaProducto",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldRegistrarFecha",fldFechaVentaProducto));
-            params.add(new BasicNameValuePair("fldCancelado",fldCancelado));
-            params.add(new BasicNameValuePair("detalles",detalles));
-            JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-            return json;
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    String mensaje = result.getString("message");
-                    if(mensaje.equals("exito")){
-                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
-                        AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
-                        SQLiteDatabase bd = admin.getWritableDatabase();
-                        SQLiteDatabase bd_detalles = admin_detalles.getWritableDatabase();
-                        ContentValues actualizar = new ContentValues();
-                        ContentValues actualizar_detalles = new ContentValues();
-                        actualizar.put("estado","Subido");
-                       // actualizar.put("folio",folio_nuevo_r);
-                        //actualizar_detalles.put("folio",folio_nuevo_r);
-
-                        bd.update("venta_cliente",actualizar,"folio=?",new String[]{txtFolio});
-                        bd_detalles.update("venta_detalles",actualizar_detalles,"folio=?",new String[]{txtFolio});
-                        bd.close();
-                        bd_detalles.close();
-
-                        Toast.makeText(consulta_ventas_totales.this,"Guardado correctamente", Toast.LENGTH_SHORT).show();
-                        try{
-                            Thread.sleep(5000);
-                            //getResult();
-                            progressoDialogMasivo.dismiss();
-                        }catch (InterruptedException e){
+                            }
 
                         }
                     }else {
-                        Toast.makeText(consulta_ventas_totales.this,"Datos no cambiados",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(consulta_ventas_totales.this,"No conectado con el servidor", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(consulta_ventas_totales.this,"No conectado con el servdor", Toast.LENGTH_SHORT).show();
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-            }catch (JSONException e){
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
+
     //OBTENER JSON DE LOS DETALLES
     private JSONArray getResult(){
         //eturn  null;
@@ -925,50 +839,45 @@ public class consulta_ventas_totales extends AppCompatActivity  {
         String output = gson.toJson(resultSet);
         //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
         Log.d("ventaproducto", output);
-        enviardatos_detalles enviar_dato = new enviardatos_detalles();
+        //enviardatos_detalles enviar_dato = new enviardatos_detalles();
         String id_enterprise = "1";
-        enviar_dato.execute(output,id_enterprise,"");
+        //enviar_dato.execute(output,id_enterprise,"");
+        enviarDatosDetalles(output, id_enterprise);
         return resultSet;
     }
 
-    //ENVIAR DETALLES AL SERVIDOR
-    private class enviardatos_detalles extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String id_enterprise = args[1];
-            String json_array = args[0];
+    private void enviarDatosDetalles(String jsonArray, String idEnterprise){
+        Call<String> response = apiInterface.productosVendidosDetalles(jsonArray, idEnterprise, "");
+        response.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try{
+                    if(response.body() != null){
+                        JSONObject result = new JSONObject(response.body());
+                        String mensaje = result.getString("message");
+                        Log.d("ventaproducto", mensaje);
+                        if(mensaje.equals("error")){
+                            Toast.makeText(consulta_ventas_totales.this,"Datos no guardados en el servidor",Toast.LENGTH_SHORT).show();
 
-            ArrayList params = new ArrayList();
-            params.add(new BasicNameValuePair("json_array",json_array));
-            params.add(new BasicNameValuePair("id_enterprise",id_enterprise));
+                        }else {
+                            Toast.makeText(consulta_ventas_totales.this,"Datos guardados", Toast.LENGTH_SHORT).show();
+                            progresoSubiendo.dismiss();
 
-            JSONObject json = jsonParser.makeHttpRequest(URL_json, "POST", params);
-            return json;
-        }
-        protected void onPostExecute(JSONObject result){
-            try{
-                if(result != null){
-                    String mensaje = result.getString("message");
-                    Log.d("ventaproducto", mensaje);
-                    if(mensaje.equals("error")){
-                        Toast.makeText(consulta_ventas_totales.this,"Datos no guardados en el servidor",Toast.LENGTH_SHORT).show();
-
+                        }
                     }else {
-                        Toast.makeText(consulta_ventas_totales.this,"Datos guardados", Toast.LENGTH_SHORT).show();
-                        progresoSubiendo.dismiss();
-
                     }
-                }else {
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
-            }catch (JSONException e){
-                e.printStackTrace();
             }
-        }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
+
     public void IntentPrint(String txtvalue)
     {
         byte[] buffer = txtvalue.getBytes();
