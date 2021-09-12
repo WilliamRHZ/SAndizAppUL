@@ -1,6 +1,10 @@
 package com.example.distrisandi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -17,6 +21,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +31,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.distrisandi.network.APIClient;
+import com.example.distrisandi.network.APIInterface;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -42,19 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private  EditText edContrasenia;
     ProgressDialog dialogoIniciarSesion;
 
-    String URL = "https://sandiz.com.mx/failisa/WebService/index.php";
-   // String URL = "http://10.0.2.2/sandiz/WebService/index.php";
-    //String URL = "  https://192.168.8.85/sandizsistema/WebService/v2/index.php";
-
-
-    JSONParser jsonParser = new JSONParser();
-
     private SharedPreferences sharedPref;
+    private APIInterface apiInterface;
 
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiInterface = APIClient.getClient();
 
         SharedPreferences setting0 = getSharedPreferences("login_preference", MODE_PRIVATE);
         String value1 = setting0.getString("username", "");
@@ -98,19 +101,40 @@ public class MainActivity extends AppCompatActivity {
                         }else if(password.equals("")){
                             Toast.makeText(MainActivity.this,"INGRESA LA CONTRASEÑA",Toast.LENGTH_SHORT).show();
                         }else {
-                            saveLoadDatos(username, password);
-                            AttempLogin attempLogin = new AttempLogin();
-                            attempLogin.execute(edUsuario.getText().toString(), edContrasenia.getText().toString(), "");
+                            //
                             dialogoIniciarSesion = new ProgressDialog(MainActivity.this);
                             dialogoIniciarSesion.setTitle("Iniciando Sesión");
                             dialogoIniciarSesion.setCancelable(false);
                             dialogoIniciarSesion.show();
+                            Call<String> post = apiInterface.login(edUsuario.getText().toString(), edContrasenia.getText().toString());
+                            post.enqueue(new Callback<String>() {
+                                @Override
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    try {
+                                        JSONObject json = new JSONObject(response.body().toString());
+                                        if(json.getInt("success") == 1){
+                                            saveLoadDatos(username, password);
+                                            loadSesionUsuario();
+                                            edContrasenia.setText("");
+                                            edUsuario.setText("");
+                                            dialogoIniciarSesion.dismiss();
+                                        }else{
+                                            Toast.makeText(getApplicationContext(), "DATOS INCORRECTOS", Toast.LENGTH_LONG).show();
+                                            edContrasenia.setText("");
+                                            dialogoIniciarSesion.dismiss();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    Log.e("ERROR", t.getMessage());
+                                    Toast.makeText(getApplicationContext(), "NO SE PUEDE RECUPERAR DATOS EN EL SERVIDOR", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
-
                     }
-
-
-
                 }
             });
             txtRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -125,55 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        }
-        private class AttempLogin extends AsyncTask<String, String, JSONObject> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected JSONObject doInBackground(String... args) {
-                String email = args[2];
-                String password = args[1];
-                String name = args[0];
-
-                ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("username", name));
-                params.add(new BasicNameValuePair("password", password));
-                if (email.length() > 0)
-                    params.add(new BasicNameValuePair("email", email));
-                JSONObject json = jsonParser.makeHttpRequest(URL, "POST", params);
-                return json;
-            }
-
-            protected void onPostExecute(JSONObject result) {
-                try {
-                    if (result != null) {
-                        //Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
-                        String mensaje = result.getString("message");
-                        //Toast.makeText(getApplicationContext(), "mensaje1", Toast.LENGTH_LONG).show();
-                        //Intent intent = new Intent(MainActivity.this,Sesion_Usuario.class);
-                        //startActivityForResult(intent,0);
-                        //finish();
-                        if (mensaje.equals("Successfully logged in")) {
-                            loadSesionUsuario();
-                            edContrasenia.setText("");
-                            edUsuario.setText("");
-                            dialogoIniciarSesion.dismiss();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "DATOS INCORRECTOS", Toast.LENGTH_LONG).show();
-                            edContrasenia.setText("");
-                            dialogoIniciarSesion.dismiss();
-                        }
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "NO SE PUEDE RECUPERAR DATOS EN EL SERVIDOR", Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         public AlertDialog createCustomDialog () {
             final AlertDialog alertDialog;
