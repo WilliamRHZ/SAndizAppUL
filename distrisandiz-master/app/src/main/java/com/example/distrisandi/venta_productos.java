@@ -765,7 +765,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
                                     if (!isNetworkAvailable(venta_productos.this)){
                                         //no hay internet
-                                        AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                        generarFolio();
+                                      /*  AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                                         SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
                                         Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
                                         Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
@@ -791,9 +792,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             Log.e("folio_nuebvo",String.valueOf(folio_n));
                                             Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
                                             venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                        }
+                                        }*/
 
-                                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                                     /*   AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
                                         SQLiteDatabase bd = admin.getWritableDatabase();
                                         ContentValues registro = new ContentValues();
                                         registro.put("folio", venta_cliente);
@@ -806,7 +807,11 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         registro.put("cancelado","0");
                                         registro.put("postActualizacionRegistro","0");
                                         bd.insert("venta_cliente", null, registro);
-                                        bd.close();
+                                        bd.close();*/
+
+                                        almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
+                                                map_cliente_id.get(textViewListaClientes.getText()), "No subido",
+                                                "1", "2", 0, "0", "0");
                                         guardardatos();
                                         stock();
                                     }
@@ -837,12 +842,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        // = new ProgressDialog(venta_productos.this);
-                                       // dialogoContado.setTitle("Espere...");
-                                       // dialogoContado.setMessage("Guardando Datos...");
-                                       // dialogoContado.show();
-
-                                        AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                        generarFolio();
+                                       /* AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                                         SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
                                         Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
                                         Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
@@ -868,9 +869,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             Log.e("folio_nuebvo",String.valueOf(folio_n));
                                             Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
                                             venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                        }
+                                        }*/
 
-                                        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                                     /*   AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
                                         SQLiteDatabase bd = admin.getWritableDatabase();
                                         ContentValues registro = new ContentValues();
                                         registro.put("folio", venta_cliente);
@@ -883,9 +884,14 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         registro.put("cancelado","0");
                                         registro.put("postActualizacionRegistro","0");
                                         bd.insert("venta_cliente", null, registro);
-                                        bd.close();
+                                        bd.close();*/
+                                        almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
+                                                map_cliente_id.get(textViewListaClientes.getText()), "No subido",
+                                                "1", "2", importe, "0", "0");
+
                                         //dialogoContado.setMessage("Imprimiendo");
-                                        SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
+                                        imprimirTicket(false, venta_cliente);
+                                        /*SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
                                         final String value1 = setting0.getString("nombre_cliente", "");
 
                                         final  Thread t = new Thread(){
@@ -939,7 +945,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 }
                                             }
                                         };
-                                        t.start();
+                                        t.start();*/
                                         guardardatos();
                                         stock();
 
@@ -1010,6 +1016,36 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         textTotal_1.setText("$ "+ textTotal.getText().toString());
     }
 
+    private void generarFolio(){
+        AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+        SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
+        Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
+        Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
+        String folio_sql="";
+        if(cursor_folio!=null){
+            if(cursor_folio.moveToFirst()){
+                Log.e("tipo_operacion",cursor_folio.getString(0));
+                folio_sql = cursor_folio.getString(0);
+
+            }
+        }
+        final String folio_inicial="10001";
+        if(folio_sql.length()<=0){
+            Log.e("tipo_operacion","no hay folio");//-----------------------------folio de de los tickets fuera de linea -----10001FSC
+            venta_cliente = folio_inicial+"-"+"FSC";
+        }
+        else {
+            Log.e("tipo_operacion","si hay folio");
+            //String folio_nuevo = folio_sql.replaceAll("[^\\dd0-9]","");
+            String folio_nuevo[] = folio_sql.split("-");
+            int folio_n = Integer.parseInt(folio_nuevo[0]);
+            int folio_nuevo_int = folio_n+1;
+            Log.e("folio_nuebvo",String.valueOf(folio_n));
+            Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
+            venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
+        }
+    }
+
     //-----------------------------------DIALOGO PAGAR CREDITO-----------------------------------------
     public void DialogopagarCredito(final Activity activity){
 
@@ -1049,7 +1085,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
                                         if (!isNetworkAvailable(venta_productos.this)){
                                             //no hay internet
-                                            AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
+                                         /*   AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                                             SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
                                             Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
                                             Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
@@ -1076,9 +1112,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 Log.e("folio_nuebvo",String.valueOf(folio_n));
                                                 Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
                                                 venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                            }
+                                            }*/
+                                            generarFolio();
 
-                                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
+                                         /*   AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
                                             SQLiteDatabase bd = admin.getWritableDatabase();
                                             ContentValues registro = new ContentValues();
                                             registro.put("folio", venta_cliente);
@@ -1091,7 +1128,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             registro.put("cancelado","0");
                                             registro.put("postActualizacionRegistro","0");
                                             bd.insert("venta_cliente", null, registro);
-                                            bd.close();
+                                            bd.close();*/
+                                            almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
+                                                    map_cliente_id.get(textViewListaClientes.getText()), "No subido",
+                                                    "2","0",0, "0","0");
                                             guardardatos();
                                             stock();
                                         }
@@ -1126,7 +1166,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             dialogoContado.setTitle("Espere...");
                                             dialogoContado.setMessage("Guardando Datos...");
                                             dialogoContado.show();
-
+/*
                                             AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                                             SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
                                             Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
@@ -1153,8 +1193,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 Log.e("folio_nuebvo",String.valueOf(folio_n));
                                                 Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
                                                 venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                            }
-
+                                            }*/
+                                            generarFolio();
+                                            /*
                                             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
                                             SQLiteDatabase bd = admin.getWritableDatabase();
                                             ContentValues registro = new ContentValues();
@@ -1168,12 +1209,18 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             registro.put("cancelado","0");
                                             registro.put("postActualizacionRegistro","0");
                                             bd.insert("venta_cliente", null, registro);
-                                            bd.close();
+                                            bd.close();*/
+
+                                            almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
+                                                    map_cliente_id.get(textViewListaClientes.getText()), "No subido",
+                                                    "2","0",0,"0","0");
+
                                             dialogoContado.setMessage("Imprimiendo");
                                             SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
                                             final String value1 = setting0.getString("nombre_cliente", "");
 
-                                            final Thread t = new Thread(){
+                                            imprimirTicket(true, venta_cliente);
+                                            /*final Thread t = new Thread(){
                                                 @Override
                                                 public void run(){
                                                     try{
@@ -1228,7 +1275,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     }
                                                 }
                                             };
-                                            t.start();
+                                            t.start();*/
                                             guardardatos();
                                             stock();
                                             dialogoContado.dismiss();
@@ -1439,7 +1486,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
     //-----------------------------GUARDAR DATOS EN LA BD--------
     private void guardardatos(){
-
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         ContentValues registro = new ContentValues();
@@ -1461,7 +1507,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             registro.put("peso_producto",pesoProductoTotal);
 
             String id_producto = map_producto_codigo.get(items.get(i));
-            //int tamanio = map_producto_precioVenta.size();
             String precio_Compra = map_producto_precioVenta.get(id_producto);
             final String nombre = items.get((i));
             //obtener precio del proucto
@@ -1481,19 +1526,15 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             }
 
             registro.put("precio_compra",precio_Compra);
-           // Log.e("precio_venta",precio_Compra);
-            //Log.e("precio_venta",String.valueOf(precio_Compra));
             registro.put("precio_real",valor_precio1);
             registro.put("precio_venta",precio_1);
             bd.insert("venta_detalles",null,registro);
         }
-        //Toast.makeText(venta_productos.this,String.valueOf(items.size()),Toast.LENGTH_SHORT).show();
 
         bd.close();
     }
     //STOCK
     private void stock(){
-
         for(int i=0;i<items.size();i++){
             AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
             SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
@@ -1570,13 +1611,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     //CONEXION A INTERNET//
     public static boolean isNetworkAvailable(Context context) {
         if(context == null)  return false;
-
-
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         if (connectivityManager != null) {
-
-
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
                 if (capabilities != null) {
@@ -1588,10 +1624,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         return true;
                     }
                 }
-            }
-
-            else {
-
+            } else {
                 try {
                     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
@@ -1677,7 +1710,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     public void run() {
 
     }
-
+/*
     private void enviarDatos(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
         Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
         response.enqueue(new Callback<String>() {
@@ -1917,7 +1950,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             }
         });
     }
-/*
+
     private void enviarDatosCredito(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
         Call<String> response = apiInterface.productosVendidos(idCliente, tipoOperacion, estadoOperacion, idCaja, idUsuario, fechaVEntaProducto, registrarFecha, cancelado, detalles);
         response.enqueue(new Callback<String>() {
@@ -2225,202 +2258,15 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         final String mensaje = result.getString("message");
                         if(mensaje.equals("error")){
                             imposibleRealizarVentaDialog("Imposible realizar venta, la caja se encuentra cerrada");
-                           /* SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                            dialogo.setTitle("ALERTA");
-                            dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
-                            dialogo.setConfirmText("OK");
-                            dialogo.setCancelable(true);
-                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                    items.clear();
-                                    cantidad_item.clear();
-                                    precio_item.clear();
-                                    textTotal.setText("0");
-                                    textViewListaClientes.setText("");
-                                    ADP.notifyDataSetChanged();
-                                    ADP_cantidad.notifyDataSetChanged();
-                                    ADP_Precio.notifyDataSetChanged();
-                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                            dialogo.show();*/
                         }else {
                             imprimirTicket(false, mensaje);
-                       /*     if(!mac_bluetooth.equals("")){
-                                dialogoContado.setMessage("Imprimiendo...");
-                                Log.e("mensale","exito");
-                                SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                                final String value1 = setting0.getString("nombre_cliente", "");
-
-                                final Thread t = new Thread(){
-                                    @Override
-                                    public void run(){
-                                        try{
-                                            for (int m=0;m<2;m++) {
-                                                IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                        + "          S.A. de C.V     \n " +
-                                                        "Calzada Jorge Gomez # 199 Col \n " +
-                                                        "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                        "         Chis., Mex.\n" +
-                                                        "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                        "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                        "CLIENTE:" + value1 + "\n" +
-                                                        "FOLIO:   " + mensaje +"\n"+
-                                                        "           CONTADO\n" +
-                                                        "--------------------------------\n" +
-                                                        "DESCRIPCION\n" +
-                                                        "CANTIDAD     PRECIO      TOTAL\n" +
-                                                        "--------------------------------\n");
-                                                Thread.sleep(500);
-                                                for (int k = 0; k < items.size(); k++) {
-                                                    String cantidad = cantidad_item.get(k);
-                                                    String descripcion = items.get(k);
-                                                    String precio = map_producto_precio.get(descripcion);
-                                                    String total = String.valueOf(precio_item.get(k));
-                                                    IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                    Thread.sleep(150);
-                                                }
-                                                Thread.sleep(200);
-                                                IntentPrint("--------------------------------\n" +
-                                                        "   Total:        $" + totalpagar + "\n" +
-                                                        "   Efectivo:     $" + importe + "\n" +
-                                                        "   Cambio:       $" + cambio_imprimir + "\n" +
-                                                        "--------------------------------\n"+
-                                                        "    Gracias por su compra!!\n" +
-                                                        "   el importe de esta nota\n" + //-------------------------------------------------------------------777777777777777777777777777777777
-                                                        "   sera aplicada a la factura \n" +
-                                                        "           del dia\n"+
-                                                        "\n"+
-                                                        "\n"+
-                                                        "\n"+
-                                                        "\n");
-                                                Thread.sleep(150);
-                                            }
-
-                                        }catch (Exception e){
-                                            Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                };
-                                t.run();
-                            }
-*/                          almacenarRegistroTransaccion(mensaje, textTotal.getText().toString(), map_cliente_id.get(textViewListaClientes.getText()),
+                            almacenarRegistroTransaccion(mensaje, textTotal.getText().toString(), map_cliente_id.get(textViewListaClientes.getText()),
                                     "Subido", "1", "2", importe,
                                     "0","0"
                             );
-                            /*AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                            SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                            ContentValues registro = new ContentValues();
-                            registro.put("folio", mensaje);
-                            registro.put("total", textTotal.getText().toString());
-                            registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                            registro.put("estado", "Subido");
-                            registro.put("tipo_operacion", "1");
-                            registro.put("estado_operacion", "2");
-                            registro.put("importe",importe);
-                            registro.put("cancelado","0");
-                            registro.put("postActualizacionRegistro","0");
-                            bd_1.insert("venta_cliente", null, registro);
-                            bd_1.close();*/
                             //guardar detalles
                             guardarDetalles(mensaje);
-                            /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                            SQLiteDatabase bd = admin.getWritableDatabase();
-                            ContentValues registro_d = new ContentValues();
-                            SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                            String objetos = sharedPreferences.getString("lista_productos_id","");
-                            String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
-                            String[] pairs = objetos1.split(",");
-                            for(int i = 0;i<pairs.length;i++){
-                                try{
-                                    String pair = pairs[i];
-                                    String[]keyvalue = pair.split(":");
-                                    map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }
-                            for(int i=0; i< items.size();i++){
-                                String folio = venta_cliente;
-                                registro_d.put("folio",mensaje);
-                                registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-                                registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                                double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
-                                registro_d.put("peso_producto",pesoProductoTotal);
 
-                                String id_producto = map_producto_codigo.get(items.get(i));
-                                String precio_Compra = map_producto_precioVenta.get(id_producto);
-                                final String nombre = items.get((i));
-                                //obtener precio del proucto
-                                final String precio_1 = map_producto_precio.get(nombre);
-                                //mostrar precio del producto en edit_precio
-                                //CONSULTA stock EN BD
-                                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                                SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-                                Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
-                                double valor_precio1=0;
-                                if(fila_precio!=null){
-                                    if(fila_precio.moveToFirst()){
-                                        String valor_precio_string = fila_precio.getString(0);
-                                        double valor_precio_bol = Double.parseDouble(valor_precio_string);
-                                        valor_precio1=valor_precio_bol;
-                                    }
-                                }
-
-                                registro_d.put("precio_compra",precio_Compra);
-                                registro_d.put("precio_real",valor_precio1);
-                                registro_d.put("precio_venta",precio_1);
-                                bd.insert("venta_detalles",null,registro_d);
-                            }
-                            bd.close();
-                            stock();
-                            //obtebner detalles
-                            AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                            SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
-                            Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
-                            JSONArray resultSet     = new JSONArray();
-
-                            fila.moveToFirst();
-                            while (fila.isAfterLast() == false) {
-
-                                int totalColumn = fila.getColumnCount();
-                                JSONObject rowObject = new JSONObject();
-
-                                for( int i=0 ;  i< totalColumn ; i++ )
-                                {
-                                    if( fila.getColumnName(i) != null )
-                                    {
-                                        try
-                                        {
-                                            if( fila.getString(i) != null )
-                                            {
-                                                Log.d("TAG_NAME", fila.getString(i) );
-                                                rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
-                                            }
-                                            else
-                                            {
-                                                rowObject.put( fila.getColumnName(i) ,  "" );
-                                            }
-                                        }
-                                        catch( Exception e )
-                                        {
-                                            Log.d("TAG_NAME", e.getMessage()  );
-                                        }
-                                    }
-                                }
-                                resultSet.put(rowObject);
-                                fila.moveToNext();
-                            }
-                            fila.close();
-                            Gson gson = new Gson();
-                            String output = gson.toJson(resultSet);
-                            Log.d("ventaproducto", output);
-                            String id_enterprise = "1";
-                            enviarDatosDetalles(output, id_enterprise);*/
                         }
                     }
                 }catch (JSONException e){
@@ -2468,8 +2314,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         });
     }
 
-    public void IntentPrint(String txtvalue)
-    {
+    public void IntentPrint(String txtvalue) {
         byte[] buffer = txtvalue.getBytes();
         byte[] PrintHeader = { (byte) 0xAA, 0x55,2,0 };
         PrintHeader[3]=(byte) buffer.length;
@@ -2513,8 +2358,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             }
         }
     }
-    public void InitPrinter()
-    {
+    public void InitPrinter() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         try
         {
