@@ -71,10 +71,6 @@ import android.graphics.Color;
 
 //implementacion de Runnable
 public class venta_productos extends AppCompatActivity implements Runnable{
-    /*private final int CONTADO = 0;
-    private final int CREDITO = 0;
-    private final int CONTADO = 0;*/
-
     //variables para Controles
     private ListView listView_nombreProducto;
     private ListView listView_subtotal;
@@ -331,8 +327,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         Toast.makeText(venta_productos.this,"Agrega productos a la venta", Toast.LENGTH_SHORT).show();
                     }
                     else {
-
-
                         AlertDialog.Builder alertPagar  = new AlertDialog.Builder(venta_productos.this);
                         alertPagar.setTitle("PAGO");
                         alertPagar.setMessage(" Elige la forma de pago de esta venta");
@@ -352,9 +346,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             }
                         });
                         alertPagar.show();
-
-
-
                     }
                 }
 
@@ -374,7 +365,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             public void onClick(View view) {
                 final  String estado_edit_producto = editProducto.getText().toString();
                 final String edit_cantidad = editCantidad.getText().toString();
-
 
                 AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
                 SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
@@ -525,8 +515,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
             }
         });
-
-
     }
 
     //METODO PARA BOTONES DEL NAVIGATION VIEW
@@ -614,16 +602,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
         List<String>milista = new ArrayList<String>(Arrays.asList(objetos.split(",")));
 
-
         final ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.item_list_clientes,R.id.txtlistaClientes,rueba);
         list_clientes.setAdapter(arrayAdapter);
 
         //filtro de nombres
         editFiltro.addTextChangedListener(new TextWatcher() {
-
-            @Override            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -762,53 +747,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             builder.setNegativeButton("Guardar venta", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
                                     if (!isNetworkAvailable(venta_productos.this)){
                                         //no hay internet
                                         generarFolio();
-                                      /*  AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                                        SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
-                                        Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
-                                        Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
-                                        String folio_sql="";
-                                        if(cursor_folio!=null){
-                                            if(cursor_folio.moveToFirst()){
-                                                Log.e("tipo_operacion",cursor_folio.getString(0));
-                                                folio_sql = cursor_folio.getString(0);
-
-                                            }
-                                        }
-                                        final String folio_inicial="10001";
-                                        if(folio_sql.length()<=0){
-                                            Log.e("tipo_operacion","no hay folio");//-----------------------------folio de de los tickets fuera de linea -----10001FSC
-                                            venta_cliente = folio_inicial+"-"+"FSC";
-                                        }
-                                        else {
-                                            Log.e("tipo_operacion","si hay folio");
-                                            //String folio_nuevo = folio_sql.replaceAll("[^\\dd0-9]","");
-                                            String folio_nuevo[] = folio_sql.split("-");
-                                            int folio_n = Integer.parseInt(folio_nuevo[0]);
-                                            int folio_nuevo_int = folio_n+1;
-                                            Log.e("folio_nuebvo",String.valueOf(folio_n));
-                                            Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
-                                            venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                        }*/
-
-                                     /*   AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                                        SQLiteDatabase bd = admin.getWritableDatabase();
-                                        ContentValues registro = new ContentValues();
-                                        registro.put("folio", venta_cliente);
-                                        registro.put("total", textTotal.getText().toString());
-                                        registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                                        registro.put("estado", "No subido");
-                                        registro.put("tipo_operacion", "1");
-                                        registro.put("estado_operacion", "2");
-                                        registro.put("importe","0");
-                                        registro.put("cancelado","0");
-                                        registro.put("postActualizacionRegistro","0");
-                                        bd.insert("venta_cliente", null, registro);
-                                        bd.close();*/
-
                                         almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
                                                 map_cliente_id.get(textViewListaClientes.getText()), "No subido",
                                                 "1", "2", 0, "0", "0");
@@ -816,13 +757,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         stock();
                                     }
                                     else {
-                                        //si hay internet
-                                    //    enviardatosContado enviar = new enviardatosContado();
-                                    //    enviar.execute(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
-                                     //           strFecha , strFecha,"0", "SIN DETALLES");
-
-                                        //enviarDatosContado(map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
-                                      //          strFecha , strFecha,"0", "SIN DETALLES");
                                         enviarDatos(false, map_cliente_id.get(textViewListaClientes.getText()),"1","2",textRuta.getText().toString(),id_usuario,
                                                           strFecha , strFecha,"0", "SIN DETALLES");
                                     }
@@ -843,109 +777,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         generarFolio();
-                                       /* AdminSQLiteOpenHelper consul_folio = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                                        SQLiteDatabase sql_folio = consul_folio.getReadableDatabase();
-                                        Cursor cursor_folio = sql_folio.rawQuery("select folio from venta_cliente where folio like '%FSC%'order by folio desc limit 1",null);
-                                        Log.e("mensaje1",String.valueOf(cursor_folio.getCount()));
-                                        String folio_sql="";
-                                        if(cursor_folio!=null){
-                                            if(cursor_folio.moveToFirst()){
-                                                Log.e("tipo_operacion",cursor_folio.getString(0));
-                                                folio_sql = cursor_folio.getString(0);
-
-                                            }
-                                        }
-                                        final String folio_inicial="10001";
-                                        if(folio_sql.length()<=0){
-                                            Log.e("tipo_operacion","no hay folio");//-------------------------------------------------------------------------------------------------------------folio
-                                            venta_cliente = folio_inicial+"-"+"FSC";
-                                        }
-                                        else {
-                                            Log.e("tipo_operacion","si hay folio");
-                                            //String folio_nuevo = folio_sql.replaceAll("[^\\dd0-9]","");
-                                            String folio_nuevo[] = folio_sql.split("-");
-                                            int folio_n = Integer.parseInt(folio_nuevo[0]);
-                                            int folio_nuevo_int = folio_n+1;
-                                            Log.e("folio_nuebvo",String.valueOf(folio_n));
-                                            Log.e("folio_nuebvo",String.valueOf(folio_nuevo_int));
-                                            venta_cliente = String.valueOf(folio_nuevo_int) + "-FSC";
-                                        }*/
-
-                                     /*   AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                                        SQLiteDatabase bd = admin.getWritableDatabase();
-                                        ContentValues registro = new ContentValues();
-                                        registro.put("folio", venta_cliente);
-                                        registro.put("total", textTotal.getText().toString());
-                                        registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                                        registro.put("estado", "No subido");
-                                        registro.put("tipo_operacion", "1");
-                                        registro.put("estado_operacion", "2");
-                                        registro.put("importe",importe);
-                                        registro.put("cancelado","0");
-                                        registro.put("postActualizacionRegistro","0");
-                                        bd.insert("venta_cliente", null, registro);
-                                        bd.close();*/
                                         almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
                                                 map_cliente_id.get(textViewListaClientes.getText()), "No subido",
                                                 "1", "2", importe, "0", "0");
-
-                                        //dialogoContado.setMessage("Imprimiendo");
                                         imprimirTicket(false, venta_cliente);
-                                        /*SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                                        final String value1 = setting0.getString("nombre_cliente", "");
-
-                                        final  Thread t = new Thread(){
-                                            @Override
-                                            public void run(){
-                                                try{
-                                                    for (int m=0;m<2;m++) {
-                                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                + "          S.A. de C.V     \n " +
-                                                                "Calzada Jorge Gomez # 199 Col \n " +
-                                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                "         Chis., Mex.\n" +
-                                                                "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                                "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                                "CLIENTE:" + value1 + "\n" +
-                                                                "FOLIO:   " + venta_cliente +"\n"+
-                                                                "           CONTADO\n" +
-                                                                "--------------------------------\n" +
-                                                                "DESCRIPCION\n" +
-                                                                "CANTIDAD     PRECIO      TOTAL\n" +
-                                                                "--------------------------------\n");
-                                                        Thread.sleep(500);
-                                                        for (int k = 0; k < items.size(); k++) {
-                                                            String cantidad = cantidad_item.get(k);
-                                                            String descripcion = items.get(k);
-                                                            String precio = map_producto_precio.get(descripcion);
-                                                            String total = String.valueOf(precio_item.get(k));
-                                                            IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                            Thread.sleep(150);
-                                                        }
-                                                        Thread.sleep(200);
-                                                        IntentPrint("--------------------------------\n" +
-                                                                "   Total:        $" + totalpagar + "\n" +
-                                                                "   Efectivo:     $" + importe + "\n" +
-                                                                "   Cambio:       $" + cambio_imprimir + "\n" +
-                                                                "--------------------------------\n"+
-                                                                "    Gracias por su compra!!\n" +
-                                                                "   el importe de esta nota\n" +
-                                                                "   sera aplicada a la factura \n" +
-                                                                "           del dia\n"+
-                                                                "\n"+
-                                                                "\n"+
-                                                                "\n"+
-                                                                "\n");
-                                                        Thread.sleep(150);
-
-                                                    }
-
-                                                }catch (Exception e){
-                                                    Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        };
-                                        t.start();*/
                                         guardardatos();
                                         stock();
 
@@ -968,23 +803,14 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     dialogoContado.setTitle("Espere...");
                                     dialogoContado.setMessage("Enviando Datos...");
                                     dialogoContado.show();
-                                    //enviardatos enviar = new enviardatos();
-                                    //enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
-                                     //       strFecha, strFecha,"0", "SIN DETALLES");
-
                                     enviarDatos(false,map_cliente_id.get(textViewListaClientes.getText()), "1", "2", textRuta.getText().toString(), id_usuario,
                                                    strFecha, strFecha,"0", "SIN DETALLES");
-
                                 }
                             });
                             builder.show();
-
                         }
                         }
-
                     }
-
-
                 }
             }
         });
@@ -1602,9 +1428,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 }
                 });
             dialogo.show();
-
-
-
         }
     }
 
@@ -1710,287 +1533,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     public void run() {
 
     }
-/*
-    private void enviarDatos(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
-        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
-        response.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                try{
-                    if(response.body() != null){
-                        JSONObject result = new JSONObject(response.body());
-                        final String mensaje = result.getString("message");
-                        if(mensaje.equals("error_caja_cerrada")){
-                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                            dialogo.setTitle("ALERTA");
-                            dialogo.setContentText("Imposible realizar venta, la caja se encuentra cerrada");
-                            dialogo.setConfirmText("OK");
-                            dialogo.setCancelable(true);
-                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                    items.clear();
-                                    cantidad_item.clear();
-                                    precio_item.clear();
-                                    //textFolio.setText("");
-                                    textTotal.setText("0");
-                                    textViewListaClientes.setText("");
-                                    ADP.notifyDataSetChanged();
-                                    ADP_cantidad.notifyDataSetChanged();
-                                    ADP_Precio.notifyDataSetChanged();
-                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                            dialogo.show();
-                        }else if(mensaje.equals("error")){
-                            SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
-                            dialogo.setTitle("ALERTA");
-                            dialogo.setContentText("Ocurrio un error al realizar la venta");
-                            dialogo.setConfirmText("OK");
-                            dialogo.setCancelable(true);
-                            dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.dismissWithAnimation();
-                                    items.clear();
-                                    cantidad_item.clear();
-                                    precio_item.clear();
-                                    textTotal.setText("0");
-                                    textViewListaClientes.setText("");
-                                    ADP.notifyDataSetChanged();
-                                    ADP_cantidad.notifyDataSetChanged();
-                                    ADP_Precio.notifyDataSetChanged();
-                                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                            dialogo.show();
-                        } else{
-                            Log.e("mensale","exito");
-                            SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                            final String value1 = setting0.getString("nombre_cliente", "");
-                            AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(venta_productos.this, "administracion", null, 1);
-                            SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
-                            ContentValues registro = new ContentValues();
-                            registro.put("folio", mensaje);
-                            registro.put("total", textTotal.getText().toString());
-                            registro.put("id_cliente", map_cliente_id.get(textViewListaClientes.getText()));
-                            registro.put("estado", "Subido");
-                            registro.put("tipo_operacion", "1");
-                            registro.put("estado_operacion", "2");
-                            registro.put("importe",importe);
-                            registro.put("cancelado","0");
-                            registro.put("postActualizacionRegistro","0");
-                            bd_1.insert("venta_cliente", null, registro);
-                            bd_1.close();
-                            //guardar detalles
-                            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                            SQLiteDatabase bd = admin.getWritableDatabase();
-                            ContentValues registro_d = new ContentValues();
-                            SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                            String objetos = sharedPreferences.getString("lista_productos_id","");
-                            String objetos1 = objetos.replaceAll("[^\\dA-Za-z., /:]","");
-                            String[] pairs = objetos1.split(",");
-                            for(int i = 0;i<pairs.length;i++){
-                                String pair = pairs[i];
-                                String[]keyvalue = pair.split(":");
-                                map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
-                            }
-                            for(int i=0; i< items.size();i++){
-                                String folio = venta_cliente;
-                                registro_d.put("folio",mensaje);
-                                registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-                                registro_d.put("cantidad_vendido",cantidad_item.get(i));
-                                double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
-                                registro_d.put("peso_producto",pesoProductoTotal);
 
-                                String id_producto = map_producto_codigo.get(items.get(i));
-                                String precio_Compra = map_producto_precioVenta.get(id_producto);
-                                final String nombre = items.get((i));
-                                //obtener precio del proucto
-                                final String precio_1 = map_producto_precio.get(nombre);
-                                //mostrar precio del producto en edit_precio
-                                //CONSULTA stock EN BD
-                                AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
-                                SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-                                Cursor fila_precio = sqLiteDatabase.rawQuery("select precio_venta_producto from detalles_productos where nombre_producto"+"='"+nombre+"' limit 1",null);
-                                double valor_precio1=0;
-                                if(fila_precio!=null){
-                                    if(fila_precio.moveToFirst()){
-                                        String valor_precio_string = fila_precio.getString(0);
-                                        double valor_precio_bol = Double.parseDouble(valor_precio_string);
-                                        valor_precio1=valor_precio_bol;
-                                    }
-                                }
-
-                                registro_d.put("precio_compra",precio_Compra);
-                                registro_d.put("precio_real",valor_precio1);
-                                registro_d.put("precio_venta",precio_1);
-                                bd.insert("venta_detalles",null,registro_d);
-                            }
-                            bd.close();
-                            stock();
-                            //obtebner detalles
-                            //dialogoContado.setMessage("Enviando Detalles...");
-                            AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
-                            SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
-                            Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +mensaje+"'" ,null);
-                            JSONArray resultSet     = new JSONArray();
-
-                            fila.moveToFirst();
-                            while (fila.isAfterLast() == false) {
-
-                                int totalColumn = fila.getColumnCount();
-                                JSONObject rowObject = new JSONObject();
-
-                                for( int i=0 ;  i< totalColumn ; i++ )
-                                {
-                                    if( fila.getColumnName(i) != null )
-                                    {
-                                        try
-                                        {
-                                            if( fila.getString(i) != null )
-                                            {
-                                                Log.d("TAG_NAME", fila.getString(i) );
-                                                rowObject.put(fila.getColumnName(i) ,  fila.getString(i) );
-                                            }
-                                            else
-                                            {
-                                                rowObject.put( fila.getColumnName(i) ,  "" );
-                                            }
-                                        }
-                                        catch( Exception e )
-                                        {
-                                            Log.d("TAG_NAME", e.getMessage()  );
-                                        }
-                                    }
-                                }
-                                resultSet.put(rowObject);
-                                fila.moveToNext();
-                            }
-                            fila.close();
-                            Gson gson = new Gson();
-                            String output = gson.toJson(resultSet);
-                            Log.d("ventaproducto", output);
-                            String id_enterprise = "1";
-                            enviarDatosDetalles(output, id_enterprise);
-                            final Thread t = new Thread(){
-                                @Override
-                                public void run(){
-                                    try{
-                                        for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                    "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                    "CLIENTE:" + value1 + "\n" +
-                                                    "FOLIO:   " + mensaje +"\n"+
-                                                    "           CONTADO\n" +
-                                                    "--------------------------------\n" +
-                                                    "DESCRIPCION\n" +
-                                                    "CANTIDAD     PRECIO      TOTAL\n" +
-                                                    "--------------------------------\n");
-                                            Thread.sleep(500);
-
-                                            for (int k = 0; k < items.size(); k++) {
-                                                String cantidad = cantidad_item.get(k);
-                                                String descripcion = items.get(k);
-                                                String precio = map_producto_precio.get(descripcion);
-                                                String total = String.valueOf(precio_item.get(k));
-                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                Thread.sleep(150);
-                                            }
-                                            Thread.sleep(200);
-                                            IntentPrint("--------------------------------\n" +
-                                                    "   Total:        $" + totalpagar + "\n" +
-                                                    "   Efectivo:     $" + importe + "\n" +
-                                                    "   Cambio:       $" + cambio_imprimir + "\n" +
-                                                    "--------------------------------\n"+
-                                                    "    Gracias por su compra!!\n" +
-                                                    "   el importe de esta nota\n" +
-                                                    "   sera aplicada a la factura \n" +
-                                                    "           del dia\n"+
-                                                    "\n"+
-                                                    "\n"+
-                                                    "\n"+
-                                                    "\n");
-
-                                            Thread.sleep(150);
-
-                                        }
-
-                                    }catch (Exception e){
-                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }
-                            };
-                            t.start();
-                            if(t.isAlive()){
-                                Log.e("proceso",String.valueOf(t.isAlive()));
-
-                            }
-                        }
-                    }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void enviarDatosCredito(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
-        Call<String> response = apiInterface.productosVendidos(idCliente, tipoOperacion, estadoOperacion, idCaja, idUsuario, fechaVEntaProducto, registrarFecha, cancelado, detalles);
-        response.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                try{
-                    if(response.body() != null){
-                        JSONObject result = new JSONObject(response.body());
-                        final String mensaje = result.getString("message");
-                        if(mensaje.equals("error")){
-                            imposibleRealizarVentaDialog("Imposible realizar venta, la caja se encuentra cerrada");
-
-                        }else {
-                            imprimirTicket(true, mensaje);
-
-                            // SharedPreferences setting0 = getSharedPreferences("nombre_cliente_vendido", MODE_PRIVATE);
-                           // final String value1 = setting0.getString("nombre_cliente", "");
-
-
-                            almacenarRegistroTransaccion(mensaje, textTotal.getText().toString(), map_cliente_id.get(textViewListaClientes.getText()),
-                                    "Subido", "2", "2", importe,"0","0");
-
-                            //guardar detalles
-                            guardarDetalles(mensaje);
-
-                            //return resultSet;
-                        }
-                    }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-*/
     private void imposibleRealizarVentaDialog(String mensaje){
         SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.ERROR_TYPE);
         dialogo.setTitle("ALERTA");
@@ -2245,41 +1788,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
             }
         });
-    }
-
-    private void enviarDatosContado(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
-        Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
-        response.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                try{
-                    if(response.body() != null){
-                        JSONObject result = new JSONObject(response.body());
-                        final String mensaje = result.getString("message");
-                        if(mensaje.equals("error")){
-                            imposibleRealizarVentaDialog("Imposible realizar venta, la caja se encuentra cerrada");
-                        }else {
-                            imprimirTicket(false, mensaje);
-                            almacenarRegistroTransaccion(mensaje, textTotal.getText().toString(), map_cliente_id.get(textViewListaClientes.getText()),
-                                    "Subido", "1", "2", importe,
-                                    "0","0"
-                            );
-                            //guardar detalles
-                            guardarDetalles(mensaje);
-
-                        }
-                    }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
     }
 
     private void enviarDatosDetalles(String jsonArray, String idEnterprise){

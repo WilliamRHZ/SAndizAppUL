@@ -100,17 +100,8 @@ public class ProgressIntentService extends IntentService {
                         String cancelado_op = fila.getString(5);
                         //enviardatos enviar = new enviardatos();
                         int folio_ex = folio.indexOf("FSC");
-                        //Log.e("foliossss",String.valueOf(folio_ex));
                         Log.e("mensaje", folio + id_cliente + tipo_operacion + cancelado_op);
-
                         try {
-
-                            Log.e("mensaje", "Hay datos que Subir");
-                            Log.e("foliossss", folio);
-                           // enviardatos_real enviar_real = new enviardatos_real();
-                          //  enviar_real.execute(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
-                          //         fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
-
                             enviarDatosReal(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
                                     fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
                             Log.e("foliossss", "_____________________");
@@ -187,9 +178,7 @@ public class ProgressIntentService extends IntentService {
                     if(response.body() != null){
                         JSONObject result = new JSONObject(response.body());
                         String mensaje = result.getString("message");
-                        if(mensaje.equals("error")){
-
-                        }else {
+                        if (!mensaje.equals("error")) {
                             if (isNetworkAvailable(ProgressIntentService.this))
                             {
                                 folio_recibido = result.getString("message");
@@ -209,10 +198,7 @@ public class ProgressIntentService extends IntentService {
                                 //bd_1.close();
                                 getResult();
                             }
-
                         }
-                    }else {
-                        //Toast.makeText(ProgressIntentService.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -227,8 +213,6 @@ public class ProgressIntentService extends IntentService {
     }
 
     private JSONArray getResult(){
-        //Toast.makeText(consulta_ventas_totales.this,"hola mudno",Toast.LENGTH_SHORT).show();
-        //eturn  null;
         Log.e("folio_recibido",folio_recibido);
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
@@ -269,11 +253,7 @@ public class ProgressIntentService extends IntentService {
         fila.close();
         Gson gson = new Gson();
         String output = gson.toJson(resultSet);
-        //Toast.makeText(consulta_ventas_totales.this,output,Toast.LENGTH_SHORT).show();
-        Log.d("foliossss", output);
-        //enviardatos_detalles enviar_dato = new enviardatos_detalles();
         String id_enterprise = "1";
-        //enviar_dato.execute(output,id_enterprise,"");
 
         enviarDatosDetalles(output,id_enterprise);
         return resultSet;
@@ -307,8 +287,6 @@ public class ProgressIntentService extends IntentService {
                         }else {
                             Toast.makeText(ProgressIntentService.this,"DATOS NO GUARDADOS EN EL SERVIDOR",Toast.LENGTH_SHORT).show();
                         }
-                    }else {
-                        //Toast.makeText(consulta_ventas_totales.this,"no conectado con el servdor", Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -325,13 +303,8 @@ public class ProgressIntentService extends IntentService {
     //CONEXION A INTERNET//
     public static boolean isNetworkAvailable(Context context) {
         if(context == null)  return false;
-
-
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         if (connectivityManager != null) {
-
-
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
                 if (capabilities != null) {
@@ -343,10 +316,7 @@ public class ProgressIntentService extends IntentService {
                         return true;
                     }
                 }
-            }
-
-            else {
-
+            }else {
                 try {
                     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {

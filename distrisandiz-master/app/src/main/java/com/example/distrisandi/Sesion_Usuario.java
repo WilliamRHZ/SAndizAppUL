@@ -1,6 +1,5 @@
 package com.example.distrisandi;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;

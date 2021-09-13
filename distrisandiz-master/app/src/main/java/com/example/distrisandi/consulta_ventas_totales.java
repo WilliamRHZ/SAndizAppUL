@@ -176,9 +176,6 @@ import retrofit2.Response;
                 if(cursor_folio!=null){
                     if(cursor_folio.moveToFirst()){
                         do{
-                            //folio_sql = cursor_folio.getString(0);
-                            //int posicion_item = ventas.indexOf(folio_sql);
-                            //Log.e("folios_canc",String.valueOf(posicion_item));
                             String cancelado = cursor_folio.getString(0);
                             if(cancelado.equals("1")/*position == posicion_item*/) {
                                 tEstado.setText(tEstado.getText() + "/Cancelado");
