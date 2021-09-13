@@ -1486,7 +1486,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
     //-----------------------------GUARDAR DATOS EN LA BD--------
     private void guardardatos(){
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         ContentValues registro = new ContentValues();
         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
@@ -2119,7 +2119,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     }
 
     private void guardarDetalles(String folio){
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         ContentValues registro_d = new ContentValues();
         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
@@ -2169,7 +2169,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         bd.close();
         stock();
         //obtebner detalles
-        AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion1",null,1);
+        AdminSQLiteOpenHelper admin_obdetalles = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
         SQLiteDatabase bd_obdetalles = admin_obdetalles.getWritableDatabase();
         Cursor fila = bd_obdetalles.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +folio+"'" ,null);
         JSONArray resultSet     = new JSONArray();

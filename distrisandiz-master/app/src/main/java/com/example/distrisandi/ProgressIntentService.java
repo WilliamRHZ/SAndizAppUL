@@ -195,18 +195,18 @@ public class ProgressIntentService extends IntentService {
                                 folio_recibido = result.getString("message");
                                 //Toast.makeText(ProgressIntentService.this,"datos no cambiados",Toast.LENGTH_SHORT).show();
                                 AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion", null, 1);
-                                AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion1", null, 1);
+                                //AdminSQLiteOpenHelper admin_1 = new AdminSQLiteOpenHelper(ProgressIntentService.this, "administracion1", null, 1);
                                 SQLiteDatabase bd = admin.getWritableDatabase();
-                                SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
+                                //SQLiteDatabase bd_1 = admin_1.getWritableDatabase();
                                 ContentValues actualizar = new ContentValues();
                                 ContentValues actualizar_1 = new ContentValues();
                                 actualizar.put("estado", "Subido");
                                 actualizar_1.put("folio", folio_recibido);
                                 actualizar.put("folio", folio_recibido);
                                 bd.update("venta_cliente", actualizar, "folio=?", new String[]{folio});
-                                bd_1.update("venta_detalles", actualizar_1, "folio=?", new String[]{folio});
+                                bd.update("venta_detalles", actualizar_1, "folio=?", new String[]{folio});
                                 bd.close();
-                                bd_1.close();
+                                //bd_1.close();
                                 getResult();
                             }
 
@@ -230,7 +230,7 @@ public class ProgressIntentService extends IntentService {
         //Toast.makeText(consulta_ventas_totales.this,"hola mudno",Toast.LENGTH_SHORT).show();
         //eturn  null;
         Log.e("folio_recibido",folio_recibido);
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion1",null,1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(ProgressIntentService.this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +folio_recibido+"'" ,null);
         JSONArray resultSet     = new JSONArray();

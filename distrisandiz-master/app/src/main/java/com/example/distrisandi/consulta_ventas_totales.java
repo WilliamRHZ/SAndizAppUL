@@ -280,7 +280,7 @@ import retrofit2.Response;
                                                     Toast.makeText(consulta_ventas_totales.this,"No hay impresora conectada",Toast.LENGTH_SHORT).show();
                                                 }
                                                 else {
-                                                    AdminSQLiteOpenHelper admin_reimprimir = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+                                                    AdminSQLiteOpenHelper admin_reimprimir = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                                                     SQLiteDatabase bd_reimprimir = admin_reimprimir.getWritableDatabase();
                                                     String folio_venta = txtFolio;
                                                     Log.e("jojojojo",folio_venta);
@@ -391,7 +391,7 @@ import retrofit2.Response;
                                                     ContentValues cont_cancelar = new ContentValues();
                                                     cont_cancelar.put("cancelado", "1");
                                                     sql_cancelar.update("venta_cliente", cont_cancelar, "folio=?", new String[]{txtFolio});
-                                                    AdminSQLiteOpenHelper regresar = new AdminSQLiteOpenHelper(consulta_ventas_totales.this, "administracion1", null, 1);
+                                                    AdminSQLiteOpenHelper regresar = new AdminSQLiteOpenHelper(consulta_ventas_totales.this, "administracion", null, 1);
                                                     SQLiteDatabase bd_regresar = regresar.getWritableDatabase();
                                                     Cursor fila_regresar = bd_regresar.rawQuery("select folio,codigo_producto,cantidad_vendido from venta_detalles where folio " + "='" + txtFolio + "'", null);
                                                     if (fila_regresar.moveToFirst()) {
@@ -538,7 +538,7 @@ import retrofit2.Response;
                                         alert_Imprimir_subido.setPositiveButton("IMPRIMIR", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                AdminSQLiteOpenHelper admin_reimprimir = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+                                                AdminSQLiteOpenHelper admin_reimprimir = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                                                 SQLiteDatabase bd_reimprimir = admin_reimprimir.getWritableDatabase();
                                                 String folio_venta = txtFolio;
                                                 final Cursor fila_reimprimir = bd_reimprimir.rawQuery("select codigo_producto,cantidad_vendido,precio_venta from venta_detalles where folio" +"='" +folio_venta+"'" ,null);
@@ -642,7 +642,7 @@ import retrofit2.Response;
                                 SQLiteDatabase bd_venta = admin_venta.getWritableDatabase();
                                 Cursor fila_venta = bd_venta.rawQuery("select * from venta_cliente where folio" +"='" +textFolio_venta.getText().toString()+"' limit 1" ,null);
                                 if(fila_venta.moveToFirst()){
-                                    AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+                                    AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                                     SQLiteDatabase bd_detalles = admin_detalles.getWritableDatabase();
                                     Cursor fila_detalles = bd_detalles.rawQuery("select * from venta_detalles where folio"+"='"+textFolio_venta.getText().toString()+"'",null);
                                     Toast.makeText(consulta_ventas_totales.this,String.valueOf(fila_detalles.getCount()),Toast.LENGTH_LONG).show();
@@ -759,7 +759,7 @@ import retrofit2.Response;
                             Toast.makeText(consulta_ventas_totales.this,"Datos no cambiados",Toast.LENGTH_SHORT).show();
                         }else {
                             AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
-                            AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+                            AdminSQLiteOpenHelper admin_detalles = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                             SQLiteDatabase bd = admin.getWritableDatabase();
                             SQLiteDatabase bd_detalles = admin_detalles.getWritableDatabase();
                             ContentValues actualizar = new ContentValues();
@@ -798,7 +798,7 @@ import retrofit2.Response;
     //OBTENER JSON DE LOS DETALLES
     private JSONArray getResult(){
         //eturn  null;
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion1",null,1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select  folio, codigo_producto,cantidad_vendido ,peso_producto, precio_compra, precio_real,precio_venta from venta_detalles where folio "+"='" +folio_nuevo+"'" ,null);
         JSONArray resultSet     = new JSONArray();
