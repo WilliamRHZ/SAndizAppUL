@@ -106,6 +106,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     ArrayAdapter ADP_cantidad;
     Map<String, String >map_producto_codigo = new HashMap<String, String>();
     Map<String,String> map_producto_precio = new HashMap<String, String>();
+    Map<String,String> map_producto_precio_editable = new HashMap<String, String>();
     Map<String,String> map_cliente_id = new HashMap<String, String>();
     Map<String,String> map_producto_codigo_barra = new HashMap<String, String>();
     private Map<String,String> map_producto_precioVenta = new HashMap<String, String>();
@@ -266,6 +267,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         items.clear();
+
+                                        map_producto_precio_editable = new HashMap<>(map_producto_precio);
                                         precio_item.clear();
                                         cantidad_item.clear();
                                         ADP.notifyDataSetChanged();
@@ -1180,7 +1183,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         Toast.makeText(venta_productos.this,"Error en el precio",Toast.LENGTH_SHORT).show();
                     }else {
                         cantidad_item.set(Integer.parseInt(posicion), cantidad);
-                        precio_item.set(Integer.parseInt(posicion), Double.parseDouble(precio));
+                        map_producto_precio_editable.put(nombre, String.valueOf(precio));
+                        // precio_item.set(Integer.parseInt(posicion), Double.parseDouble(precio));
                         double precio1 = Double.parseDouble(precio);
                         double precio_total = Double.parseDouble(cantidad) * precio1;
                         //  Log.e("wilwilwil",String.valueOf(precio_total));
@@ -1279,7 +1283,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             String precio_Compra = map_producto_precioVenta.get(id_producto);
             final String nombre = items.get((i));
             //obtener precio del proucto
-            final String precio_1 = map_producto_precio.get(nombre);
+            final String precio_1 = map_producto_precio_editable.get(nombre);
             //mostrar precio del producto en edit_precio
             //CONSULTA stock EN BD
             AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
@@ -1359,6 +1363,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     items.clear();
                     cantidad_item.clear();
                     precio_item.clear();
+                    map_producto_precio_editable = new HashMap<>(map_producto_precio);
                     //textFolio.setText("");
                     textTotal.setText("0");
                     textViewListaClientes.setText("");
@@ -1438,6 +1443,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 String valor1 = keyvalue[1];
                 double valor2 = Double.valueOf(valor1);
                 map_producto_precio.put(keyvalue[0], String.valueOf(valor2));
+                map_producto_precio_editable.put(keyvalue[0], String.valueOf(valor2));
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -1490,6 +1496,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 items.clear();
                 cantidad_item.clear();
                 precio_item.clear();
+                map_producto_precio_editable = new HashMap<>(map_producto_precio);
                 textTotal.setText("0");
                 textViewListaClientes.setText("");
                 ADP.notifyDataSetChanged();
@@ -1632,7 +1639,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             String precio_Compra = map_producto_precioVenta.get(id_producto);
             final String nombre = items.get((i));
             //obtener precio del proucto
-            final String precio_1 = map_producto_precio.get(nombre);
+            final String precio_1 = map_producto_precio_editable.get(nombre);
             //mostrar precio del producto en edit_precio
             //CONSULTA stock EN BD
             AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
