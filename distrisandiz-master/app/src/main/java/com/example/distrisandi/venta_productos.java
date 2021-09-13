@@ -119,6 +119,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private boolean estado= false;
     private ProgressDialog dialogoFolio;
     private ProgressDialog dialogoContado;
+    SweetAlertDialog pDialog;
 
 
     //BLUETOOTH
@@ -140,6 +141,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiInterface = APIClient.getClient();
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
+        pDialog.setTitleText("Espere ...");
+        pDialog.setCancelable(false);
         //OBTENER ID DE CLIENTES
         SharedPreferences share_listaClientes = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
         String objetos02 = share_listaClientes.getString("lista_clientes_id","");
@@ -750,9 +755,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     if (!isNetworkAvailable(venta_productos.this)){
                                         //no hay internet
                                         generarFolio();
-                                        almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
-                                                map_cliente_id.get(textViewListaClientes.getText()), "No subido",
-                                                "1", "2", 0, "0", "0");
+                                        almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(), map_cliente_id.get(textViewListaClientes.getText()), "No subido", "1", "2", 0, "0", "0");
                                         guardardatos();
                                         stock();
                                     }
@@ -1046,62 +1049,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             final String value1 = setting0.getString("nombre_cliente", "");
 
                                             imprimirTicket(true, venta_cliente);
-                                            /*final Thread t = new Thread(){
-                                                @Override
-                                                public void run(){
-                                                    try{
-                                                        for (int m=0;m<2;m++) {
-                                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                    + "          S.A. de C.V     \n " +
-                                                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                    "         Chis., Mex.\n" +
-                                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
-                                                                    "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                                                    "CLIENTE:" + value1 + "\n" +
-                                                                    "FOLIO:   " + venta_cliente +"\n"+
-                                                                    "           CREDITO\n" +
-                                                                    "--------------------------------\n" +
-                                                                    "DESCRIPCION\n" +
-                                                                    "CANTIDAD     PRECIO      TOTAL\n" +
-                                                                    "--------------------------------\n");
-                                                            Thread.sleep(500);
-                                                            for (int k = 0; k < items.size(); k++) {
-                                                                String cantidad = cantidad_item.get(k);
-                                                                String descripcion = items.get(k);
-                                                                String precio = map_producto_precio.get(descripcion);
-                                                                String total = String.valueOf(precio_item.get(k));
-                                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                                Thread.sleep(150);
-                                                            }
-                                                            Thread.sleep(200);
-                                                            IntentPrint("--------------------------------\n" +
-                                                                    "   Total:        $" + totalpagar + "\n" +
-                                                                    "\n"+
-                                                                    "--------------------------------\n"+
-                                                                    "   Por este pagare debo(emos) y\n"+
-                                                                    "pagare(mos) incondicionalmente\n" +
-                                                                    "            a la\n"+
-                                                                    " Distribuidora Faili S.A de C.V\n" +
-                                                                    "  la cantidad de $"+totalpagar +" MxN\n"+
-                                                                    " respaldada por esta nota "+
-                                                                    "       de venta a:\n"+
-                                                                    value1+"\n" +
-                                                                    "  Gracias por su compra :)"+
-                                                                    "\n"+
-                                                                    "\n"+
-                                                                    "\n"+
-                                                                    "\n");
-                                                            Thread.sleep(150);
-                                                        }
 
-                                                    }catch (Exception e){
-                                                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                }
-                                            };
-                                            t.start();*/
                                             guardardatos();
                                             stock();
                                             dialogoContado.dismiss();
@@ -1125,12 +1073,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             dialogoContado.setTitle("Espere...");
                                             dialogoContado.setMessage("Enviando Datos...");
                                             dialogoContado.show();
-                                           /// enviardatosCredito enviar = new enviardatosCredito();
-                                          ///  enviar.execute(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
-                                          ///          strFecha, strFecha, "0", "SIN DETALLES");
 
-                                          //  enviarDatosCredito(map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
-                                          //          strFecha, strFecha, "0", "SIN DETALLES");
                                             enviarDatos(true, map_cliente_id.get(textViewListaClientes.getText()), "2", "0", textRuta.getText().toString(), id_usuario,
                                                     strFecha, strFecha, "0", "SIN DETALLES");
 
@@ -1756,7 +1699,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         enviarDatosDetalles(output, id_enterprise);
     }
 
-    private void enviarDatos(final boolean esCredito, String idCliente, final String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
+    private void enviarDatos(final boolean esCredito, String idCliente, final String tipoOperacion, final String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles) {
+        pDialog.show();
         Call<String> response = apiInterface.productosVendidos(idCliente,tipoOperacion,estadoOperacion,idCaja,idUsuario,fechaVEntaProducto,registrarFecha,cancelado,detalles);
         response.enqueue(new Callback<String>() {
             @Override
@@ -1781,16 +1725,26 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
+                }finally {
+                    pDialog.dismissWithAnimation();
                 }
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                //Si falla por algún motivo la información es almacenada en el dispositivo como si fuera una venta sin conexión a internet
+                generarFolio();
+                almacenarRegistroTransaccion(venta_cliente, textTotal.getText().toString(),
+                        map_cliente_id.get(textViewListaClientes.getText()), "No subido",
+                        tipoOperacion, estadoOperacion, importe, "0", "0");
+                guardardatos();
+                stock();
+                pDialog.dismissWithAnimation();
             }
         });
     }
 
     private void enviarDatosDetalles(String jsonArray, String idEnterprise){
+        pDialog.show();
         SharedPreferences setting = getSharedPreferences("lista_clientes_usuario", MODE_PRIVATE);
         String ruta_cliente = setting.getString("numero_ruta", "");
         Call<String> response = apiInterface.productosVendidosDetalles(jsonArray, idEnterprise, ruta_cliente);
@@ -1812,12 +1766,14 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
+                }finally {
+                    pDialog.dismissWithAnimation();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                pDialog.dismissWithAnimation();
             }
         });
     }

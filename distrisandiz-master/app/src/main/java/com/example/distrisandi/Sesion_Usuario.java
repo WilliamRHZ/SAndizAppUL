@@ -82,14 +82,19 @@ public class Sesion_Usuario extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sesion__usuario);
+
         apiInterface = APIClient.getClient();
+        pDialog = new SweetAlertDialog(Sesion_Usuario.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
+        pDialog.setTitleText("Espere ...");
+        pDialog.setCancelable(false);
 
         final SharedPreferences setting0 = getSharedPreferences("login_preference", MODE_PRIVATE);
         final String value1 = setting0.getString("username", "");
         if (value1.equals("")) {
             finish();
         }
-        setContentView(R.layout.activity_sesion__usuario);
 
         //INICIAR sERVICIO sEGUNDO pLANO
         Intent intent =new Intent(this,ProgressIntentService.class);
@@ -223,6 +228,7 @@ public class Sesion_Usuario extends AppCompatActivity{
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("Error_datos_usuario", t.getMessage());
+                Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -257,12 +263,11 @@ public class Sesion_Usuario extends AppCompatActivity{
                 });
                 descarga_sinConexion.show();
             }else {
-                pDialog = new SweetAlertDialog(Sesion_Usuario.this, SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
-                pDialog.setTitleText("Espere ...");
+           /*     pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
+                pDialog.setTitleText("Espere ...");*/
                 String value = correo.getText().toString();
                 consultaTamano(value);
-                pDialog.setCancelable(false);
+              //  pDialog.setCancelable(false);
                 pDialog.show();
 
 
@@ -288,7 +293,8 @@ public class Sesion_Usuario extends AppCompatActivity{
                             pDialog.setContentText("Descargando Clientes");
                         }
                         if(tamanio == 0){
-                            pDialog.dismissWithAnimation();
+                            if(pDialog.isShowing())
+                                pDialog.dismissWithAnimation();
                             Toast.makeText(Sesion_Usuario.this,"NO HAY DATOS QUE DESCARGAR",Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -299,6 +305,9 @@ public class Sesion_Usuario extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                if(pDialog.isShowing())
+                        pDialog.dismissWithAnimation();
+                Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -350,7 +359,9 @@ public class Sesion_Usuario extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                if(pDialog.isShowing())
+                        pDialog.dismissWithAnimation();
+                Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -380,7 +391,9 @@ public class Sesion_Usuario extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                if(pDialog.isShowing())
+                        pDialog.dismissWithAnimation();
+                Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -404,7 +417,6 @@ public class Sesion_Usuario extends AppCompatActivity{
                         JSONObject jsonObject = new JSONObject(response.body());
                         if(jsonObject.has("message")){
                             Toast.makeText(Sesion_Usuario.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                            pDialog.dismissWithAnimation();
                         }else {
                             JSONArray jsonArray = jsonObject.getJSONArray("productos");
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -483,7 +495,6 @@ public class Sesion_Usuario extends AppCompatActivity{
                             if (will_1 == tamanio_productos - 1) {
                                 Toast.makeText(Sesion_Usuario.this, "DATOS DESCARGADOS", Toast.LENGTH_SHORT).show();
                                 //progressDialog.dismiss();
-                                pDialog.dismissWithAnimation();
                             }
 
                             Log.e("tamanio_1111", String.valueOf(will_1) + tamanio_productos);
@@ -494,11 +505,16 @@ public class Sesion_Usuario extends AppCompatActivity{
                 }finally {
                     if(bd != null)
                         bd.close();
+                    if(pDialog.isShowing())
+                        pDialog.dismissWithAnimation();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                if(pDialog.isShowing())
+                        pDialog.dismissWithAnimation();
+                Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
 
             }
         });

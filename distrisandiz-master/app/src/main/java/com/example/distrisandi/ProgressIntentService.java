@@ -16,6 +16,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class ProgressIntentService extends IntentService {
     private String folio_a="";
     private String folio_recibido;
     private APIInterface apiInterface;
+    boolean prueba;
+    private int DELAY = 1000;
 
     public ProgressIntentService() {
         super("ProgressIntentService");
@@ -64,6 +67,7 @@ public class ProgressIntentService extends IntentService {
 
     private void handleActionRun() {
         try {
+            prueba = true;
             apiInterface = APIClient.getClient();
             // Se construye la notificación
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
@@ -72,7 +76,6 @@ public class ProgressIntentService extends IntentService {
                     .setContentText("Procesando...");
 
             // Bucle de simulación
-            boolean prueba = true;
             String estadobase = "No subido";
             SharedPreferences sharedPref = getSharedPreferences("lista_clientes_usuario", Context.MODE_PRIVATE);
             SharedPreferences setting = getSharedPreferences("login_preference", MODE_PRIVATE);
@@ -82,9 +85,8 @@ public class ProgressIntentService extends IntentService {
             final Calendar c = Calendar.getInstance();
             SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
             String fldFechaVentaProducto = fecha.format(c.getTime());
-            while(prueba){
+           // while(prueba){
                 if (isNetworkAvailable(ProgressIntentService.this)) {
-
                     Log.d(TAG, 1 + ""); // Logueo
                     Log.e("mensaje", "iniciado");
 
@@ -104,9 +106,8 @@ public class ProgressIntentService extends IntentService {
                         try {
                             enviarDatosReal(id_cliente, tipo_operacion, estado_operacion, id_caja, id_usuario,
                                     fldFechaVentaProducto, fldFechaVentaProducto, cancelado_op, "SIN DETALLES");
-                            Log.e("foliossss", "_____________________");
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
+                         //   Thread.sleep(5000);
+                        } catch (Exception e) {
 
 
                         }
@@ -126,9 +127,9 @@ public class ProgressIntentService extends IntentService {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
 
                     // Retardo de 1 segundo en la iteración
-                    Thread.sleep(1000);
+                    //Thread.sleep(1000);
                 }
-            }
+          //  }
             // Quitar de primer plano
             stopForeground(true);
         } catch (Exception e) {
@@ -202,12 +203,22 @@ public class ProgressIntentService extends IntentService {
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
+                }finally {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            handleActionRun();
+                        }
+                    }, DELAY);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        handleActionRun();
+                    }
+                }, DELAY);
             }
         });
     }
