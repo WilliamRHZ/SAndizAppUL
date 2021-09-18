@@ -24,7 +24,7 @@ public class APIClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL_LOCAL)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .client(client)
                     .build();
