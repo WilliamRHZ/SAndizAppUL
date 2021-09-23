@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -571,8 +572,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
                             //sDialog.dismissWithAnimation();
-                            Intent intent = new Intent(venta_productos.this,Sesion_Usuario.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(venta_productos.this,Sesion_Usuario.class);
+                            //startActivity(intent);
                             finish();
                         }
                     })
@@ -752,7 +753,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             builder.setTitle("No estas conectado a     una impresora");
                             builder.setIcon(R.drawable.ic_alerta);
                             builder.setCancelable(true);
-                            builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -889,12 +890,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             public void run(){
                                                 try{
                                                     for (int m=0;m<2;m++) {
-                                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                + "          S.A. de C.V     \n " +
-                                                                "Calzada Jorge Gomez # 203 Col \n " +
-                                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                "         Chis., Mex.\n" +
-                                                                "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                        IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                                "\n          S.A.de C.V "+
+                                                                "\nSegunda Ote prolongacion S/N"+
+                                                                "\nCol. San Antonio, Tapachula"+
+                                                                "\n       Chis., Mex. "+
+                                                                "\n"+
+                                                                "RFC:EESN700923QR2     " + strDate + "\n" +
                                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                 "CLIENTE:" + value1 + "\n" +
                                                                 "FOLIO:   " + venta_cliente +"\n"+
@@ -903,16 +905,18 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "DESCRIPCION\n" +
                                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                                 "--------------------------------\n");
-                                                        Thread.sleep(900);
+                                                        Thread.sleep(500);
                                                         for (int k = 0; k < items.size(); k++) {
+
                                                             String cantidad = cantidad_item.get(k);
                                                             String descripcion = items.get(k);
                                                             String precio = map_producto_precio.get(descripcion);
                                                             String total = String.valueOf(precio_item.get(k));
+                                                            Toast.makeText(venta_productos.this, "cantidad"+cantidad, Toast.LENGTH_SHORT).show();
                                                             IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                             Thread.sleep(150);
                                                         }
-                                                        Thread.sleep(100);
+                                                        Thread.sleep(200);
                                                         IntentPrint("--------------------------------\n" +
                                                                 "   Total:        $" + totalpagar + "\n" +
                                                                 "   Efectivo:     $" + importe + "\n" +
@@ -926,7 +930,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                 "\n"+
                                                                 "\n"+
                                                                 "\n");
-                                                        Thread.sleep(100);
+                                                        Thread.sleep(150);
 
                                                     }
 
@@ -1168,12 +1172,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 public void run(){
                                                     try{
                                                         for (int m=0;m<2;m++) {
-                                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                                    + "          S.A. de C.V     \n " +
-                                                                    "Calzada Jorge Gomez # 203 Col \n " +
-                                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                                    "         Chis., Mex.\n" +
-                                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                                    "\n          S.A.de C.V "+
+                                                                    "\nSegunda Ote prolongacion S/N"+
+                                                                    "\nCol. San Antonio, Tapachula"+
+                                                                    "\n       Chis., Mex. "+
+                                                                    "\n"+
+                                                                    "RFC:EESN700923QR2     "  + strDate + "\n" +
                                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                                     "CLIENTE:" + value1 + "\n" +
                                                                     "FOLIO:   " + venta_cliente +"\n"+
@@ -1182,16 +1187,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "DESCRIPCION\n" +
                                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                                     "--------------------------------\n");
-                                                            Thread.sleep(900);
+                                                            Thread.sleep(500);
                                                             for (int k = 0; k < items.size(); k++) {
                                                                 String cantidad = cantidad_item.get(k);
                                                                 String descripcion = items.get(k);
                                                                 String precio = map_producto_precio.get(descripcion);
                                                                 String total = String.valueOf(precio_item.get(k));
-                                                                IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                                 Thread.sleep(150);
                                                             }
-                                                            Thread.sleep(100);
+                                                            Thread.sleep(200);
                                                             IntentPrint("--------------------------------\n" +
                                                                     "   Total:        $" + totalpagar + "\n" +
                                                                     "\n"+
@@ -1209,7 +1214,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                                     "\n"+
                                                                     "\n"+
                                                                     "\n");
-                                                           // Thread.sleep(500);
+                                                            Thread.sleep(150);
                                                         }
 
                                                     }catch (Exception e){
@@ -1330,8 +1335,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*1/100);     // ----modifica el porcentaje minimo al cual se le permite cambiar el precio
-                double precio_max = valor_precio+ (valor_precio*1/100);     // ----modifica el porcentaje maximo al cual se le permite cambiar el precio
+                double precio_desc = valor_precio-(valor_precio*1/100);
+                double precio_max = valor_precio+ (valor_precio*1/100);
 
                 //si precio nuevo es menor que el 15%
                 if(Double.compare(precio_ven,precio_desc)<0){
@@ -1542,6 +1547,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     ADP_Precio.notifyDataSetChanged();
                     Intent intent = new Intent(venta_productos.this,venta_productos.class);
                     startActivity(intent);
+                    finish();
                 }
                 });
             dialogo.show();
@@ -1886,12 +1892,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             public void run(){
                                 try{
                                     for (int m=0;m<2;m++) {
-                                        IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                + "          S.A. de C.V     \n " +
-                                                "Calzada Jorge Gomez # 203 Col \n " +
-                                                "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                "         Chis., Mex.\n" +
-                                                "RFC:CFA1607131N1     " + strDate + "\n" +
+                                        IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                "\n          S.A.de C.V "+
+                                                "\nSegunda Ote prolongacion S/N"+
+                                                "\nCol. San Antonio, Tapachula"+
+                                                "\n       Chis., Mex. "+
+                                                "\n"+
+                                                "RFC:EESN700923QR2     "  + strDate + "\n" +
                                                 "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                 "CLIENTE:" + value1 + "\n" +
                                                 "FOLIO:   " + mensaje +"\n"+
@@ -1900,17 +1907,17 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "DESCRIPCION\n" +
                                                 "CANTIDAD     PRECIO      TOTAL\n" +
                                                 "--------------------------------\n");
-                                        Thread.sleep(900);
+                                        Thread.sleep(500);
 
                                         for (int k = 0; k < items.size(); k++) {
                                             String cantidad = cantidad_item.get(k);
                                             String descripcion = items.get(k);
                                             String precio = map_producto_precio.get(descripcion);
                                             String total = String.valueOf(precio_item.get(k));
-                                            IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                            IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                             Thread.sleep(150);
                                         }
-                                        Thread.sleep(100);
+                                        Thread.sleep(200);
                                         IntentPrint("--------------------------------\n" +
                                                 "   Total:        $" + totalpagar + "\n" +
                                                 "   Efectivo:     $" + importe + "\n" +
@@ -1925,7 +1932,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                 "\n"+
                                                 "\n");
 
-                                        Thread.sleep(100);
+                                        Thread.sleep(150);
 
                                     }
 
@@ -2025,12 +2032,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez #203 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                    "\n          S.A.de C.V "+
+                                                    "\nSegunda Ote prolongacion S/N"+
+                                                    "\nCol. San Antonio, Tapachula"+
+                                                    "\n       Chis., Mex. "+
+                                                    "\n"+
+                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+
@@ -2039,16 +2047,44 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(900);
+                                            Thread.sleep(500);
+
+                                               for(int i = 0; i < items.size(); i++){
+                                                   if(items.size() == 0){
+                                                       Toast.makeText(venta_productos.this, "No hay datos", Toast.LENGTH_SHORT).show();
+                                                   }else if(items.size() > 0){
+                                                       try{
+                                                           String cantidad = cantidad_item.get(i);
+                                                           String descripcion = items.get(i);
+                                                           String precio = map_producto_precio.get(descripcion);
+                                                           String total = String.valueOf(precio_item.get(i));
+                                                           IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+                                                           Thread.sleep(150);
+                                                       } catch(Exception e){
+                                                           Toast.makeText(venta_productos.this, "No hay datos", Toast.LENGTH_SHORT).show();
+                                                       }
+                                                   }
+
+
+                                               }
+
+
+
+                                           /*
                                             for (int k = 0; k < items.size(); k++) {
-                                                String cantidad = cantidad_item.get(k);
-                                                String descripcion = items.get(k);
-                                                String precio = map_producto_precio.get(descripcion);
-                                                String total = String.valueOf(precio_item.get(k));
-                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                                Thread.sleep(150);
-                                            }
-                                            Thread.sleep(100);
+
+                                                    Toast.makeText(venta_productos.this, "Oops", Toast.LENGTH_SHORT).show();
+
+                                                    String cantidad = cantidad_item.get(k);
+                                                    String descripcion = items.get(k);
+                                                    String precio = map_producto_precio.get(descripcion);
+                                                    String total = String.valueOf(precio_item.get(k));
+                                                    IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+                                                    Thread.sleep(150);
+
+
+                                            }*/
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "\n"+
@@ -2066,7 +2102,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(100);
+                                            Thread.sleep(150);
 
                                         }
 
@@ -2286,12 +2322,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 public void run(){
                                     try{
                                         for (int m=0;m<2;m++) {
-                                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
-                                                    + "          S.A. de C.V     \n " +
-                                                    "Calzada Jorge Gomez # 203 Col \n " +
-                                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                                    "         Chis., Mex.\n" +
-                                                    "RFC:CFA1607131N1     " + strDate + "\n" +
+                                            IntentPrint("\n     SANDIZ TAPACHULA "+
+                                                    "\n          S.A.de C.V "+
+                                                    "\nSegunda Ote prolongacion S/N"+
+                                                    "\nCol. San Antonio, Tapachula"+
+                                                    "\n       Chis., Mex. "+
+                                                    "\n"+
+                                                    "RFC:EESN700923QR2     " + strDate + "\n" +
                                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                                     "CLIENTE:" + value1 + "\n" +
                                                     "FOLIO:   " + mensaje +"\n"+
@@ -2300,16 +2337,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "DESCRIPCION\n" +
                                                     "CANTIDAD     PRECIO      TOTAL\n" +
                                                     "--------------------------------\n");
-                                            Thread.sleep(900);
+                                            Thread.sleep(500);
                                             for (int k = 0; k < items.size(); k++) {
                                                 String cantidad = cantidad_item.get(k);
                                                 String descripcion = items.get(k);
                                                 String precio = map_producto_precio.get(descripcion);
                                                 String total = String.valueOf(precio_item.get(k));
-                                                IntentPrint(descripcion + "\n" + cantidad + "        $" + precio +"       $" + total + "\n");
+                                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                                 Thread.sleep(150);
                                             }
-                                            Thread.sleep(100);
+                                            Thread.sleep(200);
                                             IntentPrint("--------------------------------\n" +
                                                     "   Total:        $" + totalpagar + "\n" +
                                                     "   Efectivo:     $" + importe + "\n" +
@@ -2323,7 +2360,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                                     "\n"+
                                                     "\n"+
                                                     "\n");
-                                            Thread.sleep(100);
+                                            Thread.sleep(150);
                                         }
 
                                     }catch (Exception e){
