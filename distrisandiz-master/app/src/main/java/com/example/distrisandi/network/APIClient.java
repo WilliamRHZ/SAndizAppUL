@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class APIClient {
     private static Retrofit retrofit = null;
-    public static final String BASE_URL = "https://www.sandiz.com.mx/gsandiz/WebService/";
+    public static final String BASE_URL = "https://sandiz.com.mx/grupo_sandiz/WebService/";
     public static final String BASE_URL_LOCAL = "http://10.0.2.2/sandiz/WebService/";
 
     public static APIInterface getClient(){

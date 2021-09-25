@@ -85,10 +85,10 @@ public class Sesion_Usuario extends AppCompatActivity{
         setContentView(R.layout.activity_sesion__usuario);
 
         apiInterface = APIClient.getClient();
-        pDialog = new SweetAlertDialog(Sesion_Usuario.this, SweetAlertDialog.PROGRESS_TYPE);
+        /*pDialog = new SweetAlertDialog(Sesion_Usuario.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
         pDialog.setTitleText("Espere ...");
-        pDialog.setCancelable(false);
+        pDialog.setCancelable(false);*/
 
         final SharedPreferences setting0 = getSharedPreferences("login_preference", MODE_PRIVATE);
         final String value1 = setting0.getString("username", "");
@@ -263,20 +263,20 @@ public class Sesion_Usuario extends AppCompatActivity{
                 });
                 descarga_sinConexion.show();
             }else {
-           /*     pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
-                pDialog.setTitleText("Espere ...");*/
                 String value = correo.getText().toString();
                 consultaTamano(value);
-              //  pDialog.setCancelable(false);
-                pDialog.show();
-
-
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void consultaTamano(String username){
+        pDialog = new SweetAlertDialog(Sesion_Usuario.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#2480D7"));
+        pDialog.setTitleText("Espere ...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         Call<String> response = apiInterface.listaClientesUsuario(username);
         response.enqueue(new Callback<String>() {
             @Override
@@ -287,26 +287,32 @@ public class Sesion_Usuario extends AppCompatActivity{
                         String mensaje = result.getString("tamanio");
                         tamanio = Integer.parseInt(mensaje);
                         String correo_vendedor = correo.getText().toString();
+                        lista_data.clear();
 
                         for(contador=0;contador<tamanio;contador++){
                             listaClientesUsuario1(correo_vendedor, contador);
                             pDialog.setContentText("Descargando Clientes");
                         }
                         if(tamanio == 0){
-                            if(pDialog.isShowing())
-                                pDialog.dismissWithAnimation();
+                            pDialog.dismissWithAnimation();
                             Toast.makeText(Sesion_Usuario.this,"NO HAY DATOS QUE DESCARGAR",Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }/*finally{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pDialog.dismissWithAnimation();
+                        }
+                    });
+                }*/
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                if(pDialog.isShowing())
-                        pDialog.dismissWithAnimation();
+                pDialog.dismissWithAnimation();
                 Toast.makeText(Sesion_Usuario.this, "Ocurrio un error de conexión", Toast.LENGTH_SHORT).show();
 
             }
@@ -319,7 +325,6 @@ public class Sesion_Usuario extends AppCompatActivity{
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 try {
-                    lista_data.clear();
                     will = contador;
                     if (response.body() != null) {
                         JSONObject objeto_json = new JSONObject(response.body());

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +17,13 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -42,27 +46,34 @@ import java.util.Calendar;
 
 import static com.example.distrisandi.JSONParser.json;
 
-public class ProgressIntentService extends IntentService {
+public class ProgressIntentService extends Service {
     private static final String TAG = ProgressIntentService.class.getSimpleName();
     private String folio="";
     private String folio_a="";
     private String folio_recibido;
     private APIInterface apiInterface;
     boolean prueba;
-    private int DELAY = 1000;
-
-    public ProgressIntentService() {
-        super("ProgressIntentService");
-    }
+    private int DELAY = 30000;
+    private CountDownTimer cdt = null;
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (Constaints.ACTION_RUN_ISERVICE.equals(action)) {
-                handleActionRun();
+    public void onCreate(){
+        super.onCreate();
+        cdt = new CountDownTimer(DELAY, 1000) {
+            @Override
+            public void onTick(long l) {
+                Log.d("TIEMPO_DE_ESPERA:", String.valueOf(l));
             }
-        }
+
+            @Override
+            public void onFinish() {
+                if (isNetworkAvailable(ProgressIntentService.this)) {
+                    handleActionRun();
+                }
+                stopService(new Intent(getApplicationContext(), ProgressIntentService.class));
+                startService(new Intent(getApplicationContext(), ProgressIntentService.class));
+            }
+        }.start();
     }
 
     private void handleActionRun() {
@@ -131,7 +142,7 @@ public class ProgressIntentService extends IntentService {
                 }
           //  }
             // Quitar de primer plano
-            stopForeground(true);
+           // stopForeground(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -160,13 +171,19 @@ public class ProgressIntentService extends IntentService {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Servicio destruido...", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "Servicio destruido...", Toast.LENGTH_SHORT).show();
 
         // Emisión para avisar que se terminó el servicio
         Intent localIntent = new Intent(Constaints.ACTION_PROGRESS_EXIT);
         LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
 
-        Log.d(TAG, "Servicio destruido...");
+       // Log.d(TAG, "Servicio destruido...");
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void enviarDatosReal(String idCliente, String tipoOperacion, String estadoOperacion, String idCaja, String idUsuario, String fechaVEntaProducto, String registrarFecha, String cancelado, String detalles){
@@ -203,22 +220,12 @@ public class ProgressIntentService extends IntentService {
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
-                }finally {
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            handleActionRun();
-                        }
-                    }, DELAY);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        handleActionRun();
-                    }
-                }, DELAY);
+                Log.e("ProgressIntentService", t.getMessage());
             }
         });
     }
