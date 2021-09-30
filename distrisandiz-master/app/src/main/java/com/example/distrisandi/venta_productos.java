@@ -1164,8 +1164,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*1/100);
-                double precio_max = valor_precio+ (valor_precio*1/100);
+                double precio_desc = valor_precio-(valor_precio*0.2);
+                double precio_max = valor_precio+ (valor_precio*0.05);
 
                 //si precio nuevo es menor que el 15%
                 if(Double.compare(precio_ven,precio_desc)<0){
@@ -1520,7 +1520,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 public void run(){
                     try{
                         for (int m=0;m<2;m++) {
-                            IntentPrint("\n     COMERCIALIZADORA FAILI.   \n"
+                            IntentPrint("\n     GRUPO SANDIZ.   \n"
                                     + "          S.A. de C.V     \n " +
                                     "Calzada Jorge Gomez # 199 Col \n " +
                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
@@ -1538,7 +1538,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             for (int k = 0; k < items.size(); k++) {
                                 String cantidad = cantidad_item.get(k);
                                 String descripcion = items.get(k);
-                                String precio = map_producto_precio.get(descripcion);
+                                String precio = map_producto_precio_editable.get(descripcion);
                                 String total = String.valueOf(precio_item.get(k));
                                 IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                                 Thread.sleep(150);

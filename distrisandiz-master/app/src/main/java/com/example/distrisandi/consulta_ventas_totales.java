@@ -286,7 +286,7 @@ import retrofit2.Response;
                                                         @Override
                                                         public void run(){
                                                             try{
-                                                                IntentPrint("\n     COMERCIALIZADORA FAILI "+
+                                                                IntentPrint("\n     GRUPO SANDIZ "+
                                                                         "\n          S.A.de C.V "+
                                                                         "\nCalzada Jorge Gomez #199 Col"+
                                                                         "\nCerro Hueco, Tuxtla Gutierrez"+
@@ -544,7 +544,7 @@ import retrofit2.Response;
                                                     public void run(){
                                                         try{
                                                             double total_venta = 0.00;
-                                                            IntentPrint("\n     COMERCIALIZADORA FAILI "+
+                                                            IntentPrint("\n     GRUPO SANDIZ "+
                                                                     "\n          S.A.de C.V "+
                                                                     "\nCalzada Jorge Gomez #199 Col"+
                                                                     "\nCerro Hueco, Tuxtla Gutierrez"+
