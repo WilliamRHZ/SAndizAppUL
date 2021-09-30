@@ -1201,6 +1201,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         for (int j = 0; j < numbers.size(); j++) {
                             suma += numbers.get(j);
                         }
+                        totalpagar = suma;
                         textTotal.setText(String.valueOf(suma));
                         dialog.dismiss();
 
@@ -1520,7 +1521,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 public void run(){
                     try{
                         for (int m=0;m<2;m++) {
-                            IntentPrint("\n     GRUPO SANDIZ.   \n"
+                               IntentPrint("\n     GRUPO SANDIZ.   \n"
                                     + "          S.A. de C.V     \n " +
                                     "Calzada Jorge Gomez # 199 Col \n " +
                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
@@ -1529,7 +1530,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                     "CLIENTE:" + value1 + "\n" +
                                     "FOLIO:   " + mensaje +"\n"+
-                                    "           CREDITO\n" +
+                                    (esCredito ? "           CREDITO\n" : "           CONTADO\n") +
                                     "--------------------------------\n" +
                                     "DESCRIPCION\n" +
                                     "CANTIDAD     PRECIO      TOTAL\n" +
@@ -1579,8 +1580,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             }
                             Thread.sleep(150);
                         }
-                    }catch (Exception e){
-                        Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }catch (final Exception e){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(venta_productos.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             };
