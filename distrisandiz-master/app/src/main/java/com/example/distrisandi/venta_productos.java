@@ -1521,7 +1521,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 public void run(){
                     try{
                         for (int m=0;m<2;m++) {
-                               IntentPrint("\n     GRUPO SANDIZ.   \n"
+                               IntentPrint("\n      GRUPO SANDIZ.   \n"
                                     + "          S.A. de C.V     \n " +
                                     "Calzada Jorge Gomez # 199 Col \n " +
                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
@@ -1553,8 +1553,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                         "--------------------------------\n"+
                                         "   Por este pagare debo(emos) y\n"+
                                         "pagare(mos) incondicionalmente\n" +
-                                        "            a la\n"+
-                                        " Distribuidora Faili S.A de C.V\n" +
+                                        "            a \n"+
+                                        "  Grupo  Sandiz  S.A de C.V\n" +
                                         "  la cantidad de $"+totalpagar +" MxN\n"+
                                         " respaldada por esta nota "+
                                         "       de venta a:\n"+
