@@ -289,8 +289,8 @@ import retrofit2.Response;
                                                                 IntentPrint("\n     GRUPO SANDIZ "+
                                                                         "\n          S.A.de C.V "+
                                                                         "\nCalzada Jorge Gomez #199 Col"+
-                                                                        "\nCerro Hueco, Tuxtla Gutierrez"+
-                                                                        "\n       Chis., Mex. "+
+                                                                        "Cerro Hueco, Tuxtla Gutierrez \n" +
+                                                                        "Chis., Mex.   " + "Tel 961 2514 909 \n"+
                                                                         "\n"+
                                                                         "\nRFC:CFA1607131N1     "+ fecha_actual+
                                                                         "\nHORA:" + hora_actual+ "          RUTA:"+numero_ruta_vendedor+

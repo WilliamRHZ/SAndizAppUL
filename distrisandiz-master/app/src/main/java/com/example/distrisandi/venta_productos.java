@@ -1164,8 +1164,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 //convertir a Double el String del precio en EditText
                 double precio_ven = Double.parseDouble(precio);
                 //obtener el 15%
-                double precio_desc = valor_precio-(valor_precio*0.2);
-                double precio_max = valor_precio+ (valor_precio*0.05);
+                double precio_desc = valor_precio-(valor_precio*0.22);
+                double precio_max = valor_precio+ (valor_precio*0.15);
 
                 //si precio nuevo es menor que el 15%
                 if(Double.compare(precio_ven,precio_desc)<0){
@@ -1525,7 +1525,8 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                     + "          S.A. de C.V     \n " +
                                     "Calzada Jorge Gomez # 199 Col \n " +
                                     "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                    "         Chis., Mex.\n" +
+                                    "Chis., Mex.   " + "Tel 961 2514 909 \n"+
+                                       "\n"+
                                     "RFC:CFA1607131N1     " + strDate + "\n" +
                                     "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
                                     "CLIENTE:" + value1 + "\n" +
