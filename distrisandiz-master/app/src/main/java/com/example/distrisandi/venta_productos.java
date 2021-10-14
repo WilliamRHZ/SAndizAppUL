@@ -40,6 +40,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.distrisandi.adapter.Producto;
+import com.example.distrisandi.adapter.ProductosAdapter;
 import com.example.distrisandi.network.APIClient;
 import com.example.distrisandi.network.APIInterface;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -61,6 +63,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,9 +77,9 @@ import android.graphics.Color;
 //implementacion de Runnable
 public class venta_productos extends AppCompatActivity implements Runnable{
     //variables para Controles
-    private ListView listView_nombreProducto;
+   /* private ListView listView_nombreProducto;
     private ListView listView_subtotal;
-    private ListView listView_cantidad;
+    private ListView listView_cantidad;*/
     private TextView textFecha;
     private TextView textRuta;
     private TextView textTotal;
@@ -98,12 +103,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     private String id_usuario;
     private String strFecha;
     private SharedPreferences sharedPref;
-    List<String> items;
+    /*List<String> items;
     List<Double> precio_item;
-    List<String> cantidad_item;
-    ArrayAdapter ADP;
+    List<String> cantidad_item;*/
+    List<Producto> productoList;
+ /*   ArrayAdapter ADP;
     ArrayAdapter ADP_Precio;
-    ArrayAdapter ADP_cantidad;
+    ArrayAdapter ADP_cantidad;*/
     Map<String, String >map_producto_codigo = new HashMap<String, String>();
     Map<String,String> map_producto_precio = new HashMap<String, String>();
     Map<String,String> map_producto_precio_editable = new HashMap<String, String>();
@@ -135,6 +141,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     volatile boolean stopWorker;
     String value = "";
     private String mac_bluetooth;
+
+    private RecyclerView recyclerView;
+    private ProductosAdapter adapter;
 
 
     private APIInterface apiInterface;
@@ -180,9 +189,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         editProducto = (TextView)findViewById(R.id.editNombreProducto);
         editCantidad = (EditText)findViewById(R.id.editCantidad);
         btnAgregarProducto = (Button)findViewById(R.id.btnAgregarProducto);
-        listView_cantidad = (ListView)findViewById(R.id.listaProductos_cantidad);
+       /* listView_cantidad = (ListView)findViewById(R.id.listaProductos_cantidad);
         listView_nombreProducto = (ListView)findViewById(R.id.listaProductos);
-        listView_subtotal = (ListView)findViewById(R.id.listaProductos_subtotal);
+        listView_subtotal = (ListView)findViewById(R.id.listaProductos_subtotal);*/
+
+        recyclerView = findViewById(R.id.recyclerview);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.navigationView_venta);
 
@@ -204,7 +217,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 }
                 if (id == R.id.navigation_limpiar){
                     //IntentPrint("\n     COMERCIALIZADORA FAILI ");
-                    if  (items.size()<=0){/*
+                    if  (productoList.size()==0){/*
                         AlertDialog.Builder builder = new AlertDialog.Builder(venta_productos.this);
                         builder.setTitle("LIMPIAR VENTA");
                         builder.setMessage("La venta actuial esta vacio");
@@ -232,33 +245,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 .show();
 
                     }
-                    else {/*
-                        AlertDialog.Builder builder = new AlertDialog.Builder(venta_productos.this);
-                        builder.setTitle("LIMPIAR VENTA");
-                        builder.setMessage("Desear limpiar la venta actuals?");
-                        builder.setIcon(R.mipmap.ic_not);
-                        builder.setCancelable(false);
-                        builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                items.clear();
-                                precio_item.clear();
-                                cantidad_item.clear();
-                                ADP.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                textTotal.setText("0");
-
-                            }
-                        });
-                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();*/
+                    else {
                         new SweetAlertDialog(venta_productos.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("LIMPIAR VENTA")
                                 .setContentText("Desea limpiar la venta actual?...")
@@ -266,14 +253,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        items.clear();
+                                        productoList.clear();
+                                        adapter.setProductoList(productoList);
+                                        // items.clear();
 
                                         map_producto_precio_editable = new HashMap<>(map_producto_precio);
-                                        precio_item.clear();
-                                        cantidad_item.clear();
-                                        ADP.notifyDataSetChanged();
+                                       // precio_item.clear();
+                                      //  cantidad_item.clear();
+                                        /*ADP.notifyDataSetChanged();
                                         ADP_Precio.notifyDataSetChanged();
-                                        ADP_cantidad.notifyDataSetChanged();
+                                        ADP_cantidad.notifyDataSetChanged();*/
                                         textTotal.setText("0");
                                         sDialog.dismissWithAnimation();
                                     }
@@ -330,7 +319,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     }
                 }
                 if (id == R.id.navigation_Pagar){
-                    int existencia_venta = items.size();
+                    int existencia_venta = productoList.size();
                     if(existencia_venta == 0){
                         Toast.makeText(venta_productos.this,"Agrega productos a la venta", Toast.LENGTH_SHORT).show();
                     }
@@ -403,7 +392,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 }
 
                 else{
-                    if(items.contains(estado_edit_producto)){
+                    if(checkIfProductExist(estado_edit_producto)){
                         AlertDialog.Builder dialogo_existencia = new AlertDialog.Builder(venta_productos.this);
                         dialogo_existencia.setTitle("Ya existe en la venta");
                         dialogo_existencia.setMessage("Este producto ya esta agregado \n " +
@@ -418,43 +407,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                         });
                         AlertDialog dialog = dialogo_existencia.create();
                         dialog.show();
-                    }else {/*
-                        AlertDialog.Builder dialogo_existencia = new AlertDialog.Builder(venta_productos.this);
-                        dialogo_existencia.setTitle("Stock");
-                        dialogo_existencia.setMessage(Html.fromHtml("<center><h3>"+"Existencia "+":   "+"<b>"+valor_stock+"</b>"+"</h3></center>"));
-                        dialogo_existencia.setIcon(R.drawable.ic_pagar);
-                        dialogo_existencia.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int k) {
-                                items.add(editProducto.getText().toString());
-                                cantidad_item.add(editCantidad.getText().toString());
-                                double uno = Double.parseDouble(editCantidad.getText().toString());
-                                double precio = Double.valueOf(map_producto_precio.get(estado_edit_producto));
-                                SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
-                                String objetos = sharedPreferences.getString("lista_producto_codigo_barra","");
-                                String objetos1 = objetos.replaceAll("[^\\dA-Za-z, ./:]","");
-                                String[] pairs = objetos1.split(",");
-                                for(int i = 0;i<pairs.length;i++){
-                                    String pair = pairs[i];
-                                    String[]keyvalue = pair.split(":");
-                                    map_producto_codigo_barra.put(keyvalue[1], String.valueOf(keyvalue[0]));
-                                }
-                                double dos = uno*precio;
-                                precio_item.add(dos);
-                                ADP.notifyDataSetChanged();
-                                ADP_Precio.notifyDataSetChanged();
-                                ADP_cantidad.notifyDataSetChanged();
-                                editProducto.setText("");
-                                editCantidad.setText("");
-                                double total = Double.parseDouble(textTotal.getText().toString());
-                                totalpagar = total+dos;
-                                String resultado = String.valueOf(totalpagar);
-                                textTotal.setText(resultado);
-
-                            }
-                        });
-                        AlertDialog dialog = dialogo_existencia.create();
-                        dialog.show();*/
+                    }else {
                         new SweetAlertDialog(venta_productos.this, SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("Stock")
                                 .setContentText(String.valueOf(Html.fromHtml("<center><h2>"+"Existencia "+":   "+"<b>"+valor_stock+"</b>"+"</h2></center>")))
@@ -462,8 +415,10 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
-                                        items.add(editProducto.getText().toString());
-                                        cantidad_item.add(editCantidad.getText().toString());
+                                        Producto newProducto = new Producto();
+                                        newProducto.setDescripcion(editProducto.getText().toString());//items.add(editProducto.getText().toString());
+                                        newProducto.setCantidad(editCantidad.getText().toString());//cantidad_item.add(editCantidad.getText().toString());
+
                                         double uno = Double.parseDouble(editCantidad.getText().toString());
                                         double precio = Double.valueOf(map_producto_precio.get(estado_edit_producto));
                                         SharedPreferences sharedPreferences = getSharedPreferences("productos", MODE_PRIVATE);
@@ -476,10 +431,14 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                                             map_producto_codigo_barra.put(keyvalue[1], String.valueOf(keyvalue[0]));
                                         }
                                         double dos = uno*precio;
-                                        precio_item.add(dos);
-                                        ADP.notifyDataSetChanged();
+                                        newProducto.setTotal(dos);
+                                        newProducto.setPrecioUnitario(precio);
+                                        //precio_item.add(dos);
+                                        /*ADP.notifyDataSetChanged();
                                         ADP_Precio.notifyDataSetChanged();
-                                        ADP_cantidad.notifyDataSetChanged();
+                                        ADP_cantidad.notifyDataSetChanged();*/
+                                        productoList.add(newProducto);
+                                        adapter.setProductoList(productoList);
                                         editProducto.setText("");
                                         editCantidad.setText("");
                                         double total = Double.parseDouble(textTotal.getText().toString());
@@ -503,13 +462,13 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
             }
         });
-        items = new ArrayList<>();
+       /* items = new ArrayList<>();
         precio_item = new ArrayList<>();
         cantidad_item = new ArrayList<>();
         ADP = new ArrayAdapter(this, R.layout.item_productos_vendidos,R.id.txtlistaProductos,items);
         ADP_Precio = new ArrayAdapter(this, R.layout.item_ventas_totales_total,R.id.txtlistaventas,precio_item);
-        ADP_cantidad = new ArrayAdapter(this,R.layout.item_productos_vendidos,R.id.txtlistaProductos,cantidad_item);
-        listView_nombreProducto.setAdapter(ADP);
+        ADP_cantidad = new ArrayAdapter(this,R.layout.item_productos_vendidos,R.id.txtlistaProductos,cantidad_item);*/
+        /*listView_nombreProducto.setAdapter(ADP);
         listView_subtotal.setAdapter(ADP_Precio);
         listView_cantidad.setAdapter(ADP_cantidad);
 
@@ -519,10 +478,26 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 posicion = String.valueOf(adapterView.getItemIdAtPosition(i));
                 EditarProduto(venta_productos.this);
-
-
+            }
+        });*/
+        productoList = new ArrayList<>();
+        adapter = new ProductosAdapter(productoList, new ProductosAdapter.ProductosOnClick() {
+            @Override
+            public void onClick(int position) {
+                posicion = String.valueOf(position);
+                EditarProduto(venta_productos.this);
             }
         });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private boolean checkIfProductExist(String producto){
+        for(Producto item : productoList){
+            if(item.getDescripcion().equals(producto)){
+                return true;
+            }
+        }
+        return false;
     }
 
     //METODO PARA BOTONES DEL NAVIGATION VIEW
@@ -741,6 +716,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
 
                         dialog.dismiss();
                         //IntentPrint("\n     COMERCIALIZADORA FAILI ");
+                       // mac_bluetooth = "asd";
                         if(mac_bluetooth.equals("")){
                             AlertDialog.Builder builder = new AlertDialog.Builder(venta_productos.this);
                             builder.setTitle("No estas conectado a     una impresora");
@@ -1118,9 +1094,9 @@ public class venta_productos extends AppCompatActivity implements Runnable{
         LinearLayout botonCambiar = (LinearLayout) dialog.findViewById(R.id.btnCambiar);
         LinearLayout botonEliminar = (LinearLayout) dialog.findViewById(R.id.btnEliminar);
         //mostrar cantidad en edit_cantidad
-        edit_cantidad.setText(cantidad_item.get(Integer.parseInt(posicion)));
+        edit_cantidad.setText(productoList.get(Integer.parseInt(posicion)).getCantidad());//edit_cantidad.setText(cantidad_item.get(Integer.parseInt(posicion)));
         //obtener nombre del producto
-        final String nombre = items.get(Integer.parseInt(posicion));
+        final String nombre = productoList.get(Integer.parseInt(posicion)).getDescripcion();//final String nombre = items.get(Integer.parseInt(posicion));
         //obtener precio del proucto
         final String precio_1 = map_producto_precio.get(nombre);
         //mostrar precio del producto en edit_precio
@@ -1182,20 +1158,22 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                     if(Double.compare(precio_ven,precio_max)>0){
                         Toast.makeText(venta_productos.this,"Error en el precio",Toast.LENGTH_SHORT).show();
                     }else {
-                        cantidad_item.set(Integer.parseInt(posicion), cantidad);
+                        productoList.get(Integer.parseInt(posicion)).setCantidad(cantidad);//cantidad_item.set(Integer.parseInt(posicion), cantidad);
                         map_producto_precio_editable.put(nombre, String.valueOf(precio));
                         // precio_item.set(Integer.parseInt(posicion), Double.parseDouble(precio));
                         double precio1 = Double.parseDouble(precio);
                         double precio_total = Double.parseDouble(cantidad) * precio1;
                         //  Log.e("wilwilwil",String.valueOf(precio_total));
-                        ADP_cantidad.notifyDataSetChanged();
-                        precio_item.set(Integer.parseInt(posicion), precio_total);
-                        ADP_Precio.notifyDataSetChanged();
 
+                        //ADP_cantidad.notifyDataSetChanged();
+                        productoList.get(Integer.parseInt(posicion)).setPrecioUnitario(precio1);
+                        productoList.get(Integer.parseInt(posicion)).setTotal(precio_total);//precio_item.set(Integer.parseInt(posicion), precio_total);
+                        //ADP_Precio.notifyDataSetChanged();
+
+                        adapter.setProductoList(productoList);
                         ArrayList<Double> numbers = new ArrayList<Double>();
-                        for (int i = 0; i < precio_item.size(); i++) {
-
-                            numbers.add(precio_item.get(i));
+                        for (int i = 0; i < productoList.size(); i++) {
+                            numbers.add(productoList.get(i).getTotal());//numbers.add(precio_item.get(i));
                         }
                         double suma = 0;
                         for (int j = 0; j < numbers.size(); j++) {
@@ -1215,16 +1193,19 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(View view) {
                 double total=0.00;
-                items.remove(Integer.parseInt(posicion));
+                map_producto_precio_editable.put(productoList.get(Integer.parseInt(posicion)).getDescripcion(), map_producto_precio.get(productoList.get(Integer.parseInt(posicion)).getDescripcion()));
+
+                productoList.remove(Integer.parseInt(posicion));
+                adapter.setProductoList(productoList);
+                /*items.remove(Integer.parseInt(posicion));
                 precio_item.remove(Integer.parseInt(posicion));
                 cantidad_item.remove(Integer.parseInt(posicion));
                 ADP.notifyDataSetChanged();
                 ADP_Precio.notifyDataSetChanged();
-                ADP_cantidad.notifyDataSetChanged();
-                for(int i=0;i<precio_item.size();i++){
-                    double precio = precio_item.get(i);
+                ADP_cantidad.notifyDataSetChanged();*/
+                for(int i=0;i<productoList.size();i++){
+                    double precio = productoList.get(i).getTotal();//precio_item.get(i);
                     total =total+ precio;
-
                 }
 
                 textTotal.setText(String.valueOf(total));
@@ -1272,17 +1253,17 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             String[]keyvalue = pair.split(":");
             map_producto_codigo.put(keyvalue[0], String.valueOf(keyvalue[1]));
         }
-        for(int i=0; i< items.size();i++){
+        for(int i=0; i< productoList.size();i++){
             String folio = venta_cliente;
             registro.put("folio",folio);
-            registro.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-            registro.put("cantidad_vendido",cantidad_item.get(i));
-            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+            registro.put("codigo_producto",map_producto_codigo.get(productoList.get(i).getDescripcion()/*items.get(i)*/));
+            registro.put("cantidad_vendido",productoList.get(i).getCantidad()/*cantidad_item.get(i)*/);
+            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(productoList.get(i).getDescripcion()/*items.get(i)*/))* Double.parseDouble(productoList.get(i).getCantidad()/*cantidad_item.get(i)*/);
             registro.put("peso_producto",pesoProductoTotal);
 
-            String id_producto = map_producto_codigo.get(items.get(i));
+            String id_producto = map_producto_codigo.get(productoList.get(i).getDescripcion()/*items.get(i)*/);
             String precio_Compra = map_producto_precioVenta.get(id_producto);
-            final String nombre = items.get((i));
+            final String nombre = productoList.get(i).getDescripcion();//items.get((i));
             //obtener precio del proucto
             final String precio_1 = map_producto_precio_editable.get(nombre);
             //mostrar precio del producto en edit_precio
@@ -1309,11 +1290,11 @@ public class venta_productos extends AppCompatActivity implements Runnable{
     }
     //STOCK
     private void stock(){
-        for(int i=0;i<items.size();i++){
+        for(int i=0;i<productoList.size();i++){
             AdminSQLiteOpenHelper adminSQLiteOpenHelper = new AdminSQLiteOpenHelper(venta_productos.this,"administracion",null,1);
             SQLiteDatabase sqLiteDatabase = adminSQLiteOpenHelper.getReadableDatabase();
-            String nombre_producto = items.get(i);
-            String cantidad_productos = cantidad_item.get(i);
+            String nombre_producto = productoList.get(i).getDescripcion();//items.get(i);
+            String cantidad_productos = productoList.get(i).getCantidad();//cantidad_item.get(i);
             Cursor fila = sqLiteDatabase.rawQuery("select stock_producto from detalles_productos where nombre_producto "+"='" +nombre_producto+"' limit 1",null);
             String valor="";
             if(fila!=null){
@@ -1329,30 +1310,7 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 }
                  }
             sqLiteDatabase.close();
-            /*
-            AlertDialog.Builder alet_guardado = new AlertDialog.Builder(venta_productos.this);
-            alet_guardado.setTitle("GUARDADO");
-            alet_guardado.setMessage("Ha sido guardado correctamente la venta");
-            alet_guardado.setCancelable(false);
-            alet_guardado.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    items.clear();
-                    cantidad_item.clear();
-                    precio_item.clear();
-                    //textFolio.setText("");
-                    textTotal.setText("0");
-                    textViewListaClientes.setText("");
-                    ADP.notifyDataSetChanged();
-                    ADP_cantidad.notifyDataSetChanged();
-                    ADP_Precio.notifyDataSetChanged();
-                    Intent intent = new Intent(venta_productos.this,venta_productos.class);
-                    startActivity(intent);
-                }
-            });
-            alet_guardado.show();
 
-             */
             SweetAlertDialog dialogo = new SweetAlertDialog(venta_productos.this,SweetAlertDialog.SUCCESS_TYPE);
             dialogo.setTitle("GUARDADO");
             dialogo.setContentText("Ha sido guardado correctamente la venta!");
@@ -1361,16 +1319,18 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             dialogo.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sDialog) {
-                    items.clear();
+                    productoList.clear();
+                    /*items.clear();
                     cantidad_item.clear();
-                    precio_item.clear();
+                    precio_item.clear();*/
                     map_producto_precio_editable = new HashMap<>(map_producto_precio);
                     //textFolio.setText("");
                     textTotal.setText("0");
                     textViewListaClientes.setText("");
-                    ADP.notifyDataSetChanged();
+                    adapter.setProductoList(productoList);
+                    /*ADP.notifyDataSetChanged();
                     ADP_cantidad.notifyDataSetChanged();
-                    ADP_Precio.notifyDataSetChanged();
+                    ADP_Precio.notifyDataSetChanged();*/
                     Intent intent = new Intent(venta_productos.this,venta_productos.class);
                     startActivity(intent);
                     finish();
@@ -1494,15 +1454,17 @@ public class venta_productos extends AppCompatActivity implements Runnable{
             @Override
             public void onClick(SweetAlertDialog sDialog) {
                 sDialog.dismissWithAnimation();
-                items.clear();
+                productoList.clear();
+                /*items.clear();
                 cantidad_item.clear();
-                precio_item.clear();
+                precio_item.clear();*/
                 map_producto_precio_editable = new HashMap<>(map_producto_precio);
                 textTotal.setText("0");
                 textViewListaClientes.setText("");
-                ADP.notifyDataSetChanged();
+                adapter.setProductoList(productoList);
+               /* ADP.notifyDataSetChanged();
                 ADP_cantidad.notifyDataSetChanged();
-                ADP_Precio.notifyDataSetChanged();
+                ADP_Precio.notifyDataSetChanged();*/
                 Intent intent = new Intent(venta_productos.this,venta_productos.class);
                 startActivity(intent);
                 finish();
@@ -1520,67 +1482,83 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 @Override
                 public void run(){
                     try{
-                        for (int m=0;m<2;m++) {
-                               IntentPrint("\n     GRUPO SANDIZ.   \n"
-                                    + "          S.A. de C.V     \n " +
-                                    "Calzada Jorge Gomez # 199 Col \n " +
-                                    "Cerro Hueco, Tuxtla Gutierrez \n" +
-                                    "Chis., Mex.   " + "Tel 961 2514 909 \n"+
-                                       "\n"+
-                                    "RFC:CFA1607131N1     " + strDate + "\n" +
-                                    "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
-                                    "CLIENTE:" + value1 + "\n" +
-                                    "FOLIO:   " + mensaje +"\n"+
-                                    (esCredito ? "           CREDITO\n" : "           CONTADO\n") +
-                                    "--------------------------------\n" +
-                                    "DESCRIPCION\n" +
-                                    "CANTIDAD     PRECIO      TOTAL\n" +
-                                    "--------------------------------\n");
-                            Thread.sleep(500);
-                            for (int k = 0; k < items.size(); k++) {
-                                String cantidad = cantidad_item.get(k);
-                                String descripcion = items.get(k);
-                                String precio = map_producto_precio_editable.get(descripcion);
-                                String total = String.valueOf(precio_item.get(k));
-                                IntentPrint(descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-                                Thread.sleep(150);
-                            }
-                            Thread.sleep(200);
-                            if(esCredito){
-                                IntentPrint("--------------------------------\n" +
-                                        "   Total:        $" + totalpagar + "\n" +
-                                        "\n"+
-                                        "--------------------------------\n"+
-                                        "   Por este pagare debo(emos) y\n"+
-                                        "pagare(mos) incondicionalmente\n" +
-                                        "            a la\n"+
-                                        " Distribuidora Faili S.A de C.V\n" +
-                                        "  la cantidad de $"+totalpagar +" MxN\n"+
-                                        " respaldada por esta nota "+
-                                        "       de venta a:\n"+
-                                        value1+"\n" +
-                                        "  Gracias por su compra :)"+
-                                        "\n"+
-                                        "\n"+
-                                        "\n"+
-                                        "\n");
-                            }else{//contado
-                                IntentPrint("--------------------------------\n" +
-                                        "   Total:        $" + totalpagar + "\n" +
-                                        "   Efectivo:     $" + importe + "\n" +
-                                        "   Cambio:       $" + cambio_imprimir + "\n" +
-                                        "--------------------------------\n"+
-                                        "    Gracias por su compra!!\n" +
-                                        "   el importe de esta nota\n" + //-------------------------------------------------------------------777777777777777777777777777777777
-                                        "   sera aplicada a la factura \n" +
-                                        "           del dia\n"+
-                                        "\n"+
-                                        "\n"+
-                                        "\n"+
-                                        "\n");
-                            }
+                       IntentPrint("\n     GRUPO SANDIZ.   \n"
+                                + "          S.A. de C.V     \n " +
+                                "Calzada Jorge Gomez # 199 Col \n " +
+                                "Cerro Hueco, Tuxtla Gutierrez \n" +
+                                "Chis., Mex.   " + "Tel 961 2514 909 \n"+
+                                   "\n"+
+                                "RFC:CFA1607131N1     " + strDate + "\n" +
+                                "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
+                                "CLIENTE:" + value1 + "\n" +
+                                "FOLIO:   " + mensaje +"\n"+
+                                (esCredito ? "           CREDITO\n" : "           CONTADO\n") +
+                                "--------------------------------\n" +
+                                "PRODUCTO\n" +
+                                "CANTIDAD     PRECIO      TOTAL\n" +
+                                "--------------------------------\n");
+                /*       Log.d("PRINT", "\n     GRUPO SANDIZ.   \n"
+                               + "          S.A. de C.V     \n " +
+                               "Calzada Jorge Gomez # 199 Col \n " +
+                               "Cerro Hueco, Tuxtla Gutierrez \n" +
+                               "Chis., Mex.   " + "Tel 961 2514 909 \n"+
+                               "\n"+
+                               "RFC:CFA1607131N1     " + strDate + "\n" +
+                               "HORA:" + hora + "          RUTA:" + textRuta.getText().toString() + "\n" +
+                               "CLIENTE:" + value1 + "\n" +
+                               "FOLIO:   " + mensaje +"\n"+
+                               (esCredito ? "           CREDITO\n" : "           CONTADO\n") +
+                               "--------------------------------\n" +
+                               "PRODUCTO\n" +
+                               "CANTIDAD     PRECIO      TOTAL\n" +
+                               "--------------------------------\n");*/
+                        Thread.sleep(500);
+                        for (int k = 0; k < productoList.size(); k++) {
+                            String cantidad = productoList.get(k).getCantidad();//cantidad_item.get(k);
+                            String descripcion = productoList.get(k).getDescripcion();//items.get(k);
+                            String precio = map_producto_precio_editable.get(descripcion);
+                            String codigoBarras = map_producto_codigo_barra.get(descripcion);
+                            String total = String.valueOf(productoList.get(k).getTotal()/*precio_item.get(k)*/);
+                            IntentPrint(codigoBarras+" "+descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+                        //    Log.d("PRINT", codigoBarras+" "+descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
+
                             Thread.sleep(150);
                         }
+                        Thread.sleep(200);
+                        if(esCredito){
+                            IntentPrint("--------------------------------\n" +
+                                    "   Total:        $" + totalpagar + "\n" +
+                                    "\n"+
+                                    "--------------------------------\n"+
+                                    "   Por este pagare debo(emos) y\n"+
+                                    "pagare(mos) incondicionalmente\n" +
+                                    "            a la\n"+
+                                    " Distribuidora Faili S.A de C.V\n" +
+                                    "  la cantidad de $"+totalpagar +" MxN\n"+
+                                    " respaldada por esta nota "+
+                                    "       de venta a:\n"+
+                                    value1+"\n" +
+                                    "  Gracias por su compra :)"+
+                                    "\n"+
+                                    "\n"+
+                                    "\n"+
+                                    "\n");
+                        }else{//contado
+                            IntentPrint("--------------------------------\n" +
+                                    "   Total:        $" + totalpagar + "\n" +
+                                    "   Efectivo:     $" + importe + "\n" +
+                                    "   Cambio:       $" + cambio_imprimir + "\n" +
+                                    "--------------------------------\n"+
+                                    "    Gracias por su compra!!\n" +
+                                    "   el importe de esta nota\n" + //-------------------------------------------------------------------777777777777777777777777777777777
+                                    "   sera aplicada a la factura \n" +
+                                    "           del dia\n"+
+                                    "\n"+
+                                    "\n"+
+                                    "\n"+
+                                    "\n");
+                        }
+                        Thread.sleep(150);
                     }catch (final Exception e){
                         runOnUiThread(new Runnable() {
                             @Override
@@ -1635,16 +1613,16 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                 e.printStackTrace();
             }
         }
-        for(int i=0; i< items.size();i++){
+        for(int i=0; i< productoList.size();i++){
             registro_d.put("folio",folio);
-            registro_d.put("codigo_producto",map_producto_codigo.get(items.get(i)));
-            registro_d.put("cantidad_vendido",cantidad_item.get(i));
-            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(items.get(i)))* Double.parseDouble(cantidad_item.get(i));
+            registro_d.put("codigo_producto",map_producto_codigo.get(productoList.get(i).getDescripcion()/*items.get(i)*/));
+            registro_d.put("cantidad_vendido",productoList.get(i).getCantidad()/*cantidad_item.get(i)*/);
+            double pesoProductoTotal = Double.parseDouble(map_peso_producto.get(productoList.get(i).getDescripcion()/*items.get(i)*/))* Double.parseDouble(productoList.get(i).getCantidad()/* cantidad_item.get(i)*/);
             registro_d.put("peso_producto",pesoProductoTotal);
 
-            String id_producto = map_producto_codigo.get(items.get(i));
+            String id_producto = map_producto_codigo.get(productoList.get(i).getDescripcion()/*items.get(i)*/);
             String precio_Compra = map_producto_precioVenta.get(id_producto);
-            final String nombre = items.get((i));
+            final String nombre = productoList.get(i).getDescripcion();//items.get((i));
             //obtener precio del proucto
             final String precio_1 = map_producto_precio_editable.get(nombre);
             //mostrar precio del producto en edit_precio

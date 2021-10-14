@@ -16,21 +16,27 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:name=".ApplicationClass">
-        <activity android:name=".decive_list"></activity>
+        <activity android:name=".decive_list"/>
         <activity android:name=".ViewPDF" />
         <activity
             android:name=".registros"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".consulta_ventas_totales" />
+        <activity
+            android:name=".consulta_ventas_totales"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".venta_productos"
+            android:screenOrientation="portrait"
             android:label="@string/activity_ventas" />
         <activity
             android:name=".Sesion_Usuario"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_sesion__usuario"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

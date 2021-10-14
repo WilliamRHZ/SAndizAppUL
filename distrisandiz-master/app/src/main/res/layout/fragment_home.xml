@@ -9,6 +9,164 @@
     android:orientation="vertical">
 
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ventas Contado"
+                android:textColor="#666666"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:shadowColor="#808080"
+                android:shadowDx="0"
+                android:shadowDy="3"
+                android:shadowRadius="4"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="$"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+                <TextView
+                    android:id="@+id/txtVentasContado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0.00"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ventas Crédito"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="#666666"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:shadowColor="#808080"
+                android:shadowDx="0"
+                android:shadowDy="3"
+                android:shadowRadius="4"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="$"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+                <TextView
+                    android:id="@+id/txtVentasCredito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0.00"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end
+"
+                android:text="Ventas Totales"
+                android:textColor="#666666"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:shadowColor="#808080"
+                android:shadowDx="0"
+                android:shadowDy="3"
+                android:shadowRadius="4"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end
+"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="$"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+                <TextView
+                    android:id="@+id/txtVentasTotales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0.00"
+                    android:textColor="#666666"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#808080"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="4"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
@@ -21,7 +179,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

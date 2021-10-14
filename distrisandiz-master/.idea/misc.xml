@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/activity_consulta_ventas_totales.xml" value="0.23697916666666666" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/activity_sesion__usuario.xml" value="0.358695652173913" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/activity_venta_productos.xml" value="0.33" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/app_bar_sesion__usuario.xml" value="0.358695652173913" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/content_sesion__usuario.xml" value="0.358695652173913" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/fragment_home.xml" value="0.5" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_producto.xml" value="0.3421875" />
+        <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/nav_header_sesion__usuario.xml" value="0.358695652173913" />
         <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/menu/opciones_ventas_productos.xml" value="0.3394871794871795" />
       </map>
     </option>

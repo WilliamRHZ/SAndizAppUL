@@ -61,7 +61,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-     public class consulta_ventas_totales extends AppCompatActivity  {
+public class consulta_ventas_totales extends AppCompatActivity  {
     private ListView listView_ventas;
     final ArrayList<String> ventas = new ArrayList<>();
     final ArrayList<String> total_venta = new ArrayList<>();

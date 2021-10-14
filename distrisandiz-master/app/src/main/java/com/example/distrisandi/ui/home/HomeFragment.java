@@ -4,8 +4,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,9 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.example.distrisandi.AdminSQLiteOpenHelper;
+import com.example.distrisandi.ProgressIntentService;
 import com.example.distrisandi.R;
 import com.example.distrisandi.registros;
 import com.example.distrisandi.venta_productos;
@@ -22,6 +28,7 @@ import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import android.graphics.Color;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,6 +36,7 @@ public class HomeFragment extends Fragment {
 
     ImageButton btn1;
     ImageButton btn2;
+    TextView txtTotal, txtContado, txtCredito;
     private HomeViewModel homeViewModel;
 
 
@@ -53,6 +61,10 @@ public class HomeFragment extends Fragment {
 
         btn1 = (ImageButton) root.findViewById(R.id.btnMovimientos);
         btn2 = (ImageButton) root.findViewById(R.id.btnRegistros);
+
+        txtTotal = root.findViewById(R.id.txtVentasTotales);
+        txtContado = root.findViewById(R.id.txtVentasContado);
+        txtCredito = root.findViewById(R.id.txtVentasCredito);
 
         btn1.setOnClickListener(new View.OnClickListener() {
 
@@ -85,10 +97,35 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
         return root;
     }
 
-   /* private void alertdialogRegistros(){
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getActivity(), "administracion", null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor contado = bd.rawQuery("select total from venta_cliente where tipo_operacion = 1", null);
+        Cursor credito = bd.rawQuery("select total from venta_cliente where tipo_operacion = 2", null);
+
+        double contadoTotal = 0;
+        while(contado.moveToNext()){
+            contadoTotal+= contado.getDouble(0);
+        }
+        txtContado.setText(String.valueOf(contadoTotal));
+
+        double creditoTotal = 0;
+        while(credito.moveToNext()){
+            creditoTotal+=credito.getDouble(0);
+        }
+        txtCredito.setText(String.valueOf(creditoTotal));
+
+        txtTotal.setText(String.valueOf(contadoTotal+creditoTotal));
+    }
+
+    /* private void alertdialogRegistros(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("REGISTROS");
         builder.setMessage("No disponible...");
