@@ -107,8 +107,8 @@ public class HomeFragment extends Fragment {
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(getActivity(), "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor contado = bd.rawQuery("select total from venta_cliente where tipo_operacion = 1", null);
-        Cursor credito = bd.rawQuery("select total from venta_cliente where tipo_operacion = 2", null);
+        Cursor contado = bd.rawQuery("select total from venta_cliente where tipo_operacion = 1 AND cancelado = 0", null);
+        Cursor credito = bd.rawQuery("select total from venta_cliente where tipo_operacion = 2 AND cancelado = 0", null);
 
         double contadoTotal = 0;
         while(contado.moveToNext()){

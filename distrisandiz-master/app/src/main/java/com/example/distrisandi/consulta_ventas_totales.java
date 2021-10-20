@@ -299,7 +299,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         "\n"+
                                                                         "\n          "+estado_de_operacion +
                                                                         "\n--------------------------------"+
-                                                                        "\nDESCRIPCION"+
+                                                                        "\nPRODUCTO"+
                                                                         "\nCANTIDAD       PRECIO      TOTAL"+
                                                                         "\n--------------------------------"+"\n");
                                                                 Thread.sleep(500);
@@ -313,13 +313,15 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                         total_venta += subtotal_producto;
                                                                         AdminSQLiteOpenHelper admin_nombre_producto = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                                                                         SQLiteDatabase bd_nombre_producto = admin_nombre_producto.getWritableDatabase();
-                                                                        Cursor fila_nombre_producto = bd_nombre_producto.rawQuery("select nombre_producto from detalles_productos where id_producto" +"='" +codigo+"' limit 1" ,null);
+                                                                        Cursor fila_nombre_producto = bd_nombre_producto.rawQuery("select nombre_producto, key_producto from detalles_productos where id_producto" +"='" +codigo+"' limit 1" ,null);
                                                                         String nombre_producto="";
                                                                         if(fila_nombre_producto.moveToFirst()){
-                                                                            nombre_producto = fila_nombre_producto.getString(0);
+                                                                            nombre_producto = fila_nombre_producto.getString(1) + " " + fila_nombre_producto.getString(0);
                                                                         }
-                                                                        IntentPrint("\n"+nombre_producto +
-                                                                                "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ String.valueOf(subtotal_producto));
+                                                                        IntentPrint("\n"+ nombre_producto +
+                                                                                "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ subtotal_producto);
+                                                                      /*  Log.d("PRINT", "\n"+ nombre_producto +
+                                                                                "\n"+cantidad+"          "+"$"+subtotal+ "          "+"$"+ subtotal_producto);*/
                                                                         Thread.sleep(150);
                                                                     }while (fila_reimprimir.moveToNext());
                                                                 }
@@ -339,10 +341,10 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                     Log.e("wil234","impresion terminada");
                                                                 }catch (InterruptedException e){
-
+                                                                    e.printStackTrace();
                                                                 }
                                                             }catch (Exception e){
-
+                                                                e.printStackTrace();
                                                             }
                                                         }
                                                     };
@@ -555,7 +557,7 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     "\nFOLIO:   " + txtFolio +
                                                                     "\n contado   "+estado_de_operacion +
                                                                     "\n--------------------------------"+
-                                                                    "\nDESCRIPCION"+
+                                                                    "\nPRODUCTO"+
                                                                     "\nCANTIDAD       PRECIO      TOTAL"+
                                                                     "\n--------------------------------\n");
                                                             Thread.sleep(500);
@@ -568,10 +570,10 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                     total_venta += subtotal_producto;
                                                                     AdminSQLiteOpenHelper admin_nombre_producto = new AdminSQLiteOpenHelper(consulta_ventas_totales.this,"administracion",null,1);
                                                                     SQLiteDatabase bd_nombre_producto = admin_nombre_producto.getWritableDatabase();
-                                                                    Cursor fila_nombre_producto = bd_nombre_producto.rawQuery("select nombre_producto from detalles_productos where id_producto" +"='" +codigo+"' limit 1" ,null);
+                                                                    Cursor fila_nombre_producto = bd_nombre_producto.rawQuery("select nombre_producto, key_producto from detalles_productos where id_producto" +"='" +codigo+"' limit 1" ,null);
                                                                     String nombre_producto="";
                                                                     if(fila_nombre_producto.moveToFirst()){
-                                                                        nombre_producto = fila_nombre_producto.getString(0);
+                                                                        nombre_producto = fila_nombre_producto.getString(1) + " " + fila_nombre_producto.getString(0);
                                                                     }
                                                                     IntentPrint("\n"+nombre_producto +
                                                                             "\n"+cantidad+"        "+"$"+subtotal+ "        "+"$"+ String.valueOf(subtotal_producto));
@@ -595,11 +597,11 @@ public class consulta_ventas_totales extends AppCompatActivity  {
                                                                 Toast.makeText(consulta_ventas_totales.this,"IMPRESION TERMINADA",Toast.LENGTH_LONG).show();
                                                                 Log.e("jos234","impresion terminada");
                                                             }catch (InterruptedException e){
-
+                                                                e.printStackTrace();
                                                             }
 
                                                         }catch (Exception e){
-
+                                                            e.printStackTrace();
                                                         }
                                                     }
                                                 };

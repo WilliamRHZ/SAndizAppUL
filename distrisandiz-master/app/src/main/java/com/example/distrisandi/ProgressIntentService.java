@@ -62,7 +62,7 @@ public class ProgressIntentService extends Service {
         cdt = new CountDownTimer(DELAY, 1000) {
             @Override
             public void onTick(long l) {
-                Log.d("TIEMPO_DE_ESPERA:", String.valueOf(l));
+            //    Log.d("TIEMPO_DE_ESPERA:", String.valueOf(l));
             }
 
             @Override
