@@ -1521,7 +1521,6 @@ public class venta_productos extends AppCompatActivity implements Runnable{
                             String total = String.valueOf(productoList.get(k).getTotal()/*precio_item.get(k)*/);
                             IntentPrint(codigoBarras+" "+descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
                           //  Log.d("PRINT", codigoBarras+" "+descripcion + "\n" + cantidad + "         $" + precio +"         $" + total + "\n");
-
                             Thread.sleep(150);
                         }
                         Thread.sleep(200);
