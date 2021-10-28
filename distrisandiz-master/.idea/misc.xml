@@ -12,6 +12,21 @@
         <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_producto.xml" value="0.3421875" />
         <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/nav_header_sesion__usuario.xml" value="0.358695652173913" />
         <entry key="..\:/SAndizAppUL/distrisandiz-master/app/src/main/res/menu/opciones_ventas_productos.xml" value="0.3394871794871795" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/drawable/ic_close.xml" value="0.3828125" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/drawable/ic_ventas.xml" value="0.3828125" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout-land/activity_main.xml" value="0.31040564373897706" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/actionbar_inicio.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/activity_main.xml" value="0.2658514492753623" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/activity_venta_productos.xml" value="0.2554347826086957" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/app_bar_sesion__usuario.xml" value="0.2658514492753623" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/content_sesion__usuario.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/dialog_editar_producto.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/dialog_pagar.xml" value="0.2554347826086957" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_productos_vendidos.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_productos_vendidos_total.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_ventas_totales.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/SAndizAppUL/distrisandiz-master/app/src/main/res/layout/item_ventas_totales_total.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
